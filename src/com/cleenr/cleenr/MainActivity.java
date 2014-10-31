@@ -90,9 +90,11 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	public void onCameraViewStopped() {	}
 	@Override
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-		nativeDetect(0, 0, 0);
-		return inputFrame.rgba();
+		Mat rgba = inputFrame.rgba();
+		nativeErode(rgba.getNativeObjAddr());
+		return rgba;
 	}
-	
+
     private static native void nativeDetect(long thiz, long inputImage, long faces);
+    private static native void nativeErode(long inputImage);
 }
