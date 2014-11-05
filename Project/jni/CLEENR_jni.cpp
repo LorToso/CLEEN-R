@@ -1,5 +1,6 @@
 #include <CLEENR_jni.h>
 #include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/contrib/detection_based_tracker.hpp>
 
 #include <string>
@@ -19,8 +20,17 @@ JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeDetect(JNIEnv *
 
     LOGD("Java_com_cleenr_cleenr_MainActivity_nativeDetect exit");
 }
-JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeErode(JNIEnv * jenv, jclass, jlong imageAddress)
+JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeOpening(JNIEnv * jenv, jclass, jint kSize, jlong imageAddress)
 {
+	Size kernelSize(kSize, kSize);
+
+
 	Mat * pImage = (Mat*) imageAddress;
+	Mat morphologyElement = getStructuringElement(MORPH_RECT, kernelSize);
+	morphologyEx(*pImage, *pImage, MORPH_OPEN, morphologyElement);
+
+}
+JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeRedFilter(JNIEnv *, jclass, jlong imageAddress)
+{
 }
 

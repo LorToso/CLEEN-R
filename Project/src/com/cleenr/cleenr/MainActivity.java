@@ -6,7 +6,9 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,10 +18,13 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import com.cleenr.cleenr.R;
 
+
+
+
 public class MainActivity extends Activity implements CvCameraViewListener2{
 	private static final String TAG = "MainActivity";
 	private CameraBridgeViewBase   mOpenCvCameraView;
-
+	
     private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -91,10 +96,20 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	@Override
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
 		Mat rgba = inputFrame.rgba();
-		nativeErode(rgba.getNativeObjAddr());
-		return rgba;
+		Mat out = new Mat(rgba.rows(), rgba.cols(), CvType.CV_8UC4);
+		
+		//nativeOpening(10, rgba.getNativeObjAddr());
+		
+		// Find Red Pixels
+		//Core.inRange(rgba, new Scalar(50,0,0,0), new Scalar(255,90,90,255), out);
+		
+		// Detect Edges
+		Imgproc.Canny(inputFrame.gray(), out, 50, 100);
+		
+		return out;
 	}
 
     private static native void nativeDetect(long thiz, long inputImage, long faces);
-    private static native void nativeErode(long inputImage);
+    private static native void nativeOpening(int kernelSize, long inputImage);
+    private static native void nativeRedFilter(long inputImage);
 }

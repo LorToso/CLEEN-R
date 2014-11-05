@@ -10,8 +10,8 @@ extern "C" {
 
 
 JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeDetect(JNIEnv *, jclass, jlong, jlong, jlong);
-JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeErode(JNIEnv *, jclass, jlong);
-
+JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeOpening(JNIEnv *, jclass, jint, jlong);
+JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeRedFilter(JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,63 @@
+\ifthenelse{\boolean{QUICK}}
+{
+		\setboolean{PRINT}												{false}
+		
+		\setboolean{ShowTODO}											{false}
+		\setboolean{RomanNumbering}										{false}
+		\setboolean{ShowSubSectionsInTOC}								{false}
+		\setboolean{Layouted}											{false}
+		\setboolean{Images}												{false}
+		\setboolean{Tables}												{false}
+		\setboolean{Equations}											{false}
+		
+		\setboolean{Titelseite}											{false}
+		\setboolean{Inhaltsverzeichnis}									{false}
+		\setboolean{EidesstattlicheErklaerung}							{false}
+		\setboolean{Chapters}											{true}
+		\setboolean{Abkuerzungsverzeichnis}								{false}
+		\setboolean{Abbildungsverzeichnis}								{false}
+		\setboolean{Literaturverzeichnis}								{false}
+		\setboolean{DeadChapters}										{false}
+}{}
+\ifthenelse{\boolean{PRINT}}
+{
+		\setboolean{QUICK}												{false}
+		
+		\setboolean{ShowTODO}											{false}
+		\setboolean{RomanNumbering}										{false}
+		\setboolean{ShowSubSectionsInTOC}								{true}
+		\setboolean{Layouted}											{true}
+		\setboolean{Images}												{true}
+		\setboolean{Tables}												{true}
+		\setboolean{Equations}											{true}
+
+		\setboolean{Titelseite}											{true}
+		\setboolean{Inhaltsverzeichnis}									{true}
+		\setboolean{EidesstattlicheErklaerung}							{true}
+		\setboolean{Chapters}											{true}
+		\setboolean{Abkuerzungsverzeichnis}								{true}
+		\setboolean{Abbildungsverzeichnis}								{true}
+		\setboolean{Literaturverzeichnis}								{true}
+		\setboolean{DeadChapters}										{false}
+}{}
+\ifthenelse{\boolean{FULL}}
+{
+		\setboolean{QUICK}												{true}
+		
+		\setboolean{ShowTODO}											{true}
+		\setboolean{RomanNumbering}										{true}
+		\setboolean{ShowSubSectionsInTOC}								{true}
+		\setboolean{Layouted}											{true}
+		\setboolean{Images}												{true}
+		\setboolean{Tables}												{true}
+		\setboolean{Equations}											{true}
+		
+		\setboolean{Titelseite}											{true}
+		\setboolean{Inhaltsverzeichnis}									{true}
+		\setboolean{EidesstattlicheErklaerung}							{true}
+		\setboolean{Chapters}											{true}
+		\setboolean{Abkuerzungsverzeichnis}								{true}
+		\setboolean{Abbildungsverzeichnis}								{true}
+		\setboolean{Literaturverzeichnis}								{true}
+		\setboolean{DeadChapters}										{true}
+}{}

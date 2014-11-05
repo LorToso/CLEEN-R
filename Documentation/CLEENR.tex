@@ -1,0 +1,289 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VARIABLEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Autor}					{Sebastian H{\"u}ther \& Lorenzo Toso}
+\newcommand{\Matrikelnummer}		{XXXXXX \& 1906813}
+\newcommand{\Kurs}					{TINF12B3}
+\newcommand{\Studienfach}			{Informationstechnik}
+\newcommand{\Ausbildungsfirma}		{Karlsruher Institut f\"ur Technologie}
+\newcommand{\Betreuer}				{Gertrud Nieder}
+
+\newcommand{\Bearbeitungszeitraum}	{2 Semester}
+\newcommand{\Berichttyp}			{Projektbericht I}
+\newcommand{\Datum}					{\today}
+\newcommand{\Titel}					{Gegenstandserkennung und kategoriebasierter Transport anhand von
+kameraunterst\"utzten NXT-Robotern}
+
+\newcommand{\Schriftgroesse}		{12pt}
+\newcommand{\Zeilenabstand}			{1.5}
+\newcommand{\LinkerRand}			{25mm}
+\newcommand{\RechterRand}			{25mm}
+\newcommand{\ObererRand}			{25mm}
+\newcommand{\UntererRand}			{25mm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DO NOT TOUCH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[	\Schriftgroesse,							%Schriftgröße
+								listof=totoc,										%Abbildungs und Tabellenverzeichnis im Inhaltsverzeichnis
+								bibliography=totoc,											%Literaturverzeichnis ins Inhaltsverzeichnis
+								a4paper,
+								] {scrreprt}
+
+
+
+\usepackage[dvipdfm]{geometry}
+\usepackage{fancyhdr}														% Kopf und Fußzeile
+\usepackage[T1]{fontenc}													% Schriftart	
+\usepackage[utf8]{inputenc}													% Umlaute
+\usepackage[ngerman]{babel}													% Deutsche Silbentrennung
+\usepackage{mathptmx}														% Schriftart
+\usepackage[printonlyused]{acronym}											% Abkuerzungsverzeichnis
+\usepackage{graphicx}														% Bilder einfügen
+\usepackage{ifthen}															% ifabfragen
+\usepackage{calc}															% einfache Rechnungen
+\usepackage{SIunits}														% Einheiten wie micro etc
+\usepackage{titlesec}														% Um Chapterseiten nen Style zuzuweisen
+\usepackage{geometry}														% LAYOUT
+\hbadness=10000 															% ignore underfull boxes
+\usepackage[numbers,sort]{natbib}											% Literaturverzeichnis
+\usepackage[pdftex,
+			bookmarks=true, 
+			pdftitle={\Titel}, 
+			pdfauthor={\Autor}
+			]{hyperref}														% Links
+\usepackage{blindtext}														% Zu test zwecken
+
+\usepackage{zahl2string} 													% Um Zahlen in Strings zu wandeln 2 -> zwei
+\usepackage{tabularx}														% Tabellen auf Seitenbreite anpassen
+
+\usepackage[Algorithmus]{algorithm} 										% Algorithmen beschriften/durchnummerieren etc
+\usepackage{algpseudocode} 													% Pseudocode
+
+\usepackage{amsmath} 														% Gleichungen an Gleichheitszeichen ausrichten
+\usepackage{comment}														% Um für QUICKPRINT alles auszukommentieren
+
+\usepackage{multirow}														% \multirow in Tabellen
+\usepackage{booktabs}														% Schönere Tabellenstriche
+\usepackage[format=plain, justification=centering]{caption}											% Schönere Bildunterschriften
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TEST BOOLS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\newboolean{QUICK}						\setboolean{QUICK}							{false}
+\newboolean{PRINT}						\setboolean{PRINT}							{false}
+\newboolean{FULL}						\setboolean{FULL}							{false}
+
+
+
+\newboolean{ShowTODO}					\setboolean{ShowTODO}						{false}
+\newboolean{RomanNumbering}				\setboolean{RomanNumbering}					{true}
+\newboolean{ShowSubSectionsInTOC}		\setboolean{ShowSubSectionsInTOC}			{false}
+\newboolean{Layouted}					\setboolean{Layouted}						{true}
+\newboolean{Images}						\setboolean{Images}							{true}
+\newboolean{Tables}						\setboolean{Tables}							{true}
+\newboolean{Equations}					\setboolean{Equations}						{true}
+
+\newboolean{Titelseite}					\setboolean{Titelseite}						{true}
+\newboolean{Inhaltsverzeichnis}			\setboolean{Inhaltsverzeichnis}				{true}
+\newboolean{EidesstattlicheErklaerung}	\setboolean{EidesstattlicheErklaerung}		{true}
+\newboolean{Chapters}					\setboolean{Chapters}						{true}
+\newboolean{Abkuerzungsverzeichnis}		\setboolean{Abkuerzungsverzeichnis}			{true}
+\newboolean{Abbildungsverzeichnis}		\setboolean{Abbildungsverzeichnis}			{true}
+\newboolean{Literaturverzeichnis}		\setboolean{Literaturverzeichnis}			{true}
+\newboolean{DeadChapters}				\setboolean{DeadChapters}					{false}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AUTOMATIC LAYOUT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\geometry
+{
+left=\LinkerRand,
+right=\RechterRand,
+top=\ObererRand,
+bottom=\UntererRand,
+includehead,
+includefoot,
+%showframe,
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HEADER AND FOOTER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{fancy}
+\fancyhead[R]{\thepage}
+\fancyhead[L]{\leftmark}
+\fancyfoot[C]{}
+\fancyfoot[R]{\Ausbildungsfirma}
+\fancyfoot[L]{\Autor}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+%Formatierung der Kapitelüberschrift für Kopf- und Fußzeile
+\renewcommand{\chaptermark}[1]{ \markboth{\textsc{\chaptername}\ \thechapter\hspace{0.4cm}--\hspace{0.4cm}#1}{}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OTHER OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{\Autor}
+\date{	\Datum}
+\title{	\Titel}
+
+\newcounter{my-temp-counter}
+\newcounter{tempCount}
+\newcounter{tempCount2}
+\newcommand{\chapNoToTextRef}[1]{\setcounterref{my-temp-counter}{#1}\hyperref[#1]{\numstring{my-temp-counter}}} % Kapitel verweis ausgeschrieben
+
+\setlength{\parindent}{0cm}																						% Keine Abstand bei neuem Absatz
+\renewcommand{\baselinestretch}{\Zeilenabstand}																	% Zeilenabstand
+\renewcommand*{\chapterheadstartvskip}{\vspace*{-5mm}}															%ABSTAND VOR CHAPTER VERRINGERN
+
+\assignpagestyle{\chapter}{fancy}																				% Chapterseiten auch Stylen
+\setlength{\parskip}{10pt}																						% Absatzhöhe
+
+
+\clubpenalty 			= 10000 
+\widowpenalty 			= 10000 																				% Schusterjungen und Hurenkinder vermeiden 
+\displaywidowpenalty 	= 10000
+
+
+\input{Dependencies/QUICKPRINT}
+
+
+\ifthenelse{\boolean{ShowSubSectionsInTOC}}
+{}{
+		\setcounter{tocdepth}{1}		%HIDE SUBSECTIONS
+}
+\ifthenelse{\boolean{Images}}{}
+{
+	\excludecomment{figure}
+	\let\endfigure\relax
+	\renewcommand{\includegraphics}[2][]{}
+}
+\ifthenelse{\boolean{Tables}}{}
+{
+	\excludecomment{table}
+	\let\endtable\relax
+}
+\ifthenelse{\boolean{Tables}}{}
+{
+	\excludecomment{equation}
+	\let\endequation\relax
+}
+\ifthenelse{\boolean{Layouted}}{}
+{
+	\renewcommand{\newpage}{}
+	\renewcommand{\samepage}{}
+	\renewcommand{\vspace}{}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SILBENTRENNUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hyphenation{Re-kon-struk-tion}
+\hyphenation{Mi-kro-skop}
+\hyphenation{Gauß-e-li-mi-na-tion}
+\hyphenation{Spei-cher-ein-spar-ung}
+\hyphenation{schluss-end-lich}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\np}{\par}
+%\bigskip}
+%\newcommand{\nl}{\par\medskip}
+\newcommand{\usableWidth}	{\paperwidth-\LinkerRand-\RechterRand}
+\newcommand{\usableHeight}{\paperheight-\ObererRand-\UntererRand}
+\newcommand{\useAcronym}[1]{\vphantom{\ac{#1}}}
+%\renewcommand{\newpage}{\ifthenelse{\boolean{Layouted}}{\newpage}{}}
+\newcommand{\skl}{\langle}
+\newcommand{\skr}{\rangle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DOKUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}          
+	
+	\ifthenelse{\boolean{RomanNumbering}}
+	{
+		\pagenumbering{Roman} 
+	}
+	{
+		\pagenumbering{arabic} 
+	}
+	
+	\ifthenelse{\boolean{Titelseite}}
+	{
+		\include{Dependencies/Titelseite}
+	}{}
+	
+	
+	\ifthenelse{\boolean{Inhaltsverzeichnis}}
+	{
+		\include{Dependencies/Inhaltsverzeichnis}
+	}{}
+	
+	
+	\ifthenelse{\boolean{EidesstattlicheErklaerung}}
+	{
+		\fancyhead[L]{Eidesstattliche Erklärung}
+			\include{Dependencies/EidesstattlicheErklaerung}
+		\fancyhead[L]{\leftmark}
+	}{}
+	
+	\ifthenelse{\boolean{RomanNumbering}}
+	{
+		\newcount\romannumber
+		\romannumber=\value{page} 
+		\pagenumbering{arabic}      	
+	}{}
+	
+	\ifthenelse{\boolean{Abkuerzungsverzeichnis}}
+	{
+		\fancyhead[L]{Abkuerzungsverzeichnis}
+		\include{Dependencies/Abkuerzungsverzeichnis}
+		\fancyhead[L]{\leftmark}
+	}{}
+	
+	\ifthenelse{\boolean{Abbildungsverzeichnis}}
+	{
+		\include{Dependencies/Abbildungsverzeichnis}
+	}{}
+	
+	\ifthenelse{\boolean{Chapters}}
+	{
+		%\samepage
+		\include{Kapitel/Chapters}
+	}{}
+	
+	\ifthenelse{\boolean{RomanNumbering}}
+	{
+		\pagenumbering{Roman} 
+		\setcounter{page}{\romannumber}
+	}{}
+	
+	
+	\ifthenelse{\boolean{Literaturverzeichnis}}
+	{
+		\include{Dependencies/Literaturverzeichnis}
+	}{}
+	
+	
+
+\end {document}
