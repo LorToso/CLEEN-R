@@ -1,8 +1,3 @@
 \chapter{Zusammenfassung und Ausblick}
 \label{cha:Fazit}
 
-Im Rahmen dieser Arbeit wurden zwei iterative Lösungsverfahren für die Versatzdatenmatrix des Mosaikbildmoduls des \ac{DIPLOM}-Systems untersucht, implementiert und angepasst. Im Vergleich zum Gaußschen Eliminationsverfahren lieferte das \acl{CG} bedeutend schneller ein qualitativ gleichwertiges Ergebnis. Durch Verwendung der beiden in dieser Arbeit beschriebenen Verfahren kann die Berechnung der globalen Lagekoordinaten bis zu 99 \% schneller erfolgen als zuvor.
-\np
-Um den Einsatz dieser iterativen Lösungsverfahren zu realisieren war es notwendig eine neue Datenstruktur für die Versatzdatenmatrix zu entwickeln. Mit Hilfe einer \acl{SpM} kann der Speicherbedarf während der Berechnung der globalen Lagekoordinaten um mehr als 99 \% reduziert werden.
-\np
-Eine weitere Beschleunigung der Berechnung der Lagekoordinaten ist vorerst nicht notwendig, da der Registrierprozess weiterhin ein Vielfaches der Rechenzeit in Anspruch nimmt. Ein nun realisierbarer Ansatz beschreibt, dass bereits während des Registrierprozesses eine Lageschätzung der Teilbilder erfolgen kann. So können registrierungsarme Bereiche ermittelt und selektiv Registrierungen durchgeführt werden. Zusätzlich erlaubt eine vorzeitige Lageschätzung den Ausschluss von Registrierungen. Eine solche Veränderung des Ablaufes der Mosaikbilderstellung würde den Einsatz der Sparse-Matrix und des \ac{CG}-Verfahrens weiter optimieren und könnte die Mosaikbilderstellung weiter beschleunigen.
