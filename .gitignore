@@ -52,4 +52,8 @@ proguard/
 *.mtc1
 *.out
 *.synctex.gz
+
+# OTHER
 *.gitignore~
+*.so
+
