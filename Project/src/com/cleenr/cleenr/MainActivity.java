@@ -1,14 +1,18 @@
 package com.cleenr.cleenr;
 
+import java.util.ArrayList;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
-import org.opencv.core.CvType;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,6 +20,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.SeekBar;
+
 import com.cleenr.cleenr.R;
 
 
@@ -23,7 +29,15 @@ import com.cleenr.cleenr.R;
 
 public class MainActivity extends Activity implements CvCameraViewListener2{
 	private static final String TAG = "MainActivity";
+	
+	
 	private CameraBridgeViewBase   mOpenCvCameraView;
+	
+	private ObjectDetector mObjectDetector;
+	private int nImageWidth = 0;
+	private int nImageHeight = 0;
+	
+	
 	
     private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -37,6 +51,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
                     Log.i(TAG, "Native library loaded successfully");
 
                     mOpenCvCameraView.enableView();
+                    mObjectDetector = new ObjectDetector();
                 } break;
                 default:
                 {
@@ -57,6 +72,15 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.main_activity_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
+	}
+	public void onStart()
+	{
+		super.onStart();
+		SeekBar objectSizeBar 	= (SeekBar) findViewById(R.id.objectSizeBar);
+		SeekBar thresholdBar 	= (SeekBar) findViewById(R.id.saturationThreshholdBar);	
+		objectSizeBar.setMax(100);
+		thresholdBar.setMax(100);
+
 	}
     @Override
     public void onResume()
@@ -95,18 +119,33 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	public void onCameraViewStopped() {	}
 	@Override
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-		Mat rgba = inputFrame.rgba();
-		Mat out = new Mat(rgba.rows(), rgba.cols(), CvType.CV_8UC4);
+		Mat outputFrame = inputFrame.rgba();
+		nImageWidth = outputFrame.cols();
+		nImageHeight = outputFrame.rows();
 		
-		//nativeOpening(10, rgba.getNativeObjAddr());
+
+		SeekBar objectSizeBar 	= (SeekBar) findViewById(R.id.objectSizeBar);
+		SeekBar thresholdBar 	= (SeekBar) findViewById(R.id.saturationThreshholdBar);	
+
+		int saturationThreshold = (int) (((double)thresholdBar.getProgress()/100) * 255);
+		int minimumObjectSize 	= (int) (((double)objectSizeBar.getProgress()/100) * nImageHeight*nImageWidth/2);
 		
-		// Find Red Pixels
-		//Core.inRange(rgba, new Scalar(50,0,0,0), new Scalar(255,90,90,255), out);
+		mObjectDetector.setSaturationThreshold(saturationThreshold);
+		mObjectDetector.setMinimumObjectSize(minimumObjectSize);
 		
-		// Detect Edges
-		Imgproc.Canny(inputFrame.gray(), out, 50, 100);
+		ArrayList<Rect> allBoundingRects = mObjectDetector.detectObjects(inputFrame);
 		
-		return out;
+		int i = 0;
+		
+		for(Rect rect : allBoundingRects)
+		{
+			Point middle = new Point(rect.x + rect.width/2, rect.y + rect.height/2);
+			i++;
+			Log.d("OBJECT FOUND", "OBJECT " + i +  " AT (" + middle.x + "|" + middle.y + ")");
+			Core.rectangle(outputFrame, rect.tl(), rect.br(), new Scalar(255,255,0), 5);
+			Core.rectangle(outputFrame, new Point(middle.x-2, middle.y-2), new Point(middle.x+2, middle.y+2), new Scalar(255,255,0), 5);
+		}
+		return outputFrame;
 	}
 
     private static native void nativeDetect(long thiz, long inputImage, long faces);
