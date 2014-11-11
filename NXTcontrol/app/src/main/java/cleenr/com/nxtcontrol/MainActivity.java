@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import lejos.nxt.Motor;
+import lejos.nxt.remote.NXTCommand;
 import lejos.pc.comm.NXTCommLogListener;
+import lejos.pc.comm.NXTCommandConnector;
 import lejos.pc.comm.NXTConnectionState;
 import lejos.pc.comm.NXTConnector;
 
@@ -24,54 +27,28 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        VerticalMotorSpeedSlider leftSlider = (VerticalMotorSpeedSlider)findViewById(R.id.seekBar_leftMotor);
-        VerticalMotorSpeedSlider rightSlider = (VerticalMotorSpeedSlider)findViewById(R.id.seekBar_rightMotor);
-        MotorSpeedSlider gripperSlider = (MotorSpeedSlider)findViewById(R.id.seekBar_gripperMotor);
+        VerticalMotorSpeedSlider leftSlider =
+                (VerticalMotorSpeedSlider)findViewById(R.id.seekBar_leftMotor);
+        VerticalMotorSpeedSlider rightSlider =
+                (VerticalMotorSpeedSlider)findViewById(R.id.seekBar_rightMotor);
+        MotorSpeedSlider gripperSlider =
+                (MotorSpeedSlider)findViewById(R.id.seekBar_gripperMotor);
 
-        final TextView leftMotorValueTextView = (TextView)findViewById(R.id.textView_motorLeftValue);
-        final TextView rightMotorValueTextView = (TextView)findViewById(R.id.textView_motorRightValue);
-        final TextView gripperMotorValueTextView = (TextView)findViewById(R.id.textView_gripperMotorValue);
+        final TextView leftMotorValueTextView =
+                (TextView)findViewById(R.id.textView_motorLeftValue);
+        final TextView rightMotorValueTextView =
+                (TextView)findViewById(R.id.textView_motorRightValue);
+        final TextView gripperMotorValueTextView =
+                (TextView)findViewById(R.id.textView_gripperMotorValue);
 
-        leftSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                leftMotorValueTextView.setText((i * 2 - 100) + "%");
-            }
+        leftSlider.setOnSeekBarChangeListener(
+                new MotorSliderChangeListener(leftMotorValueTextView, nxtConn, Motor.B));
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+        rightSlider.setOnSeekBarChangeListener(
+                new MotorSliderChangeListener(rightMotorValueTextView, nxtConn, Motor.C));
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
-
-        rightSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                rightMotorValueTextView.setText((i * 2 - 100) + "%");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
-
-        gripperSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                gripperMotorValueTextView.setText((i * 2 - 100) + "%");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
+        gripperSlider.setOnSeekBarChangeListener(
+                new MotorSliderChangeListener(gripperMotorValueTextView, nxtConn, Motor.A));
 
         nxtConn.setDebug(true);
         nxtConn.addLogListener(new NXTCommLogListener() {
@@ -93,6 +70,7 @@ public class MainActivity extends Activity {
                 {
                     connectedTextView.setText("connected to:" + nxtConn.getNXTInfo().name);
                     connectBtn.setEnabled(false);
+                    NXTCommandConnector.setNXTCommand(new NXTCommand(nxtConn.getNXTComm()));
                 }
                 else
                 {
@@ -100,13 +78,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-    }
-
-
-    private boolean isNxtConnected()
-    {
-        return (nxtConn.getNXTInfo().connectionState ==
-                NXTConnectionState.PACKET_STREAM_CONNECTED);
     }
 
     @Override
