@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 
@@ -56,8 +57,11 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
 		setContentView(R.layout.activity_main);
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.main_activity_surface_view);
