@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.SeekBar;
 
 import com.cleenr.cleenr.R;
 
@@ -70,13 +69,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	public void onStart()
 	{
 		super.onStart();
-		SeekBar objectSizeBar 	= (SeekBar) findViewById(R.id.objectSizeBar);
-		SeekBar thresholdBar 	= (SeekBar) findViewById(R.id.saturationThreshholdBar);	
-		objectSizeBar.setMax(100);
-		thresholdBar.setMax(100);
-		thresholdBar.setProgress(50);
-		objectSizeBar.setProgress(2);
-
 	}
     @Override
     public void onResume()
