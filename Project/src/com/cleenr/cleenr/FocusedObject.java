@@ -10,9 +10,10 @@ import org.opencv.core.Scalar;
 
 public class FocusedObject {
 	
-	Mat mRGBA;
-	Rect mArea;
-	Point mCenter;
+	private Mat mRGBA;
+	private Rect mArea;
+	private Point mCenter;
+	
 	public FocusedObject()
 	{
 		mRGBA 	= new Mat();
@@ -43,11 +44,15 @@ public class FocusedObject {
 	{
 		return new Point(area.x + area.width/2, area.y + area.height/2);
 	}
+	
 	public Rect getRect()
 	{
 		return mArea;
 	}
-	
+	public Point getCenter()
+	{
+		return mCenter;
+	}
 	
 	
 
@@ -103,6 +108,11 @@ public class FocusedObject {
 				i--;
 			}
 		}
+	}
+	
+	
+	public boolean isInRange() {
+		return false;
 	}
 	
 }

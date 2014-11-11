@@ -11,13 +11,13 @@ import org.opencv.imgproc.Imgproc;
 
 public class ObjectDetector {
 
-	Mat mStrongColors;
-	Mat mDarkPixels;
-	Mat mStrongButNotDarkPixels;
-	Mat mHirachy;
+	private Mat mStrongColors;
+	private Mat mDarkPixels;
+	private Mat mStrongButNotDarkPixels;
+	private Mat mHirachy;
 		
-	DetectionParameters mDetectionParameters;
-	HSVImage mHsvImage;
+	private DetectionParameters mDetectionParameters;
+	private HSVImage mHsvImage;
 	
 	
 	public ObjectDetector()
@@ -126,9 +126,21 @@ public class ObjectDetector {
 	{
 		mDetectionParameters = detectionParameters;
 	}
-	public DetectionParameters getDetectionParameters()
+	
+	/*
+	 * Lowers the detection criteria by 10%
+	 */
+	public void lowerDetectionCriteria()
 	{
-		return mDetectionParameters;
+		mDetectionParameters.lower();
+	}
+
+	/*
+	 * Increases the detection criteria by 10%
+	 */
+	public void increaseDetectionCriteria()
+	{
+		mDetectionParameters.increase();
 	}
 	
 }
