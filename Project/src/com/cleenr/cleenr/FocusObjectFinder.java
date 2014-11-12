@@ -2,7 +2,6 @@ package com.cleenr.cleenr;
 
 import java.util.ArrayList;
 
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
@@ -19,18 +18,18 @@ public class FocusObjectFinder
 	/*
 	 * Returns a FocusTarget based on the previous focus
 	 */
-	public FocusedObject findFocusTarget(CvCameraViewFrame inputFrame, FocusedObject previousFocus)
+	public FocusedObject findFocusTarget(Mat rgbaFrame, FocusedObject previousFocus)
 	{
-		ArrayList<Rect> allBoundingRects = mObjectDetector.detectObjects(inputFrame);
+		ArrayList<Rect> allBoundingRects = mObjectDetector.detectObjects(rgbaFrame);
 		nDetectedObjects = allBoundingRects.size();
 		
 		if(previousFocus != null)
 		{
-			FocusedObject newFocus = findBestMatch(previousFocus, allBoundingRects, inputFrame.rgba());
-			// if(newFocus == null) refocus();
-			return newFocus;
+			FocusedObject newFocus = findBestMatch(previousFocus, allBoundingRects, rgbaFrame);
+			if(newFocus != null)
+				return newFocus;
 		}
-		return findBiggestObject(inputFrame.rgba(), allBoundingRects);
+		return findBiggestObject(rgbaFrame, allBoundingRects);
 	}
 	
 	private FocusedObject findBestMatch(FocusedObject focusedObject, ArrayList<Rect> allBoundingRects, Mat fullRGBAImage) {

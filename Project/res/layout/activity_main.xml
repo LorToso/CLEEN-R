@@ -12,25 +12,5 @@
     <org.opencv.android.JavaCameraView
         android:id="@+id/main_activity_surface_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.18" />
-
-   <!-- <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <SeekBar
-            android:id="@+id/saturationThreshholdBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <SeekBar
-            android:id="@+id/objectSizeBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout> -->
-
+        android:layout_height="fill_parent"/>
 </LinearLayout>

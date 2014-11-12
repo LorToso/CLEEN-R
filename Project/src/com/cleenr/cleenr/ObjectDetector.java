@@ -2,12 +2,13 @@ package com.cleenr.cleenr;
 
 import java.util.ArrayList;
 
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+
 
 public class ObjectDetector {
 
@@ -17,27 +18,33 @@ public class ObjectDetector {
 	private Mat mHirachy;
 		
 	private DetectionParameters mDetectionParameters;
-	private HSVImage mHsvImage;
+	private CleenrImage mCleenrImage;
 	
 	
 	public ObjectDetector()
 	{
 		initializeMatrices();
-		mDetectionParameters = new DetectionParameters();
-		mHsvImage = new HSVImage();
+		mDetectionParameters = new DetectionParameters(0,0);
+		mCleenrImage = CleenrImage.getInstance();
 	}
 
 
-	public ArrayList<Rect> detectObjects(CvCameraViewFrame inputFrame)
-	{
-		Mat rgba = inputFrame.rgba();
-		mHsvImage.setImage(rgba);
+	public ArrayList<Rect> detectObjects(Mat rgba)
+	{	
+		try{
+			mCleenrImage.setImage(rgba);
+		}
+		catch(FrameSizeChangedException ex)
+		{
+			applyNewFrameSize(ex.getNewSize());
+		}
 		
-		detectStrongColors();
-		detectDarkColors();
+		
+		mCleenrImage.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
+		mCleenrImage.detectDarkColors(mDarkPixels, mDetectionParameters.nDarknessThreshold);
 		removeDarkColors();
 		
-		ArrayList<MatOfPoint> contours = findContours();
+		ArrayList<MatOfPoint> contours = findContours(mStrongButNotDarkPixels, mHirachy);
 		
 		return createBoundingRects(contours);
 	}
@@ -53,23 +60,13 @@ public class ObjectDetector {
 			Rect r = Imgproc.boundingRect(contour);
 			if(r.area() < mDetectionParameters.nMinimumObjectSize)
 				continue;
+			if(r.area() > mDetectionParameters.nMaximumObjectSize)
+				continue;
 			
 			allBoundingRects.add(r);
 		}
 		return allBoundingRects;
 	}
-
-
-	/*
-	 * Finds contours of all objects in the image
-	 */
-	private ArrayList<MatOfPoint> findContours() {
-		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(mStrongButNotDarkPixels, contours, mHirachy, 0, /*Imgproc.CV_CHAIN_APPROX_SIMPLE*/ 2);
-		return contours;
-		
-	}
-
 
 	/*
 	 * Multiplies the Strong color Matrix with the Dark Color matrix, 
@@ -79,46 +76,39 @@ public class ObjectDetector {
 	private void removeDarkColors() {
 		mStrongButNotDarkPixels = mStrongColors.mul(mDarkPixels);
 	}
-
 	/*
-	 * Filters the Saturation Channel of HSV and 
-	 * saves all pixels with a saturation value greater than mSaturationThreshold
-	 * as 255 into mStrongColors.
+	 * Finds contours of all objects in the image
 	 */
-	private void detectStrongColors() {
-		Imgproc.threshold(mHsvImage.getSaturationChannel(), mStrongColors, mDetectionParameters.nSaturationThreshold, 255, Imgproc.THRESH_BINARY);
-	}
-	
-	/*
-	 * Filters the Value Channel of HSV and 
-	 * saves all pixels with a Value greater than mDarknessThreshold
-	 * as 1 into mDarkColors.
-	 */
-	private void detectDarkColors() {
-		Imgproc.threshold(mHsvImage.getValueChannel(), mDarkPixels, mDetectionParameters.nDarknessThreshold, 1, Imgproc.THRESH_BINARY);
-	}
+	private ArrayList<MatOfPoint> findContours(Mat image, Mat hirarchy) {
+		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+		Imgproc.findContours(image, contours, hirarchy, 0, /*Imgproc.CV_CHAIN_APPROX_SIMPLE*/ 2);
+		return contours;
+	}	
 
 	
 	/*
 	 * Initializes all matrices
 	 */
 	private void initializeMatrices() {
-		Mat testFrame = new Mat(1,1, CvType.CV_8SC4);
-		applyNewFrameSize(testFrame);
+		// tempSize
+		applyNewFrameSize(new Size(1,1));
 	}
 
 	/*
 	 * Reallocates all matrices to fit the new frame size
 	 * This should happen if the orientation is changed.
 	 */
-	private void applyNewFrameSize(Mat rgbaFrame)
+	private void applyNewFrameSize(Size frameSize)
 	{
+		int frameWidth 			= (int) frameSize.width;
+		int frameHeight 		= (int) frameSize.height;
+		mDarkPixels 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
+		mStrongColors 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
+		mStrongButNotDarkPixels = new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
 		
-		mDarkPixels 			= new Mat(rgbaFrame.rows(), rgbaFrame.cols(), CvType.CV_8UC1);
-		mStrongColors 			= new Mat(rgbaFrame.rows(), rgbaFrame.cols(), CvType.CV_8UC1);
-		mStrongButNotDarkPixels = new Mat(rgbaFrame.rows(), rgbaFrame.cols(), CvType.CV_8UC1);
-		
-		mHirachy				= new Mat(rgbaFrame.rows(), 4, CvType.CV_8UC1);
+		mHirachy				= new Mat(frameHeight, 4, CvType.CV_8UC1);
+
+		mDetectionParameters 	= new DetectionParameters(frameWidth,frameHeight);		
 	}
 
 

@@ -114,5 +114,9 @@ public class FocusedObject {
 	public boolean isInRange() {
 		return false;
 	}
+	public boolean isCentered() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

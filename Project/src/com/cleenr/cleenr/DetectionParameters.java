@@ -1,10 +1,20 @@
 package com.cleenr.cleenr;
 
 public class DetectionParameters {
-	int nMinimumObjectSize 		= 100;
-	//int nMaximumObjectSize 		= 100;		TODO: Implement this
-	int nSaturationThreshold 	= 128;
-	int nDarknessThreshold		= 50;
+	int nMinimumObjectSize;
+	int nMaximumObjectSize;		
+	int nSaturationThreshold;
+	int nDarknessThreshold;
+	
+
+	public DetectionParameters(int frameWidth, int frameHeight)
+	{
+		int frameArea = frameWidth*frameHeight;
+		nMinimumObjectSize = (int) (0.001*frameArea);
+		nMaximumObjectSize = frameArea/2;
+		nSaturationThreshold = 128;
+		nDarknessThreshold = 50;
+	}
 	
 	public void lower()
 	{
@@ -13,7 +23,7 @@ public class DetectionParameters {
 	}
 	public void increase()
 	{
-		nMinimumObjectSize*=1.1;
-		nSaturationThreshold*=1.1;
+		nMinimumObjectSize*=1.11;
+		nSaturationThreshold*=1.11;
 	}
 }
