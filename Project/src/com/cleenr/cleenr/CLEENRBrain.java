@@ -2,7 +2,6 @@ package com.cleenr.cleenr;
 
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.core.Mat;
-import org.opencv.core.Point;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,8 +26,8 @@ public class CLEENRBrain implements Runnable {
 
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
 		Mat outputFrame = inputFrame.rgba();
-		focusObject(mFocusObjectFinder.findFocusTarget(inputFrame.rgba(),
-				mFocusedObject));
+
+		focusObject(mFocusObjectFinder.findFocusTarget(outputFrame, mFocusedObject));
 		CleenrUtils.drawRect(outputFrame, mFocusedObject);
 		bIsCameraInitialized = true;
 		return outputFrame;
@@ -48,25 +47,18 @@ public class CLEENRBrain implements Runnable {
 			return;
 		}
 
-		if(focusedObject == null)
+		if (focusedObject == null)
 			Log.d("FocusObject", "Focus lost.");
 		else
-			Log.d("FocusObject", "Object moved:\t" + mFocusedObject.getCenter() + "\t ->\t " + focusedObject.getCenter());
-		
+			Log.d("FocusObject", "Object moved:\t" + mFocusedObject.getCenter()
+					+ "\t ->\t " + focusedObject.getCenter());
+
 		mFocusedObject = focusedObject;
-		
+
 	}
 
 	@Override
 	public void run() {
-		try {
-			// Well this might not be nice, but we need to wait for the camera
-			// to start TODO: Find a nice way
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
 		workLoop();
 	}
 
@@ -120,38 +112,29 @@ public class CLEENRBrain implements Runnable {
 
 	private void driveTowardsObject() {
 
-		FocusedObject tempFocus = mFocusedObject; 
-		
+		FocusedObject tempFocus = mFocusedObject;
+
 		if (tempFocus == null) {
 			mWorkPhase = WorkPhase.SEARCHING_OBJECT;
 			return;
 		}
-		
+
 		if (tempFocus.isInRange()) {
 			mWorkPhase = WorkPhase.PICKING_UP_OBJECT;
 			return;
 		}
 
 		if (!tempFocus.isCentered()) {
-			centerObject(tempFocus);
+			mControlUnit.centerObject(tempFocus);
 			return;
 		}
-		
+
 		mControlUnit.driveForward();
 
 	}
 
-	private void centerObject(FocusedObject focusObject) {
-		Point focusCenter = focusObject.getCenter();
-		
-		// CAREFUL!!!! Point(0|0) is on the Bottom right, because FUCK YOU
-		if (focusCenter.x < CleenrImage.getInstance().getWidth() / 2)
-			mControlUnit.turnLeft();
-		else
-			mControlUnit.turnRight();
-	}
-
 	private void pickUpObject() {
+		mControlUnit.centerObject(mFocusedObject);
 		mControlUnit.closeClaw();
 		if (!mControlUnit.hasObjectInClaw()) {
 			mControlUnit.openClaw();

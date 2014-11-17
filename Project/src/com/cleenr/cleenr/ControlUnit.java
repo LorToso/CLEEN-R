@@ -1,9 +1,13 @@
 package com.cleenr.cleenr;
 
+import org.opencv.core.Point;
+
 import android.util.Log;
 
 public class ControlUnit 
 {
+	private static double centrationTolerance = 1.05;
+	
 
 	public boolean isClawClosed() {
 		// TODO Auto-generated method stub
@@ -63,6 +67,20 @@ public class ControlUnit
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void centerObject(FocusedObject focusObject) {
+		Point focusCenter = focusObject.getCenter();
+
+		int imageWidth = (int) CleenrImage.getInstance().getFrameSize().width;
+		double minimumValidArea = (2-centrationTolerance) *  imageWidth/ 2;
+		double maximumValidArea = centrationTolerance * imageWidth / 2;
+		
+		// CAREFUL!!!! Point(0|0) is on the Bottom right, because FUCK YOU
+		if (focusCenter.x < minimumValidArea)
+			turnLeft();
+		else if(focusCenter.x > maximumValidArea)
+			turnRight();
 	}
 	
 }

@@ -2,7 +2,6 @@ package com.cleenr.cleenr;
 
 import java.util.ArrayList;
 
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
@@ -11,11 +10,6 @@ import org.opencv.imgproc.Imgproc;
 
 
 public class ObjectDetector {
-
-	private Mat mStrongColors;
-	private Mat mDarkPixels;
-	private Mat mStrongButNotDarkPixels;
-	private Mat mHirachy;
 		
 	private DetectionParameters mDetectionParameters;
 	private CleenrImage mCleenrImage;
@@ -31,20 +25,21 @@ public class ObjectDetector {
 
 	public ArrayList<Rect> detectObjects(Mat rgba)
 	{	
-		try{
-			mCleenrImage.setImage(rgba);
-		}
-		catch(FrameSizeChangedException ex)
+		mCleenrImage.setImage(rgba);
+		if(mCleenrImage.didFrameSizeChange())
 		{
-			applyNewFrameSize(ex.getNewSize());
+			applyNewFrameSize(mCleenrImage.getFrameSize());
 		}
 		
+		Mat strongColors = new Mat();
+		mCleenrImage.detectStrongColors(strongColors, mDetectionParameters.nSaturationThreshold);
 		
-		mCleenrImage.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
-		mCleenrImage.detectDarkColors(mDarkPixels, mDetectionParameters.nDarknessThreshold);
-		removeDarkColors();
+		Mat darkPixels = new Mat();
+		mCleenrImage.detectDarkColors(darkPixels, mDetectionParameters.nDarknessThreshold);
 		
-		ArrayList<MatOfPoint> contours = findContours(mStrongButNotDarkPixels, mHirachy);
+		Mat strongButNotDarkPixels = strongColors.mul(darkPixels);
+		
+		ArrayList<MatOfPoint> contours = findContours(strongButNotDarkPixels);
 		
 		return createBoundingRects(contours);
 	}
@@ -64,24 +59,17 @@ public class ObjectDetector {
 				continue;
 			
 			allBoundingRects.add(r);
+			contour.release();
 		}
 		return allBoundingRects;
 	}
 
 	/*
-	 * Multiplies the Strong color Matrix with the Dark Color matrix, 
-	 * Resulting in a binary image, which shows only colorful pixels
-	 * But not dark ones.
-	 */
-	private void removeDarkColors() {
-		mStrongButNotDarkPixels = mStrongColors.mul(mDarkPixels);
-	}
-	/*
 	 * Finds contours of all objects in the image
 	 */
-	private ArrayList<MatOfPoint> findContours(Mat image, Mat hirarchy) {
+	private ArrayList<MatOfPoint> findContours(Mat image) {
 		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(image, contours, hirarchy, 0, /*Imgproc.CV_CHAIN_APPROX_SIMPLE*/ 2);
+		Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE); 
 		return contours;
 	}	
 
@@ -102,12 +90,10 @@ public class ObjectDetector {
 	{
 		int frameWidth 			= (int) frameSize.width;
 		int frameHeight 		= (int) frameSize.height;
-		mDarkPixels 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
-		mStrongColors 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
-		mStrongButNotDarkPixels = new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
+				
+		//mDarkPixels 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
+		//mStrongColors 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
 		
-		mHirachy				= new Mat(frameHeight, 4, CvType.CV_8UC1);
-
 		mDetectionParameters 	= new DetectionParameters(frameWidth,frameHeight);		
 	}
 

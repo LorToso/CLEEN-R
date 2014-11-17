@@ -7,6 +7,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 
 import android.util.Log;
 
@@ -71,5 +72,11 @@ public class CleenrUtils {
 			index++;
 		}
 		return rects.get(maxIndex);
+	}
+	
+	
+	public static Size generateSize(Mat rgba)
+	{
+		return new Size(rgba.cols(), rgba.rows());
 	}
 }

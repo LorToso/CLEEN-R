@@ -115,8 +115,19 @@ public class FocusedObject {
 		return false;
 	}
 	public boolean isCentered() {
-		// TODO Auto-generated method stub
-		return false;
+		double centrationTolerance = 1.05; // TODO CHANGE THIS IMMEDIATELY
+
+		int imageWidth = (int) CleenrImage.getInstance().getFrameSize().width;
+		double minimumValidArea = (2-centrationTolerance) *  imageWidth/ 2;
+		double maximumValidArea = centrationTolerance * imageWidth / 2;
+		
+		// CAREFUL!!!! Point(0|0) is on the Bottom right, because FUCK YOU
+		if (mCenter.x < minimumValidArea)
+			return false;
+		if(mCenter.x > maximumValidArea)
+			return false;
+
+		return true;
 	}
 	
 }

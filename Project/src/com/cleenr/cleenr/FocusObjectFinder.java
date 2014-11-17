@@ -7,7 +7,7 @@ import org.opencv.core.Rect;
 
 public class FocusObjectFinder 
 {
-	private final static double sColorSimilarity = 1.1;
+	private final static double sColorSimilarity = 1.2;
 	private final static double sAreaSimilarity = 1.1;
 	private final static double sAreaDelta = 1.1;
 	
