@@ -15,12 +15,10 @@ public class CleenrImage {
 	
 	private Mat mRGBA;
 	private Mat mHSV;
-	private Mat mH;
-	private Mat mS;
-	private Mat mV;
 	private ArrayList<Mat> mHSVChannels;
 
 	private Size mFrameSize = new Size(0,0);
+	private boolean mFrameSizeChanged = false; // shows if the frame size changed between the last two calls of setImage
 	private static CleenrImage instance = null;
 	
 	public static CleenrImage getInstance()
@@ -33,48 +31,43 @@ public class CleenrImage {
 	private CleenrImage()
 	{
 		mHSVChannels = new ArrayList<Mat>();
-		mHSVChannels.add(mV);
-		mHSVChannels.add(mS);
-		mHSVChannels.add(mH);
 	}
 	public CleenrImage(Mat rgba)
 	{
 		super();
-		try
-		{
-			setImage(rgba);
-		}
-		catch(FrameSizeChangedException e)
-		{
-			// Nothing to do
-		}
+		setImage(rgba);
 	}
 	/*
 	 * Sets a new Rgba image to be converted to HSV
 	 */
-	public void setImage(Mat rgba) throws FrameSizeChangedException
+	public void setImage(Mat rgba)
 	{
 		Size oldSize = mFrameSize;
-		Size newSize = generateSize(rgba);
+		Size newSize = CleenrUtils.generateSize(rgba);
 		
-		if(oldSize != newSize)
-			applyNewFrameSize(rgba);		
+		mFrameSizeChanged = (oldSize.width != newSize.width) || (oldSize.height != newSize.height);
+		if(mFrameSizeChanged)
+			applyNewFrameSize(newSize);
+		
+		releaseOldImage();
 		
 		mRGBA = rgba;
 		convertToHSVImage(mRGBA, mHSV);
 		splitHSVChannels(mHSV, mHSVChannels);
-		
-		if(oldSize != newSize)
-			throw new FrameSizeChangedException(oldSize, newSize);
 	}
 	
 
-	private void applyNewFrameSize(Mat rgbaFrame)
+	private void releaseOldImage() {
+		if(mRGBA != null)
+			mRGBA.release();
+		if(mHSV != null)
+			mHSV.release();
+	}
+
+	private void applyNewFrameSize(Size newSize)
 	{
-		mHSV = new Mat(rgbaFrame.rows(), rgbaFrame.cols(), CvType.CV_8SC3);		
-		mH = new Mat(rgbaFrame.rows(), rgbaFrame.cols(), CvType.CV_8UC1);
-		mS = new Mat(rgbaFrame.rows(), rgbaFrame.cols(), CvType.CV_8UC1);
-		mV = new Mat(rgbaFrame.rows(), rgbaFrame.cols(), CvType.CV_8UC1);
+		mFrameSize = newSize;
+		mHSV = new Mat((int)mFrameSize.height, (int)mFrameSize.width, CvType.CV_8SC3);		
 	}
 	private void convertToHSVImage(Mat inRGBA, Mat outHSV)
 	{
@@ -82,6 +75,10 @@ public class CleenrImage {
 	}
 	private void splitHSVChannels(Mat hsv, ArrayList<Mat> outChannels)
 	{
+		for(Mat m : outChannels)
+		{
+			m.release();
+		}
 		outChannels.clear();
 		Core.split(mHSV, mHSVChannels);
 		
@@ -118,20 +115,13 @@ public class CleenrImage {
 	{
 		return mHSVChannels.get(CHANNEL_VALUE);
 	}
-	public int getWidth()
+	public Size getFrameSize()
 	{
-		return mHSV.cols();
+		return mFrameSize;
 	}
-	public int getHeight()
-	{
-		return mHSV.rows();
+
+	public boolean didFrameSizeChange() {
+		return mFrameSizeChanged;
 	}
-	
-	
-	
-	
-	private static Size generateSize(Mat rgba)
-	{
-		return new Size(rgba.cols(), rgba.rows());
-	}
+
 }
