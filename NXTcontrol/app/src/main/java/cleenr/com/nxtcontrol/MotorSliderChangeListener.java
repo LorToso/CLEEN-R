@@ -3,46 +3,59 @@ package cleenr.com.nxtcontrol;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import lejos.nxt.Motor;
-import lejos.nxt.NXTMotor;
-import lejos.nxt.remote.NXTCommand;
-import lejos.nxt.remote.RemoteMotor;
-import lejos.pc.comm.NXTCommandConnector;
-import lejos.pc.comm.NXTConnectionState;
-import lejos.pc.comm.NXTConnector;
+import org.jfedor.nxtremotecontrol.NXTTalker;
 
 /**
  * Created by hudini on 11.11.2014.
  */
 public class MotorSliderChangeListener implements SeekBar.OnSeekBarChangeListener {
 
-    private TextView valueTextView;
-    private NXTConnector nxtConn;
-    private RemoteMotor motor;
+    private TextView mValueTextView;
+    private NXTTalker mNXTTalker;
+    private int mMotorPort;
+    private MainActivity mActivity;
 
-    public MotorSliderChangeListener(TextView valueTextView, NXTConnector nxtConn, RemoteMotor motor)
+    public MotorSliderChangeListener(TextView valueTextView, NXTTalker talker, int motorPort, MainActivity activity)
     {
-        this.valueTextView = valueTextView;
-        this.nxtConn = nxtConn;
-        this.motor = motor;
+        mValueTextView = valueTextView;
+        mNXTTalker = talker;
+        mMotorPort = motorPort;
+        mActivity = activity;
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        int motorPerc = i * 2 - 100; // -100% to 100%
-        valueTextView.setText(motorPerc + "%");
+        byte motorPerc = (byte) (i * 2 - 100); // -100% to 100%
+        mValueTextView.setText(motorPerc + "%");
+
+        byte leftMotorValue = 0, rightMotorValue = 0, gripperMotorValue = 0;
+
+        switch(mMotorPort)
+        {
+            case 0:
+                leftMotorValue = motorPerc;
+                mActivity.mLeftMotorValue = motorPerc;
+                rightMotorValue = mActivity.mRightMotorValue;
+                gripperMotorValue = mActivity.mGripperMotorValue;
+                break;
+            case 1:
+                rightMotorValue = motorPerc;
+                mActivity.mRightMotorValue = motorPerc;
+                leftMotorValue = mActivity.mLeftMotorValue;
+                gripperMotorValue = mActivity.mGripperMotorValue;
+                break;
+            case 2:
+                gripperMotorValue = motorPerc;
+                mActivity.mGripperMotorValue = motorPerc;
+                leftMotorValue = mActivity.mLeftMotorValue;
+                rightMotorValue = mActivity.mRightMotorValue;
+                break;
+        }
+
         if (!isNxtConnected())
             return;
 
-        if (motorPerc == 0)
-        {
-            motor.stop();
-            return;
-        }
-
-        motor.setPower(motorPerc);
-        motor.setSpeed((int)motor.getMaxSpeed());
-        motor.forward();
+        mNXTTalker.motors3(leftMotorValue, rightMotorValue, gripperMotorValue, false, true);
     }
 
     @Override
@@ -57,7 +70,6 @@ public class MotorSliderChangeListener implements SeekBar.OnSeekBarChangeListene
 
     private boolean isNxtConnected()
     {
-        return (nxtConn.getNXTInfo().connectionState ==
-                NXTConnectionState.PACKET_STREAM_CONNECTED);
+        return mNXTTalker.getState() == NXTTalker.STATE_CONNECTED;
     }
 }

@@ -1,7 +1,12 @@
 package cleenr.com.nxtcontrol;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,18 +14,42 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import lejos.nxt.Motor;
-import lejos.nxt.remote.NXTCommand;
-import lejos.pc.comm.NXTCommLogListener;
-import lejos.pc.comm.NXTCommandConnector;
-import lejos.pc.comm.NXTConnectionState;
-import lejos.pc.comm.NXTConnector;
+import org.jfedor.nxtremotecontrol.ChooseDeviceActivity;
+import org.jfedor.nxtremotecontrol.NXTTalker;
 
+public class MainActivity extends Activity
+{
+    public static final int MESSAGE_TOAST = 1;
+    public static final int MESSAGE_STATE_CHANGE = 2;
 
-public class MainActivity extends Activity {
+    public static final String TOAST = "toast";
 
-    private static final NXTConnector nxtConn = new NXTConnector();
+    public byte mLeftMotorValue;
+    public byte mRightMotorValue;
+    public byte mGripperMotorValue;
+
+    private int mState;
+    private BluetoothAdapter mBluetoothAdapter;
+    private String mDeviceAddress = null;
+
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MESSAGE_TOAST:
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST), Toast.LENGTH_SHORT).show();
+                    break;
+                case MESSAGE_STATE_CHANGE:
+                    mState = msg.arg1;
+                    displayState();
+                    break;
+            }
+        }
+    };
+
+    private final NXTTalker mNXTTalker = new NXTTalker(mHandler);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,42 +71,75 @@ public class MainActivity extends Activity {
                 (TextView)findViewById(R.id.textView_gripperMotorValue);
 
         leftSlider.setOnSeekBarChangeListener(
-                new MotorSliderChangeListener(leftMotorValueTextView, nxtConn, Motor.B));
+                new MotorSliderChangeListener(leftMotorValueTextView, mNXTTalker, 1, this));
 
         rightSlider.setOnSeekBarChangeListener(
-                new MotorSliderChangeListener(rightMotorValueTextView, nxtConn, Motor.C));
+                new MotorSliderChangeListener(rightMotorValueTextView, mNXTTalker, 2, this));
 
         gripperSlider.setOnSeekBarChangeListener(
-                new MotorSliderChangeListener(gripperMotorValueTextView, nxtConn, Motor.A));
+                new MotorSliderChangeListener(gripperMotorValueTextView, mNXTTalker, 0, this));
 
-        nxtConn.setDebug(true);
-        nxtConn.addLogListener(new NXTCommLogListener() {
-            public void logEvent(String arg0) {
-                Log.e("NXJ log:", arg0);
-            }
-
-            public void logEvent(Throwable arg0) {
-                Log.e("NXJ log:", arg0.getMessage(), arg0);
-            }
-        });
-
-        final Button connectBtn = (Button)findViewById(R.id.button_connect);
-        final TextView connectedTextView = (TextView)findViewById(R.id.textView_connected);
+        final Button connectBtn =
+                (Button)findViewById(R.id.button_connect);
         connectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nxtConn.connectTo())
-                {
-                    connectedTextView.setText("connected to:" + nxtConn.getNXTInfo().name);
-                    connectBtn.setEnabled(false);
-                    NXTCommandConnector.setNXTCommand(new NXTCommand(nxtConn.getNXTComm()));
-                }
-                else
-                {
-                    connectedTextView.setText("could not connect");
-                }
+                findBrick();
             }
         });
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+    }
+
+    private void findBrick()
+    {
+        Intent intent = new Intent(this, ChooseDeviceActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK) {
+            String address = data.getExtras().getString(ChooseDeviceActivity.EXTRA_DEVICE_ADDRESS);
+            BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+            //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
+            mDeviceAddress = address;
+            mNXTTalker.connect(device);
+        }
+    }
+
+    private void displayState()
+    {
+        final TextView connectedTextView =
+                (TextView)findViewById(R.id.textView_connected);
+        final Button connectBtn =
+                (Button)findViewById(R.id.button_connect);
+        String text = "";
+        boolean enButton = false;
+        switch (mState)
+        {
+            case NXTTalker.STATE_NONE:
+                text = "not connected";
+                enButton = true;
+                break;
+            case NXTTalker.STATE_CONNECTING:
+                text = "connecting...";
+                enButton = false;
+                break;
+            case NXTTalker.STATE_CONNECTED:
+                text = "connected";
+                enButton = false;
+                break;
+        }
+        connectedTextView.setText(text);
+        connectBtn.setEnabled(enButton);
     }
 
     @Override
