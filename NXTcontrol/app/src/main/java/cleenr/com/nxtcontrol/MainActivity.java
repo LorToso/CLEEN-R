@@ -56,6 +56,14 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
         VerticalMotorSpeedSlider leftSlider =
                 (VerticalMotorSpeedSlider)findViewById(R.id.seekBar_leftMotor);
         VerticalMotorSpeedSlider rightSlider =
@@ -71,13 +79,13 @@ public class MainActivity extends Activity
                 (TextView)findViewById(R.id.textView_gripperMotorValue);
 
         leftSlider.setOnSeekBarChangeListener(
-                new MotorSliderChangeListener(leftMotorValueTextView, mNXTTalker, 1, this));
+                new MotorSliderChangeListener(leftMotorValueTextView, mNXTTalker, NXTTalker.MOTOR_PORT_B));
 
         rightSlider.setOnSeekBarChangeListener(
-                new MotorSliderChangeListener(rightMotorValueTextView, mNXTTalker, 2, this));
+                new MotorSliderChangeListener(rightMotorValueTextView, mNXTTalker, NXTTalker.MOTOR_PORT_C));
 
         gripperSlider.setOnSeekBarChangeListener(
-                new MotorSliderChangeListener(gripperMotorValueTextView, mNXTTalker, 0, this));
+                new MotorSliderChangeListener(gripperMotorValueTextView, mNXTTalker, NXTTalker.MOTOR_PORT_A));
 
         final Button connectBtn =
                 (Button)findViewById(R.id.button_connect);
@@ -87,14 +95,6 @@ public class MainActivity extends Activity
                 findBrick();
             }
         });
-
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
     }
 
     private void findBrick()

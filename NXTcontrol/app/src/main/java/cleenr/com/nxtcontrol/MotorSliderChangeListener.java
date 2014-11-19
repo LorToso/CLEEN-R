@@ -12,50 +12,22 @@ public class MotorSliderChangeListener implements SeekBar.OnSeekBarChangeListene
 
     private TextView mValueTextView;
     private NXTTalker mNXTTalker;
-    private int mMotorPort;
-    private MainActivity mActivity;
+    private byte mMotorPort;
 
-    public MotorSliderChangeListener(TextView valueTextView, NXTTalker talker, int motorPort, MainActivity activity)
-    {
+    public MotorSliderChangeListener(TextView valueTextView, NXTTalker talker, byte motorPort) {
         mValueTextView = valueTextView;
         mNXTTalker = talker;
         mMotorPort = motorPort;
-        mActivity = activity;
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        byte motorPerc = (byte) (i * 2 - 100); // -100% to 100%
-        mValueTextView.setText(motorPerc + "%");
-
-        byte leftMotorValue = 0, rightMotorValue = 0, gripperMotorValue = 0;
-
-        switch(mMotorPort)
-        {
-            case 0:
-                leftMotorValue = motorPerc;
-                mActivity.mLeftMotorValue = motorPerc;
-                rightMotorValue = mActivity.mRightMotorValue;
-                gripperMotorValue = mActivity.mGripperMotorValue;
-                break;
-            case 1:
-                rightMotorValue = motorPerc;
-                mActivity.mRightMotorValue = motorPerc;
-                leftMotorValue = mActivity.mLeftMotorValue;
-                gripperMotorValue = mActivity.mGripperMotorValue;
-                break;
-            case 2:
-                gripperMotorValue = motorPerc;
-                mActivity.mGripperMotorValue = motorPerc;
-                leftMotorValue = mActivity.mLeftMotorValue;
-                rightMotorValue = mActivity.mRightMotorValue;
-                break;
-        }
-
         if (!isNxtConnected())
             return;
 
-        mNXTTalker.motors3(leftMotorValue, rightMotorValue, gripperMotorValue, false, true);
+        byte motorPerc = (byte) (i * 2 - 100); // -100% to 100%
+        mValueTextView.setText(motorPerc + "%");
+        mNXTTalker.setMotorSpeed(mMotorPort, mMotorPort, NXTTalker.MOTOR_REG_MODE_SYNC);
     }
 
     @Override
@@ -68,8 +40,7 @@ public class MotorSliderChangeListener implements SeekBar.OnSeekBarChangeListene
 
     }
 
-    private boolean isNxtConnected()
-    {
+    private boolean isNxtConnected() {
         return mNXTTalker.getState() == NXTTalker.STATE_CONNECTED;
     }
 }

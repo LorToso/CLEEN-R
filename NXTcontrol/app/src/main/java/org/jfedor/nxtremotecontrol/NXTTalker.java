@@ -36,179 +36,147 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import cleenr.com.nxtcontrol.MainActivity;
 
 public class NXTTalker {
+    public static final String TAG = NXTTalker.class.getSimpleName();
 
     public static final int STATE_NONE = 0;
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
-    
+
+    public static final byte MOTOR_PORT_A = 0x00;
+    public static final byte MOTOR_PORT_B = 0x01;
+    public static final byte MOTOR_PORT_C = 0x02;
+    public static final byte MOTOR_PORT_ALL = (byte) 0xFF;
+
+    public static final byte MOTOR_REG_MODE_NONE = 0x00;
+    public static final byte MOTOR_REG_MODE_SPEED = 0x01;
+    public static final byte MOTOR_REG_MODE_SYNC = 0x02;
+
     private int mState;
     private Handler mHandler;
     private BluetoothAdapter mAdapter;
-    
+
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
-    
+
     public NXTTalker(Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mHandler = handler;
         setState(STATE_NONE);
     }
 
+    public synchronized int getState() {
+        return mState;
+    }
+
     private synchronized void setState(int state) {
         mState = state;
         if (mHandler != null) {
             mHandler.obtainMessage(MainActivity.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
-        } else {
-            //XXX
-        }
-    }
-    
-    public synchronized int getState() {
-        return mState;
-    }
-    
-    public synchronized void setHandler(Handler handler) {
-        mHandler = handler;
-    }
-    
-    private void toast(String text) {
-        if (mHandler != null) {
-            Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
-            Bundle bundle = new Bundle();
-            bundle.putString(MainActivity.TOAST, text);
-            msg.setData(bundle);
-            mHandler.sendMessage(msg);
-        } else {
-            //XXX
         }
     }
 
+    public synchronized void setHandler(Handler handler) {
+        mHandler = handler;
+    }
+
     public synchronized void connect(BluetoothDevice device) {
-        //Log.i("NXT", "NXTTalker.connect()");
-        
+        Log.i(TAG, "Connecting to device '" + device.getName() + "'");
+
         if (mState == STATE_CONNECTING) {
             if (mConnectThread != null) {
                 mConnectThread.cancel();
                 mConnectThread = null;
             }
         }
-        
+
         if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
         }
-        
+
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
         setState(STATE_CONNECTING);
     }
-    
+
     public synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
         if (mConnectThread != null) {
             mConnectThread.cancel();
             mConnectThread = null;
         }
-        
+
         if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
         }
-        
+
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-        
-        //toast("Connected to " + device.getName());
-        
+
+        Log.i(TAG, "Connected to '" + device.getName() + "'");
+
         setState(STATE_CONNECTED);
     }
-    
+
     public synchronized void stop() {
         if (mConnectThread != null) {
             mConnectThread.cancel();
             mConnectThread = null;
         }
-        
+
         if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
         }
         setState(STATE_NONE);
     }
-    
+
     private void connectionFailed() {
         setState(STATE_NONE);
-        //toast("Connection failed");
+        Log.e(TAG, "Connection failed");
     }
-    
+
     private void connectionLost() {
         setState(STATE_NONE);
-        //toast("Connection lost");
+        Log.e(TAG, "Connection lost");
     }
-    
-    public void motors(byte l, byte r, boolean speedReg, boolean motorSync) {
-        byte[] data = { 0x0c, 0x00, (byte) 0x80, 0x04, 0x02, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00,
-                        0x0c, 0x00, (byte) 0x80, 0x04, 0x01, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 };
-        
-        //Log.i("NXT", "motors: " + Byte.toString(l) + ", " + Byte.toString(r));
-        
-        data[5] = l;
-        data[19] = r;
-        if (speedReg) {
-            data[7] |= 0x01;
-            data[21] |= 0x01;
-        }
-        if (motorSync) {
-            data[7] |= 0x02;
-            data[21] |= 0x02;
-        }
+
+    public void setMotorSpeed(byte port, byte power) {
+        setMotorSpeed(port, power, MOTOR_REG_MODE_NONE);
+    }
+
+    public void setMotorSpeed(byte port, byte power, byte regulation) {
+        if ((port < 0 || port > 2) && port != (byte) 0xFF)
+            throw new IllegalArgumentException("port");
+        if (power < -100 || power > 100)
+            throw new IllegalArgumentException("power");
+        if (regulation < 0 || regulation > 2)
+            throw new IllegalArgumentException("regulation");
+
+        byte[] data = {
+                0x0c, 0x00,            // command length (LSB first)
+                (byte) 0x80,           // command type
+                0x04,                  // command
+                port,                  // motor output port
+                power,                 // motor power set point
+                0x07,                  // motor mode
+                regulation,        // regulation mode
+                0x00,                  // turn ratio
+                0x20,                  // run state
+                0x00, 0x00, 0x00, 0x00 // tacho limit (LSB first)
+        };
+
+        Log.v(TAG, "Setting motor " + Byte.toString(port) +
+                " to speed " + Byte.toString(power) +
+                ", regulation: " + Byte.toString(regulation));
         write(data);
     }
-    
-    public void motor(int motor, byte power, boolean speedReg, boolean motorSync) {
-        byte[] data = { 0x0c, 0x00, (byte) 0x80, 0x04, 0x02, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 };
-        
-        //Log.i("NXT", "motor: " + Integer.toString(motor) + ", " + Byte.toString(power));
-        
-        if (motor == 0) {
-            data[4] = 0x02;
-        } else {
-            data[4] = 0x01;
-        }
-        data[5] = power;
-        if (speedReg) {
-            data[7] |= 0x01;
-        }
-        if (motorSync) {
-            data[7] |= 0x02;
-        }
-        write(data);
-    }
-    
-    public void motors3(byte l, byte r, byte action, boolean speedReg, boolean motorSync) {
-        byte[] data = { 0x0c, 0x00, (byte) 0x80, 0x04, 0x02, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00,
-                        0x0c, 0x00, (byte) 0x80, 0x04, 0x01, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00,
-                        0x0c, 0x00, (byte) 0x80, 0x04, 0x00, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 };
-        
-        //Log.i("NXT", "motors3: " + Byte.toString(l) + ", " + Byte.toString(r) + ", " + Byte.toString(action));
-        
-        data[5] = l;
-        data[19] = r;
-        data[33] = action;
-        if (speedReg) {
-            data[7] |= 0x01;
-            data[21] |= 0x01;
-        }
-        if (motorSync) {
-            data[7] |= 0x02;
-            data[21] |= 0x02;
-        }
-        write(data);
-    }
-    
+
     private void write(byte[] out) {
         ConnectedThread r;
         synchronized (this) {
@@ -219,19 +187,19 @@ public class NXTTalker {
         }
         r.write(out);
     }
-    
+
     private class ConnectThread extends Thread {
-        private BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
-        
+        private BluetoothSocket mmSocket;
+
         public ConnectThread(BluetoothDevice device) {
             mmDevice = device;
         }
-        
+
         public void run() {
             setName("ConnectThread");
             mAdapter.cancelDiscovery();
-            
+
             try {
                 mmSocket = mmDevice.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                 mmSocket.connect();
@@ -240,7 +208,7 @@ public class NXTTalker {
                 try {
                     // This is a workaround that reportedly helps on some older devices like HTC Desire, where using
                     // the standard createRfcommSocketToServiceRecord() method always causes connect() to fail.
-                    Method method = mmDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
+                    Method method = mmDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
                     mmSocket = (BluetoothSocket) method.invoke(mmDevice, Integer.valueOf(1));
                     mmSocket.connect();
                 } catch (Exception e1) {
@@ -254,14 +222,14 @@ public class NXTTalker {
                     return;
                 }
             }
-            
+
             synchronized (NXTTalker.this) {
                 mConnectThread = null;
             }
-            
+
             connected(mmSocket, mmDevice);
         }
-        
+
         public void cancel() {
             try {
                 if (mmSocket != null) {
@@ -272,36 +240,36 @@ public class NXTTalker {
             }
         }
     }
-    
+
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-        
+
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
-            
+
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
-        
+
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
-            
+
             while (true) {
                 try {
                     bytes = mmInStream.read(buffer);
-                    //toast(Integer.toString(bytes) + " bytes read from device");
+                    Log.v(TAG, "Read " + Integer.toString(bytes) + " bytes from device");
                 } catch (IOException e) {
                     e.printStackTrace();
                     connectionLost();
@@ -309,16 +277,15 @@ public class NXTTalker {
                 }
             }
         }
-        
+
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
             } catch (IOException e) {
                 e.printStackTrace();
-                // XXX?
             }
         }
-        
+
         public void cancel() {
             try {
                 mmSocket.close();
