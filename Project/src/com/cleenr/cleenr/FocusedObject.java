@@ -9,6 +9,8 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 
 public class FocusedObject {
+	public static final double sHorizonalCentrationTolerance 	= 1.05;
+	public static final double sVerticalCentrationTolerance 	= 1.05;
 	
 	private Mat mRGBA;
 	private Rect mArea;
@@ -20,7 +22,7 @@ public class FocusedObject {
 		mArea 	= new Rect();
 		mCenter = new Point();
 	}	
-	public FocusedObject(Mat rgba, Rect area)
+	private FocusedObject(Mat rgba, Rect area)
 	{
 		mRGBA = rgba;
 		mArea = area;
@@ -30,10 +32,10 @@ public class FocusedObject {
 	{
 		if(area == null)
 			return null;
-			
-		Mat tmp = new Mat(rgbaFullImage, area);
-		Mat rgba = new Mat(tmp.rows(), tmp.cols(), tmp.type());
-		tmp.copyTo(rgba);
+		
+		Mat submat = rgbaFullImage.submat(area);
+		Mat rgba = submat.clone();
+		
 		return new FocusedObject(rgba, area);
 	}
 	public Scalar getMeanColor()
@@ -114,20 +116,25 @@ public class FocusedObject {
 	public boolean isInRange() {
 		return false;
 	}
-	public boolean isCentered() {
-		double centrationTolerance = 1.05; // TODO CHANGE THIS IMMEDIATELY
-
+	public boolean isHorizontallyCentered()
+	{
 		int imageWidth = (int) CleenrImage.getInstance().getFrameSize().width;
-		double minimumValidArea = (2-centrationTolerance) *  imageWidth/ 2;
-		double maximumValidArea = centrationTolerance * imageWidth / 2;
+		int imageHeight = (int) CleenrImage.getInstance().getFrameSize().height;
+		int minimumValidArea = (int) ((2-sHorizonalCentrationTolerance) *  imageWidth/ 2);
+		int maximumValidArea = (int) (sHorizonalCentrationTolerance * imageWidth / 2);
 		
-		// CAREFUL!!!! Point(0|0) is on the Bottom right, because FUCK YOU
-		if (mCenter.x < minimumValidArea)
-			return false;
-		if(mCenter.x > maximumValidArea)
-			return false;
-
-		return true;
+		Rect validArea = new Rect(minimumValidArea, 0, maximumValidArea-minimumValidArea, imageHeight);
+		return validArea.contains(mCenter);
+	}
+	public boolean isVerticallyCentered()
+	{
+		int imageWidth = (int) CleenrImage.getInstance().getFrameSize().width;
+		int imageHeight = (int) CleenrImage.getInstance().getFrameSize().height;
+		int minimumValidArea = (int) ((2-sVerticalCentrationTolerance) *  imageHeight/ 2);
+		int maximumValidArea = (int) (sVerticalCentrationTolerance * imageHeight / 2);
+		
+		Rect validArea = new Rect(0, minimumValidArea, imageWidth, maximumValidArea-minimumValidArea);
+		return validArea.contains(mCenter);
 	}
 	
 }

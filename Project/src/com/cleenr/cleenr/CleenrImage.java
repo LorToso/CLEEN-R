@@ -11,7 +11,7 @@ import org.opencv.imgproc.Imgproc;
 public class CleenrImage {
 	private static final int CHANNEL_HUE 			= 0;
 	private static final int CHANNEL_SATURATION 	= 1;
-	private static final int CHANNEL_VALUE 		= 2;
+	private static final int CHANNEL_VALUE 			= 2;
 	
 	private Mat mRGBA;
 	private Mat mHSV;
@@ -102,7 +102,7 @@ public class CleenrImage {
 		Imgproc.threshold(getSaturationChannel(), outStrongColors, nSaturationThreshold, 255, Imgproc.THRESH_BINARY);
 	}
 	
-
+	
 	public Mat getSaturationChannel()
 	{
 		return mHSVChannels.get(CHANNEL_SATURATION);

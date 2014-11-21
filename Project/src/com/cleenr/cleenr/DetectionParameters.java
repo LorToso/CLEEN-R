@@ -1,5 +1,7 @@
 package com.cleenr.cleenr;
 
+import org.opencv.core.Size;
+
 public class DetectionParameters {
 	int nMinimumObjectSize;
 	int nMaximumObjectSize;		
@@ -7,6 +9,10 @@ public class DetectionParameters {
 	int nDarknessThreshold;
 	
 
+	public DetectionParameters(Size frameSize)
+	{
+		this((int)frameSize.width, (int)frameSize.height);
+	}
 	public DetectionParameters(int frameWidth, int frameHeight)
 	{
 		int frameArea = frameWidth*frameHeight;

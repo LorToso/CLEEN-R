@@ -2,11 +2,11 @@ package com.cleenr.cleenr;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.core.Mat;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +15,10 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.cleenr.cleenr.R;
 
 
 
-
-public class MainActivity extends Activity implements CvCameraViewListener2{
+public class MainActivity extends Activity implements CvCameraViewListener{
 	private static final String TAG = "MainActivity";
 	
 	
@@ -36,8 +34,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
                 {
                     Log.i(TAG, "OpenCV loaded successfully");
                     // Load native library after(!) OpenCV initialization
-                    System.loadLibrary("CLEEN_R");
-                    Log.i(TAG, "Native library loaded successfully");
+                    //System.loadLibrary("CLEEN_R");
+                    //Log.i(TAG, "Native library loaded successfully");
 
                     mOpenCvCameraView.enableView();
                     mCleenrBrain = new CLEENRBrain(MainActivity.this);
@@ -104,13 +102,12 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 	public void onCameraViewStarted(int width, int height) {	}
 	@Override
 	public void onCameraViewStopped() {	}
-	@Override
+	/*@Override
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
 		return mCleenrBrain.onCameraFrame(inputFrame);
+	}*/
+	@Override
+	public Mat onCameraFrame(Mat inputFrame) {
+		return mCleenrBrain.onCameraFrame(inputFrame);
 	}
-	
-	
-    private static native void nativeDetect(long thiz, long inputImage, long faces);
-    private static native void nativeOpening(int kernelSize, long inputImage);
-    private static native void nativeRedFilter(long inputImage);
 }

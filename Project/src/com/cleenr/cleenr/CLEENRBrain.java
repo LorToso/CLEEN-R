@@ -24,10 +24,11 @@ public class CLEENRBrain implements Runnable {
 		workThread.start();
 	}
 
-	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-		Mat outputFrame = inputFrame.rgba();
+	public Mat onCameraFrame(Mat inputFrame) {
+		Mat outputFrame = inputFrame.clone();
 
-		focusObject(mFocusObjectFinder.findFocusTarget(outputFrame, mFocusedObject));
+		FocusedObject focus = mFocusObjectFinder.findFocusTarget(outputFrame, mFocusedObject);
+		focusObject(focus);
 		CleenrUtils.drawRect(outputFrame, mFocusedObject);
 		bIsCameraInitialized = true;
 		return outputFrame;
@@ -59,7 +60,7 @@ public class CLEENRBrain implements Runnable {
 
 	@Override
 	public void run() {
-		workLoop();
+		//workLoop();
 	}
 
 	private void workLoop() {
@@ -124,7 +125,7 @@ public class CLEENRBrain implements Runnable {
 			return;
 		}
 
-		if (!tempFocus.isCentered()) {
+		if (!tempFocus.isHorizontallyCentered()) {
 			mControlUnit.centerObject(tempFocus);
 			return;
 		}

@@ -3,21 +3,25 @@ package com.cleenr.cleenr;
 import java.util.ArrayList;
 
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
-import org.opencv.core.Size;
+import org.opencv.features2d.*;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.*;
 
 
 public class ObjectDetector {
 		
 	private DetectionParameters mDetectionParameters;
 	private CleenrImage mCleenrImage;
-	
+
+	private Mat mHierarchy = new Mat();
+	private Mat mStrongColors = new Mat();
+	private Mat mDarkColors = new Mat();
 	
 	public ObjectDetector()
 	{
-		initializeMatrices();
 		mDetectionParameters = new DetectionParameters(0,0);
 		mCleenrImage = CleenrImage.getInstance();
 	}
@@ -27,21 +31,17 @@ public class ObjectDetector {
 	{	
 		mCleenrImage.setImage(rgba);
 		if(mCleenrImage.didFrameSizeChange())
-		{
-			applyNewFrameSize(mCleenrImage.getFrameSize());
-		}
+			mDetectionParameters = new DetectionParameters(mCleenrImage.getFrameSize());
 		
-		Mat strongColors = new Mat();
-		mCleenrImage.detectStrongColors(strongColors, mDetectionParameters.nSaturationThreshold);
+		mCleenrImage.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
+		mCleenrImage.detectDarkColors(mDarkColors, mDetectionParameters.nDarknessThreshold);
 		
-		Mat darkPixels = new Mat();
-		mCleenrImage.detectDarkColors(darkPixels, mDetectionParameters.nDarknessThreshold);
-		
-		Mat strongButNotDarkPixels = strongColors.mul(darkPixels);
+		Mat strongButNotDarkPixels = mStrongColors.mul(mDarkColors);
 		
 		ArrayList<MatOfPoint> contours = findContours(strongButNotDarkPixels);
-		
-		return createBoundingRects(contours);
+		ArrayList<Rect>	boundingRects = createBoundingRects(contours);
+		contours.clear();
+		return boundingRects;
 	}
 
 	/*
@@ -67,37 +67,23 @@ public class ObjectDetector {
 	/*
 	 * Finds contours of all objects in the image
 	 */
-	private ArrayList<MatOfPoint> findContours(Mat image) {
+	public ArrayList<MatOfPoint> findContours(Mat image) {
 		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE); 
-		return contours;
-	}	
-
-	
-	/*
-	 * Initializes all matrices
-	 */
-	private void initializeMatrices() {
-		// tempSize
-		applyNewFrameSize(new Size(1,1));
-	}
-
-	/*
-	 * Reallocates all matrices to fit the new frame size
-	 * This should happen if the orientation is changed.
-	 */
-	private void applyNewFrameSize(Size frameSize)
-	{
-		int frameWidth 			= (int) frameSize.width;
-		int frameHeight 		= (int) frameSize.height;
-				
-		//mDarkPixels 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
-		//mStrongColors 			= new Mat(frameHeight, frameWidth, CvType.CV_8UC1);
 		
-		mDetectionParameters 	= new DetectionParameters(frameWidth,frameHeight);		
+		
+		MatOfKeyPoint keypoints = new MatOfKeyPoint();
+		
+		FeatureDetector d = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
+		
+		d.detect(image, keypoints);
+		
+		
+		System.out.println(keypoints.dump());
+		//Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+        
+        return contours;
 	}
-
-
+	
 	public void setDetectionParameters(DetectionParameters detectionParameters)
 	{
 		mDetectionParameters = detectionParameters;

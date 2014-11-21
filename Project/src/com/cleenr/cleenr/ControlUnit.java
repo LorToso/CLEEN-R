@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class ControlUnit 
 {
-	private static double centrationTolerance = 1.05;
+
 	
 
 	public boolean isClawClosed() {
@@ -73,8 +73,8 @@ public class ControlUnit
 		Point focusCenter = focusObject.getCenter();
 
 		int imageWidth = (int) CleenrImage.getInstance().getFrameSize().width;
-		double minimumValidArea = (2-centrationTolerance) *  imageWidth/ 2;
-		double maximumValidArea = centrationTolerance * imageWidth / 2;
+		double minimumValidArea = (2-FocusedObject.sHorizonalCentrationTolerance) *  imageWidth/ 2;
+		double maximumValidArea = FocusedObject.sHorizonalCentrationTolerance * imageWidth / 2;
 		
 		// CAREFUL!!!! Point(0|0) is on the Bottom right, because FUCK YOU
 		if (focusCenter.x < minimumValidArea)

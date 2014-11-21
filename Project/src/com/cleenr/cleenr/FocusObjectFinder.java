@@ -32,8 +32,8 @@ public class FocusObjectFinder
 		return findBiggestObject(rgbaFrame, allBoundingRects);
 	}
 	
-	private FocusedObject findBestMatch(FocusedObject focusedObject, ArrayList<Rect> allBoundingRects, Mat fullRGBAImage) {
-		Rect matchingRect = findMatchingRect(focusedObject, allBoundingRects, fullRGBAImage);
+	private FocusedObject findBestMatch(FocusedObject oldFocusObject, ArrayList<Rect> allBoundingRects, Mat fullRGBAImage) {
+		Rect matchingRect = findMatchingRect(oldFocusObject, allBoundingRects, fullRGBAImage);
 		
 		if(matchingRect == null)
 			return null;
