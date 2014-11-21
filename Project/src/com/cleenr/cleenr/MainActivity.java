@@ -34,8 +34,8 @@ public class MainActivity extends Activity implements CvCameraViewListener{
                 {
                     Log.i(TAG, "OpenCV loaded successfully");
                     // Load native library after(!) OpenCV initialization
-                    //System.loadLibrary("CLEEN_R");
-                    //Log.i(TAG, "Native library loaded successfully");
+                    System.loadLibrary("CLEEN_R");
+                    Log.i(TAG, "Native library loaded successfully");
 
                     mOpenCvCameraView.enableView();
                     mCleenrBrain = new CLEENRBrain(MainActivity.this);

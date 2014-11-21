@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.features2d.*;
+import org.opencv.core.Size;
+import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.*;
+
+import android.util.Log;
 
 
 public class ObjectDetector {
@@ -69,16 +72,28 @@ public class ObjectDetector {
 	 */
 	public ArrayList<MatOfPoint> findContours(Mat image) {
 		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-		
+		Imgproc.blur(image, image, new Size(3,3));
+		Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
 		
 		MatOfKeyPoint keypoints = new MatOfKeyPoint();
 		
+		CLEENRBrain.outputFrame = image; 
+		
 		FeatureDetector d = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
+		//d.detect(image, keypoints);
+		findContours(image.nativeObj, image.nativeObj);
+		for(int i=0; i< keypoints.rows(); i++)
+		{
+			double[] a = keypoints.get(i, 0);
+			Point p = new Point(a[0], a[1]);
+			Log.d("Keypoint", "Drawing point " + p);
+			CleenrUtils.drawPoint(CLEENRBrain.outputFrame, p);
+		}
+		//MatOfPoint m = new MatOfPoint(keypoints.colRange(0, 1));
 		
-		d.detect(image, keypoints);
+		//Imgproc.boundingRect(m);
 		
-		
-		System.out.println(keypoints.dump());
+		//System.out.println(keypoints.dump());
 		//Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
         
         return contours;
@@ -104,5 +119,6 @@ public class ObjectDetector {
 	{
 		mDetectionParameters.increase();
 	}
+	private native void findContours(long pImage, long pContures);
 	
 }

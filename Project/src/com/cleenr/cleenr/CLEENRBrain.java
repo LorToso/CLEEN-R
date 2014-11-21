@@ -18,6 +18,8 @@ public class CLEENRBrain implements Runnable {
 
 	private WorkPhase mWorkPhase = WorkPhase.INITIALIZING;
 
+	public static Mat outputFrame;
+	
 	public CLEENRBrain(Context context) {
 		mContext = context;
 		workThread = new Thread(this);
@@ -25,8 +27,8 @@ public class CLEENRBrain implements Runnable {
 	}
 
 	public Mat onCameraFrame(Mat inputFrame) {
-		Mat outputFrame = inputFrame.clone();
-
+		outputFrame = inputFrame.clone();
+		
 		FocusedObject focus = mFocusObjectFinder.findFocusTarget(outputFrame, mFocusedObject);
 		focusObject(focus);
 		CleenrUtils.drawRect(outputFrame, mFocusedObject);

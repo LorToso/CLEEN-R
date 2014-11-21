@@ -53,6 +53,12 @@ public class CleenrUtils {
 		Core.rectangle(outputFrame, rect.tl(), rect.br(), new Scalar(255,255,0), 5);
 		Core.rectangle(outputFrame, new Point(middle.x-2, middle.y-2), new Point(middle.x+2, middle.y+2), new Scalar(255,255,0), 5);
 	}
+	public static void drawPoint(Mat outputFrame, Point point)
+	{
+		if(point == null)
+			return;
+		Core.rectangle(outputFrame, point, point, new Scalar(255,255,0), 1);
+	}
 	public static Rect getBiggestRect(ArrayList<Rect> rects)
 	{
 		if(rects.size() == 0)

@@ -1,5 +1,4 @@
 #include <CLEENR_jni.h>
-#include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/contrib/detection_based_tracker.hpp>
 #include "opencv2/objdetect/objdetect.hpp"
@@ -16,40 +15,53 @@
 using namespace std;
 using namespace cv;
 
-JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeDetect(JNIEnv * jenv, jclass, jlong thiz, jlong imageGray, jlong faces)
-{
-    LOGD("Java_com_cleenr_cleenr_MainActivity_nativeDetect enter");
+JNIEXPORT void JNICALL Java_com_cleenr_cleenr_ObjectDetector_findContours(
+		JNIEnv *, jclass, jlong imageAdr, jlong contoursAdr) {
+	Mat * pImage = (Mat*) imageAdr;
+	Mat * pContours = (Mat*) contoursAdr;
 
-    SimpleBlobDetector::Params params;
-           params.minThreshold = 120;
-           params.maxThreshold = 255;
-           params.thresholdStep = 100;
-
-           params.minArea = 20;
-           params.minConvexity = 0.3;
-           params.minInertiaRatio = 0.01;
-
-           params.maxArea = 1000;
-           params.maxConvexity = 10;
-
-           params.filterByColor = false;
-           params.filterByCircularity = false;
-
-    SimpleBlobDetector d;
-
-    LOGD("Java_com_cleenr_cleenr_MainActivity_nativeDetect exit");
-}
-JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeOpening(JNIEnv * jenv, jclass, jint kSize, jlong imageAddress)
-{
-	Size kernelSize(kSize, kSize);
-
-
-	Mat * pImage = (Mat*) imageAddress;
-	Mat morphologyElement = getStructuringElement(MORPH_RECT, kernelSize);
-	morphologyEx(*pImage, *pImage, MORPH_OPEN, morphologyElement);
+	vector<Rect> allRects;
+	findAllRects(pImage, allRects);
 
 }
-JNIEXPORT void JNICALL Java_com_cleenr_cleenr_MainActivity_nativeRedFilter(JNIEnv *, jclass, jlong imageAddress)
-{
-}
 
+void findAllRects(cv::Mat * pImage, std::vector<cv::Rect> & allRects)
+{
+
+	bool wasOnWhitePixel = false;
+	int rectBeginningX = 0;
+	for(int r=0; r < pImage->rows; r++)
+	{
+		for(int c=0; c < pImage->cols; c++)
+		{
+			uchar value = pImage->at<uchar>(r,c);
+			if(value > 0)				// IS ON WHITE PIXEL
+			{
+				if(wasOnWhitePixel)		// WAS ALREADY ON WHITE PIXEL
+				{
+					continue;
+				}
+				else					// CAME FROM BLACK PIXEL
+				{
+					rectBeginningX = c;
+					wasOnWhitePixel = true;
+				}
+			}
+			else
+			{							// IS ON BLACK PIXEL
+				if(wasOnWhitePixel)// CAME FROM WHITE PIXEL
+				{
+					// this creates a rectangle which is too high by 1 pixel and goes down by 1 pixel too much
+					// this is due to creating a sufficently overlapping area
+					Rect r(c,r-1,rectBeginningX-c,3);
+					allRects.push_back(r);
+					wasOnWhitePixel = false;
+				}
+				else					// WAS ALREADY ON BLACK PIXEL
+				{
+					continue;
+				}
+			}
+		}
+	}
+}
