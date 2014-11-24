@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 
 public class FocusObjectFinder 
 {
@@ -22,6 +23,11 @@ public class FocusObjectFinder
 	{
 		ArrayList<Rect> allBoundingRects = mObjectDetector.detectObjects(rgbaFrame);
 		nDetectedObjects = allBoundingRects.size();
+		
+		for(Rect r : allBoundingRects)
+		{
+			CleenrUtils.drawRect(CLEENRBrain.outputFrame, r, new Scalar(255,0,0));
+		}
 		
 		if(previousFocus != null)
 		{

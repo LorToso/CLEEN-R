@@ -3,15 +3,10 @@ package com.cleenr.cleenr;
 import java.util.ArrayList;
 
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
-import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgproc.Imgproc;
-
-import android.util.Log;
 
 
 public class ObjectDetector {
@@ -76,22 +71,10 @@ public class ObjectDetector {
 		Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
 		
 		
-		CLEENRBrain.outputFrame = image; 
-		Mat rects = new Mat();
-		//findContours(image.nativeObj, rects.nativeObj);
-		
+		//CLEENRBrain.outputFrame = image; 
 
-//		Imgproc.Canny(image, CLEENRBrain.outputFrame, 50, 100);
-		
-		for(int i=0; i< rects.rows(); i++)
-		{
-			Rect r = new Rect(rects.get(i, 0));
-			Log.d("Keypoint", "Drawing Rect " + r);
-			CleenrUtils.drawRect(CLEENRBrain.outputFrame, r);
-		}
-		rects.release();
-		
-		//Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+		//findContours(image.nativeObj, rects.nativeObj);
+		Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);		
         
         return contours;
 	}

@@ -1,6 +1,5 @@
 package com.cleenr.cleenr;
 
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.core.Mat;
 
 import android.content.Context;
@@ -31,7 +30,9 @@ public class CLEENRBrain implements Runnable {
 		
 		FocusedObject focus = mFocusObjectFinder.findFocusTarget(outputFrame, mFocusedObject);
 		focusObject(focus);
-		CleenrUtils.drawRect(outputFrame, mFocusedObject);
+		if(mFocusedObject != null)
+			CleenrUtils.drawRect(outputFrame, mFocusedObject.getRect());
+		
 		bIsCameraInitialized = true;
 		System.gc();
 		return outputFrame;
@@ -63,7 +64,7 @@ public class CLEENRBrain implements Runnable {
 
 	@Override
 	public void run() {
-		//workLoop();
+		workLoop();
 	}
 
 	private void workLoop() {

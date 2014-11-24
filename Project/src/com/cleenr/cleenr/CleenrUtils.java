@@ -12,6 +12,9 @@ import org.opencv.core.Size;
 import android.util.Log;
 
 public class CleenrUtils {
+	
+	private static Scalar defaultDrawColor = new Scalar(255,255,0);
+	
 	/*
 	 * Increases a Rectangle by factor delta and checks whether it contains the Point point
 	 */
@@ -39,26 +42,28 @@ public class CleenrUtils {
 			Log.d("OBJECT FOUND", "OBJECT " + i +  " AT (" + middle.x + "|" + middle.y + ")");
 		}
 	}
-	public static void drawRect(Mat outputFrame, FocusedObject focusedObject)
-	{
-		if(focusedObject != null)
-			drawRect(outputFrame, focusedObject.getRect());
-	}
 	public static void drawRect(Mat outputFrame, Rect rect)
 	{
-		if(rect == null)
-			return;
-		
-		Point middle = new Point(rect.x + rect.width/2, rect.y + rect.height/2);
-		Core.rectangle(outputFrame, rect.tl(), rect.br(), new Scalar(255,255,0), 5);
-		Core.rectangle(outputFrame, new Point(middle.x-2, middle.y-2), new Point(middle.x+2, middle.y+2), new Scalar(255,255,0), 5);
+		drawRect(outputFrame, rect, defaultDrawColor);
 	}
+
+	public static void drawRect(Mat outputFrame, Rect rect, Scalar color)
+	{
+
+		Point middle = new Point(rect.x + rect.width/2, rect.y + rect.height/2);
+		Core.rectangle(outputFrame, rect.tl(), rect.br(), color, 5);
+		Core.rectangle(outputFrame, new Point(middle.x-2, middle.y-2), new Point(middle.x+2, middle.y+2), color, 5);
+	}
+	
 	public static void drawPoint(Mat outputFrame, Point point)
 	{
 		if(point == null)
 			return;
-		Core.rectangle(outputFrame, point, point, new Scalar(255,255,0), 1);
+		drawRect(outputFrame, new Rect(point, point));
 	}
+	
+	
+	
 	public static Rect getBiggestRect(ArrayList<Rect> rects)
 	{
 		if(rects.size() == 0)
