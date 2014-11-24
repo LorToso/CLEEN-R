@@ -33,6 +33,7 @@ public class CLEENRBrain implements Runnable {
 		focusObject(focus);
 		CleenrUtils.drawRect(outputFrame, mFocusedObject);
 		bIsCameraInitialized = true;
+		System.gc();
 		return outputFrame;
 	}
 

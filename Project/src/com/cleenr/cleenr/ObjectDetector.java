@@ -75,25 +75,22 @@ public class ObjectDetector {
 		Imgproc.blur(image, image, new Size(3,3));
 		Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
 		
-		MatOfKeyPoint keypoints = new MatOfKeyPoint();
 		
 		CLEENRBrain.outputFrame = image; 
+		Mat rects = new Mat();
+		//findContours(image.nativeObj, rects.nativeObj);
 		
-		FeatureDetector d = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
-		//d.detect(image, keypoints);
-		findContours(image.nativeObj, image.nativeObj);
-		for(int i=0; i< keypoints.rows(); i++)
+
+//		Imgproc.Canny(image, CLEENRBrain.outputFrame, 50, 100);
+		
+		for(int i=0; i< rects.rows(); i++)
 		{
-			double[] a = keypoints.get(i, 0);
-			Point p = new Point(a[0], a[1]);
-			Log.d("Keypoint", "Drawing point " + p);
-			CleenrUtils.drawPoint(CLEENRBrain.outputFrame, p);
+			Rect r = new Rect(rects.get(i, 0));
+			Log.d("Keypoint", "Drawing Rect " + r);
+			CleenrUtils.drawRect(CLEENRBrain.outputFrame, r);
 		}
-		//MatOfPoint m = new MatOfPoint(keypoints.colRange(0, 1));
+		rects.release();
 		
-		//Imgproc.boundingRect(m);
-		
-		//System.out.println(keypoints.dump());
 		//Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
         
         return contours;
