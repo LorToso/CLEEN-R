@@ -56,6 +56,31 @@ public class NXTTalker {
     public static final byte MOTOR_REG_MODE_SPEED = 0x01;
     public static final byte MOTOR_REG_MODE_SYNC = 0x02;
 
+    public static final byte SENSOR_TYPE_NONE = 0x00;
+    public static final byte SENSOR_TYPE_SWITCH = 0x01;
+    public static final byte SENSOR_TYPE_TEMPERATURE = 0x02;
+    public static final byte SENSOR_TYPE_REFLECTION = 0x03;
+    public static final byte SENSOR_TYPE_ANGLE = 0x04;
+    public static final byte SENSOR_TYPE_LIGHT_ACTIVE = 0x05;
+    public static final byte SENSOR_TYPE_LIGHT_INACTIVE = 0x06;
+    public static final byte SENSOR_TYPE_SOUND_DB = 0x07;
+    public static final byte SENSOR_TYPE_SOUND_DBA = 0x08;
+    public static final byte SENSOR_TYPE_CUSTOM = 0x09;
+    public static final byte SENSOR_TYPE_LOWSPEED = 0x0A;
+    public static final byte SENSOR_TYPE_LOWSPEED_9V = 0x0B;
+    public static final byte SENSOR_TYPE_UNKNOWN = 0x0C;
+
+    public static final byte SENSOR_MODE_RAW = 0x00;
+    public static final byte SENSOR_MODE_BOOLEAN = 0x20;
+    public static final byte SENSOR_MODE_TRANSITIONCNT = 0x40;
+    public static final byte SENSOR_MODE_PERIODCOUNTER = 0x60;
+    public static final byte SENSOR_MODE_PCTFULLSCALE = (byte) 0x80;
+    public static final byte SENSOR_MODE_CELSIUSMODE = (byte) 0xA0;
+    public static final byte SENSOR_MODE_FAHRENHEIT = (byte) 0xC0;
+    public static final byte SENSOR_MODE_ANGLESTEPS = (byte) 0xE0;
+    public static final byte SENSOR_MODE_SLOPEMASK = 0x1F;
+    public static final byte SENSOR_MODE_MODEMASK = (byte) 0xE0;
+
     private int mState;
     private Handler mHandler;
     private BluetoothAdapter mAdapter;
@@ -159,13 +184,13 @@ public class NXTTalker {
             throw new IllegalArgumentException("regulation");
 
         byte[] data = {
-                0x0c, 0x00,            // command length (LSB first)
+                0x0C, 0x00,            // command length (LSB first)
                 (byte) 0x80,           // command type
                 0x04,                  // command
                 port,                  // motor output port
                 power,                 // motor power set point
                 0x07,                  // motor mode
-                regulation,        // regulation mode
+                regulation,            // regulation mode
                 0x00,                  // turn ratio
                 0x20,                  // run state
                 0x00, 0x00, 0x00, 0x00 // tacho limit (LSB first)
@@ -175,6 +200,15 @@ public class NXTTalker {
                 " to speed " + Byte.toString(power) +
                 ", regulation: " + Byte.toString(regulation));
         write(data);
+    }
+
+    public void setSensorType(byte port, byte mode, byte type)
+    {
+        write(new byte[] {
+                0x00,
+                0x05,
+
+        });
     }
 
     private void write(byte[] out) {
