@@ -4,7 +4,7 @@ import org.opencv.core.Point;
 
 import android.util.Log;
 
-public class ControlUnit 
+public class TempControlUnit implements RobotControlUnit
 {
 
 	
@@ -69,12 +69,12 @@ public class ControlUnit
 		}
 	}
 
-	public void centerObject(FocusedObject focusObject) {
+	public void centerObject(FocusObject focusObject) {
 		Point focusCenter = focusObject.getCenter();
 
 		int imageWidth = (int) CleenrImage.getInstance().getFrameSize().width;
-		double minimumValidArea = (2-FocusedObject.sHorizonalCentrationTolerance) *  imageWidth/ 2;
-		double maximumValidArea = FocusedObject.sHorizonalCentrationTolerance * imageWidth / 2;
+		double minimumValidArea = (2-FocusObject.sHorizonalCentrationTolerance) *  imageWidth/ 2;
+		double maximumValidArea = FocusObject.sHorizonalCentrationTolerance * imageWidth / 2;
 		
 		// CAREFUL!!!! Point(0|0) is on the Bottom right, because FUCK YOU
 		if (focusCenter.x < minimumValidArea)

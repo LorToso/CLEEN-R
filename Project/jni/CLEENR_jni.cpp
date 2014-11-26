@@ -23,37 +23,41 @@ Java_com_cleenr_cleenr_ObjectDetector_findContours(JNIEnv *, jclass,
 	Mat * pImage = (Mat*) imageAdr;
 	Mat * pContours = (Mat*) contoursAdr;
 
+	// set up the parameters (check the defaults in opencv's code in blobdetector.cpp)
+	cv::SimpleBlobDetector::Params params;
+	params.minDistBetweenBlobs = 50.0f;
+	params.filterByInertia = false;
+	params.filterByConvexity = false;
+	params.filterByColor = false;
+	params.filterByCircularity = false;
+	params.filterByArea = true;
+	params.minArea = 1.0f;
+	params.maxArea = 50000.0f;
+	// ... any other params you don't want default value
 
-	//pContours->release();
+	// set up and create the detector using the parameters
+	cv::Ptr<cv::FeatureDetector> blob_detector = new cv::SimpleBlobDetector(params);
+	blob_detector->create("SimpleBlob");
 
+	// detect!
+	vector<cv::KeyPoint> keypoints;
+	blob_detector->detect(*pImage, keypoints);
 
-	vector<vector<Rect> > allRects;
-	vector<Rect> combinedRects;
+	// extract the x y coordinates of the keypoints:
 
-	findAllRects(pImage, allRects);
-	int s = 0;
-	for (int i = 0; i < allRects.size(); i++)
-	{
-		vector<Rect> & r = allRects[i];
-		s += r.size();
+	pContours->release();
+	pContours->zeros(Size(keypoints.size(), 2), DataType<float>::type);
+
+	for (int i=0; i<keypoints.size(); i++){
+		KeyPoint & kp = keypoints[i];
+	    float X=kp.pt.x;
+	    float Y=kp.pt.y;
+	    pContours->at<float>(i,0) = X;
+	    pContours->at<float>(i,1) = Y;
 	}
-	LOGD("Found %d Rects", s);
-	combineRects(allRects, combinedRects);
-	LOGD("Found %d combined Rects", combinedRects.size());
+	keypoints.clear();
+	//blob_detector.delete_obj();
 
-	allRects.clear();
-	combinedRects.clear();
-
-	//pContours->zeros(Size(combinedRects.size(), 4), DataType<int>::type);
-
-	/*for(int i=0; i<combinedRects.size(); i++)
-	 {
-	 Rect & r = combinedRects[i];
-	 pContours->at<int>(i,0) = r.x;
-	 pContours->at<int>(i,1) = r.y;
-	 pContours->at<int>(i,2) = r.width;
-	 pContours->at<int>(i,3) = r.height;
-	 }*/
 }
 
 void findAllRects(cv::Mat * pImage, vector<vector<Rect> > & allRects)

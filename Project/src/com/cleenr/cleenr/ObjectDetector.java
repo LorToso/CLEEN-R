@@ -12,7 +12,6 @@ import org.opencv.imgproc.Imgproc;
 public class ObjectDetector {
 		
 	private DetectionParameters mDetectionParameters;
-	private CleenrImage mCleenrImage;
 
 	private Mat mHierarchy = new Mat();
 	private Mat mStrongColors = new Mat();
@@ -21,25 +20,32 @@ public class ObjectDetector {
 	public ObjectDetector()
 	{
 		mDetectionParameters = new DetectionParameters(0,0);
-		mCleenrImage = CleenrImage.getInstance();
 	}
 
 
-	public ArrayList<Rect> detectObjects(Mat rgba)
+	public ArrayList<FocusObject> detectObjects()
 	{	
-		mCleenrImage.setImage(rgba);
-		if(mCleenrImage.didFrameSizeChange())
-			mDetectionParameters = new DetectionParameters(mCleenrImage.getFrameSize());
+		CleenrImage image = CleenrImage.getInstance();
+		if(image.didFrameSizeChange())
+			mDetectionParameters = new DetectionParameters(image.getFrameSize());
 		
-		mCleenrImage.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
-		mCleenrImage.detectDarkColors(mDarkColors, mDetectionParameters.nDarknessThreshold);
+		Mat strongButNotDarkPixels = prepareImageForDetection();
 		
-		Mat strongButNotDarkPixels = mStrongColors.mul(mDarkColors);
-		
-		ArrayList<MatOfPoint> contours = findContours(strongButNotDarkPixels);
-		ArrayList<Rect>	boundingRects = createBoundingRects(contours);
+		ArrayList<MatOfPoint> contours 	= findContours(strongButNotDarkPixels);
+		ArrayList<Rect>	boundingRects 	= createBoundingRects(contours);
 		contours.clear();
-		return boundingRects;
+		ArrayList<FocusObject>	detectedObjects = FocusObject.createFromRects(boundingRects);
+		boundingRects.clear();
+		return detectedObjects;
+	}
+
+
+	private Mat prepareImageForDetection() {
+		CleenrImage image = CleenrImage.getInstance();
+		image.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
+		image.detectDarkColors(mDarkColors, mDetectionParameters.nDarknessThreshold);
+		Mat strongButNotDarkPixels = mStrongColors.mul(mDarkColors);
+		return strongButNotDarkPixels;
 	}
 
 	/*

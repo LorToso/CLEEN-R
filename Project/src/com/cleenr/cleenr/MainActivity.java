@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements CvCameraViewListener{
                     Log.i(TAG, "Native library loaded successfully");
 
                     mOpenCvCameraView.enableView();
-                    mCleenrBrain = new CLEENRBrain(MainActivity.this);
+                    mCleenrBrain = new CLEENRBrain();
                 } break;
                 default:
                 {
