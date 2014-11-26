@@ -3,46 +3,31 @@ package cleenr.com.nxtcontrol;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import lejos.nxt.Motor;
-import lejos.nxt.NXTMotor;
-import lejos.nxt.remote.NXTCommand;
-import lejos.nxt.remote.RemoteMotor;
-import lejos.pc.comm.NXTCommandConnector;
-import lejos.pc.comm.NXTConnectionState;
-import lejos.pc.comm.NXTConnector;
+import org.jfedor.nxtremotecontrol.NXTTalker;
 
 /**
  * Created by hudini on 11.11.2014.
  */
 public class MotorSliderChangeListener implements SeekBar.OnSeekBarChangeListener {
 
-    private TextView valueTextView;
-    private NXTConnector nxtConn;
-    private RemoteMotor motor;
+    private TextView mValueTextView;
+    private NXTTalker mNXTTalker;
+    private byte mMotorPort;
 
-    public MotorSliderChangeListener(TextView valueTextView, NXTConnector nxtConn, RemoteMotor motor)
-    {
-        this.valueTextView = valueTextView;
-        this.nxtConn = nxtConn;
-        this.motor = motor;
+    public MotorSliderChangeListener(TextView valueTextView, NXTTalker talker, byte motorPort) {
+        mValueTextView = valueTextView;
+        mNXTTalker = talker;
+        mMotorPort = motorPort;
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        int motorPerc = i * 2 - 100; // -100% to 100%
-        valueTextView.setText(motorPerc + "%");
         if (!isNxtConnected())
             return;
 
-        if (motorPerc == 0)
-        {
-            motor.stop();
-            return;
-        }
-
-        motor.setPower(motorPerc);
-        motor.setSpeed((int)motor.getMaxSpeed());
-        motor.forward();
+        byte motorPerc = (byte) (i * 2 - 100); // -100% to 100%
+        mValueTextView.setText(motorPerc + "%");
+        mNXTTalker.setMotorSpeed(mMotorPort, mMotorPort, NXTTalker.MOTOR_REG_MODE_SYNC);
     }
 
     @Override
@@ -55,9 +40,7 @@ public class MotorSliderChangeListener implements SeekBar.OnSeekBarChangeListene
 
     }
 
-    private boolean isNxtConnected()
-    {
-        return (nxtConn.getNXTInfo().connectionState ==
-                NXTConnectionState.PACKET_STREAM_CONNECTED);
+    private boolean isNxtConnected() {
+        return mNXTTalker.getState() == NXTTalker.STATE_CONNECTED;
     }
 }
