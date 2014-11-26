@@ -34,16 +34,12 @@ public class FocusObjectDetector {
 		if(previousFocus == null)
 			return null;
 		
-		// Critera
-		// 1. Contains old center
-		// 3. Has a similar color
-		// 2. Size is not too different
 		for(FocusObject detectedObject : detectedObjects)
 		{
-			boolean areSimilar = false;
-			areSimilar |= previousFocus.haveSimilarPosition(detectedObject);
-			areSimilar |= previousFocus.haveSimilarColor(detectedObject);
-			areSimilar |= previousFocus.haveSimilarSize(previousFocus);
+			boolean areSimilar = true;
+			areSimilar &= previousFocus.haveSimilarPosition(detectedObject);
+			areSimilar &= previousFocus.haveSimilarColor(detectedObject);
+			areSimilar &= previousFocus.haveSimilarSize(previousFocus);
 			if(areSimilar)
 				return detectedObject;
 		}
