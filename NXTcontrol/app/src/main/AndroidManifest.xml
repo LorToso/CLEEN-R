@@ -10,6 +10,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <uses-sdk android:minSdkVersion="18" />
         <activity
             android:name="cleenr.com.nxtcontrol.MainActivity"
             android:label="@string/app_name" >

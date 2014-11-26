@@ -78,8 +78,8 @@ public class NXTTalker {
     public static final byte SENSOR_MODE_CELSIUSMODE = (byte) 0xA0;
     public static final byte SENSOR_MODE_FAHRENHEIT = (byte) 0xC0;
     public static final byte SENSOR_MODE_ANGLESTEPS = (byte) 0xE0;
-    public static final byte SENSOR_MODE_SLOPEMASK = 0x1F;
-    public static final byte SENSOR_MODE_MODEMASK = (byte) 0xE0;
+//    public static final byte SENSOR_MODE_SLOPEMASK = 0x1F;
+//    public static final byte SENSOR_MODE_MODEMASK = (byte) 0xE0;
 
     private int mState;
     private Handler mHandler;
@@ -196,19 +196,31 @@ public class NXTTalker {
                 0x00, 0x00, 0x00, 0x00 // tacho limit (LSB first)
         };
 
-        Log.v(TAG, "Setting motor " + Byte.toString(port) +
-                " to speed " + Byte.toString(power) +
-                ", regulation: " + Byte.toString(regulation));
+        Log.v(TAG, String.format("Setting motor %d to speed %d, regulation: %d",
+                port, power, regulation));
         write(data);
     }
 
-    public void setSensorType(byte port, byte mode, byte type)
+    public void setSensorType(byte port, byte type, byte mode)
     {
-        write(new byte[] {
+        if (port < 0 || port > 3)
+            throw new IllegalArgumentException("port");
+        if (type < 0x00 || type > 0x0C)
+            throw new IllegalArgumentException("type");
+        if ((mode & 0x1F) != 0)
+            throw new IllegalArgumentException("mode");
+
+        byte[] data = {
                 0x00,
                 0x05,
+                port,
+                type,
+                mode
+        };
 
-        });
+        Log.v(TAG, String.format("Setting sensor %d to type %#X, mode: %#X",
+                port, type, mode));
+        write(data);
     }
 
     private void write(byte[] out) {
