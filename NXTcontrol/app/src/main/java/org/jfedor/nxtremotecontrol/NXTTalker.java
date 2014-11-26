@@ -39,6 +39,7 @@ import android.os.Message;
 import android.util.Log;
 
 import cleenr.com.nxtcontrol.MainActivity;
+import cleenr.com.nxtcontrol.NxtSensorReturnPackage;
 
 public class NXTTalker {
     public static final String TAG = NXTTalker.class.getSimpleName();
@@ -84,9 +85,10 @@ public class NXTTalker {
     private int mState;
     private Handler mHandler;
     private BluetoothAdapter mAdapter;
-
+    private BluetoothSocket mBtSocket;
+    private InputStream mBtInputStream;
+    private OutputStream mBtOutputStream;
     private ConnectThread mConnectThread;
-    private ConnectedThread mConnectedThread;
 
     public NXTTalker(Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -119,10 +121,7 @@ public class NXTTalker {
             }
         }
 
-        if (mConnectedThread != null) {
-            mConnectedThread.cancel();
-            mConnectedThread = null;
-        }
+        closeBtSocket();
 
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
@@ -135,13 +134,17 @@ public class NXTTalker {
             mConnectThread = null;
         }
 
-        if (mConnectedThread != null) {
-            mConnectedThread.cancel();
-            mConnectedThread = null;
+        closeBtSocket();
+        mBtSocket = socket;
+        try {
+            mBtInputStream = socket.getInputStream();
+            mBtOutputStream = socket.getOutputStream();
         }
-
-        mConnectedThread = new ConnectedThread(socket);
-        mConnectedThread.start();
+        catch (IOException e) {
+            e.printStackTrace();
+            connectionFailed();
+            return;
+        }
 
         Log.i(TAG, "Connected to '" + device.getName() + "'");
 
@@ -154,11 +157,23 @@ public class NXTTalker {
             mConnectThread = null;
         }
 
-        if (mConnectedThread != null) {
-            mConnectedThread.cancel();
-            mConnectedThread = null;
-        }
+        closeBtSocket();
         setState(STATE_NONE);
+    }
+
+    private synchronized void closeBtSocket() {
+        if (mBtSocket == null)
+        return;
+
+        try {
+            mBtSocket.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        mBtSocket = null;
+        mBtInputStream = null;
+        mBtOutputStream = null;
     }
 
     private void connectionFailed() {
@@ -184,7 +199,6 @@ public class NXTTalker {
             throw new IllegalArgumentException("regulation");
 
         byte[] data = {
-                0x0C, 0x00,            // command length (LSB first)
                 (byte) 0x80,           // command type
                 0x04,                  // command
                 port,                  // motor output port
@@ -198,7 +212,7 @@ public class NXTTalker {
 
         Log.v(TAG, String.format("Setting motor %d to speed %d, regulation: %d",
                 port, power, regulation));
-        write(data);
+        sendPacket(data);
     }
 
     public void setSensorType(byte port, byte type, byte mode)
@@ -211,27 +225,64 @@ public class NXTTalker {
             throw new IllegalArgumentException("mode");
 
         byte[] data = {
-                0x00,
-                0x05,
-                port,
-                type,
-                mode
+                (byte) 0x80, // command type
+                0x05,        // command
+                port,        // sensor port
+                type,        // sensor type
+                mode         // sensor mode
         };
 
         Log.v(TAG, String.format("Setting sensor %d to type %#X, mode: %#X",
                 port, type, mode));
-        write(data);
+        sendPacket(data);
     }
 
-    private void write(byte[] out) {
-        ConnectedThread r;
-        synchronized (this) {
-            if (mState != STATE_CONNECTED) {
-                return;
-            }
-            r = mConnectedThread;
+    public NxtSensorReturnPackage readSensor(byte port)
+    {
+        if (port < 0 || port > 3)
+            throw new IllegalArgumentException("port");
+
+        byte[] data = {
+                (byte) 0x80, // command type
+                0x07,        // command
+                port         // sensor port
+        };
+
+        Log.v(TAG, String.format("Requesting sensor value on port %d",
+                port));
+
+        sendPacket(data);
+
+        byte buffer[] = new byte[16];
+        try {
+            mBtInputStream.read(buffer);
         }
-        r.write(out);
+        catch (IOException e) {
+            e.printStackTrace();
+            connectionLost();
+            return null;
+        }
+
+        if (buffer[0] != 0x02 || buffer[1] != 0x07)
+            return null;
+
+        return new NxtSensorReturnPackage(buffer);
+    }
+
+    private void sendPacket(byte[] out) {
+        if (mState != STATE_CONNECTED) {
+            return;
+        }
+        int len = out.length;
+        try {
+            mBtOutputStream.write(len & 0xFF);          // message length LSB
+            mBtOutputStream.write((len & 0xFF00) >> 8); // message length MSB
+            mBtOutputStream.write(out);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            connectionLost();
+        }
     }
 
     private class ConnectThread extends Thread {
@@ -281,60 +332,6 @@ public class NXTTalker {
                 if (mmSocket != null) {
                     mmSocket.close();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private class ConnectedThread extends Thread {
-        private final BluetoothSocket mmSocket;
-        private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
-
-        public ConnectedThread(BluetoothSocket socket) {
-            mmSocket = socket;
-            InputStream tmpIn = null;
-            OutputStream tmpOut = null;
-
-            try {
-                tmpIn = socket.getInputStream();
-                tmpOut = socket.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            mmInStream = tmpIn;
-            mmOutStream = tmpOut;
-        }
-
-        public void run() {
-            byte[] buffer = new byte[1024];
-            int bytes;
-
-            while (true) {
-                try {
-                    bytes = mmInStream.read(buffer);
-                    Log.v(TAG, "Read " + Integer.toString(bytes) + " bytes from device");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    connectionLost();
-                    break;
-                }
-            }
-        }
-
-        public void write(byte[] buffer) {
-            try {
-                mmOutStream.write(buffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void cancel() {
-            try {
-                mmSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
