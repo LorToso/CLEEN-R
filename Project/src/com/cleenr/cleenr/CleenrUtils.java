@@ -9,6 +9,8 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 
+import com.cleenr.cleenr.focusObject.FocusObject;
+
 public class CleenrUtils {
 
 	private static Scalar defaultDrawColor = new Scalar(255, 255, 0);

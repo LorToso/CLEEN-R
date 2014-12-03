@@ -1,4 +1,4 @@
-package com.cleenr.cleenr;
+package com.cleenr.cleenr.objectDetection;
 
 import org.opencv.core.Size;
 

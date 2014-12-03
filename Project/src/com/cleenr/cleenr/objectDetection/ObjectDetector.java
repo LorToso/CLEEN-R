@@ -1,4 +1,4 @@
-package com.cleenr.cleenr;
+package com.cleenr.cleenr.objectDetection;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,9 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+
+import com.cleenr.cleenr.CleenrImage;
+import com.cleenr.cleenr.focusObject.FocusObject;
 
 
 public class ObjectDetector {

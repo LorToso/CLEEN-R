@@ -1,10 +1,12 @@
-package com.cleenr.cleenr;
+package com.cleenr.cleenr.focusObject;
 
 import java.util.ArrayList;
 
-import org.opencv.core.Mat;
-import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+
+import com.cleenr.cleenr.CleenrImage;
+import com.cleenr.cleenr.CleenrUtils;
+import com.cleenr.cleenr.objectDetection.ObjectDetector;
 
 public class FocusObjectDetector {
 
@@ -60,12 +62,8 @@ public class FocusObjectDetector {
 		}
 		
 		if(maxIndex == -1)
-			return null;
+			return new NoFocus();
 		
 		return allFocusObjects.get(maxIndex);
-	}
-
-	public static void filterSimilarColor(ArrayList<Rect> candidates, Scalar focusedColor, Mat fullRGBAImage, double colorSimilarity) {
-		
 	}
 }

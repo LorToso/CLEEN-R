@@ -1,6 +1,9 @@
-package com.cleenr.cleenr;
+package com.cleenr.cleenr.robotcontrolunits;
 
 import org.opencv.core.Point;
+
+import com.cleenr.cleenr.CleenrImage;
+import com.cleenr.cleenr.focusObject.FocusObject;
 
 import android.util.Log;
 

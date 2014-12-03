@@ -2,21 +2,24 @@ package com.cleenr.cleenr;
 
 import org.opencv.core.Mat;
 
+import com.cleenr.cleenr.focusObject.FocusObject;
+import com.cleenr.cleenr.focusObject.FocusObjectDetector;
+import com.cleenr.cleenr.focusObject.NoFocus;
+
 import android.util.Log;
 
 public class CLEENRBrain {
-	private static boolean bIsCameraInitialized = false;
-
 	public CleenrImage mCleenrImage;
 
-	private FocusObject mFocusedObject = new FocusObject();
+	public boolean isCamerainitialized;
+	private FocusObject mFocusedObject = new NoFocus();
 	private FocusObjectDetector mFocusObjectFinder = new FocusObjectDetector();
-	private WorkLoop mWorkLoop;
+	private RobotWorker mWorkLoop;
 
 
 	public CLEENRBrain() {
 		mCleenrImage = CleenrImage.getInstance();
-		mWorkLoop = new WorkLoop(this);
+		mWorkLoop = new RobotWorker(this);
 		new Thread(mWorkLoop).start();
 	}
 
@@ -25,45 +28,28 @@ public class CLEENRBrain {
 		
 		findFocus();
 		drawFocus();
+		printFocus();
 
-		bIsCameraInitialized = true;
+		isCamerainitialized = true;
+		
 		System.gc();
 		return mCleenrImage.mOutputFrame;
 	}
 
+
 	private void findFocus() {
-		FocusObject newFocus = mFocusObjectFinder.findFocusTarget(mFocusedObject);
-		focusObject(newFocus);
+		focusObject(mFocusObjectFinder.findFocusTarget(mFocusedObject));
 	}
-
 	private void drawFocus() {
-		if (mFocusedObject != null)
-			CleenrUtils.drawFocusObject(mCleenrImage.mOutputFrame, mFocusedObject);
+		CleenrUtils.drawFocusObject(mCleenrImage.mOutputFrame, mFocusedObject);
 	}
-
+	private void printFocus(){
+		Log.d("FocusObject", mFocusedObject.toString());
+	}
+	
+	
 	private void focusObject(FocusObject focusedObject) {
-
-		if (mFocusedObject == null) {
-			if (focusedObject == null) {
-				Log.d("FocusObject", "No focus found.");
-				return;
-			}
-			mFocusedObject = focusedObject;
-			Log.d("FocusObject", "New Focus - Center: " + focusedObject.getCenter() + " Color: " + focusedObject.getMeanColor());
-			return;
-		}
-
-		if (focusedObject == null)
-			Log.d("FocusObject", "Focus lost.");
-		else
-			Log.d("FocusObject", "Object moved:\t" + mFocusedObject.getCenter() + "\t ->\t " + focusedObject.getCenter());
-
 		mFocusedObject = focusedObject;
-
-	}
-
-	public static boolean isCameraInitialized() {
-		return bIsCameraInitialized;
 	}
 
 	public FocusObject getFocusedObject() {

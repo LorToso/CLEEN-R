@@ -1,4 +1,6 @@
-package com.cleenr.cleenr;
+package com.cleenr.cleenr.robotcontrolunits;
+
+import com.cleenr.cleenr.focusObject.FocusObject;
 
 
 public interface RobotControlUnit {
