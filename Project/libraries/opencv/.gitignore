@@ -1,0 +1,13 @@
+AndroidManifest.xml
+bin
+build
+cls
+gen
+javadoc
+lint.xml
+opencv.iml
+project.properties
+res
+sdk.iml 
+src
+javadoc
