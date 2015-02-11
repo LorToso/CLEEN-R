@@ -82,16 +82,14 @@ public class NXTTalker {
 //    public static final byte SENSOR_MODE_MODEMASK = (byte) 0xE0;
 
     private int mState;
-    private Handler mHandler;
     private BluetoothAdapter mAdapter;
     private BluetoothSocket mBtSocket;
     private InputStream mBtInputStream;
     private OutputStream mBtOutputStream;
     private ConnectThread mConnectThread;
 
-    public NXTTalker(Handler handler) {
+    public NXTTalker() {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
-        mHandler = handler;
         setState(STATE_NONE);
     }
 
@@ -102,10 +100,6 @@ public class NXTTalker {
     private synchronized void setState(int state) {
         mState = state;
         //TODO: insert external state handler calls here
-    }
-
-    public synchronized void setHandler(Handler handler) {
-        mHandler = handler;
     }
 
     public synchronized void connect(BluetoothDevice device) {
