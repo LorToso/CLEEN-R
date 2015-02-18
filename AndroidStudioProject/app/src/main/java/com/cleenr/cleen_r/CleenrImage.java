@@ -13,8 +13,8 @@ public class CleenrImage {
 	public static final int CHANNEL_SATURATION = 1;
 	public static final int CHANNEL_VALUE = 2;
 
-	public Mat mInputFrame;
-	public Mat mOutputFrame;
+	public final Mat mInputFrame;
+	public final Mat mOutputFrame;
 
 	private Mat mHSV;
 	private ArrayList<Mat> mHSVChannels;
@@ -33,13 +33,15 @@ public class CleenrImage {
 
 	private CleenrImage() {
 		mHSVChannels = new ArrayList<Mat>();
+        mInputFrame = new Mat();
+        mOutputFrame = new Mat();
 	}
 
 	public void changeFrame(Mat inputFrame) {
 		applyFrameSize(inputFrame);
 
-		mInputFrame = inputFrame.clone();
-		mOutputFrame = inputFrame.clone();
+        inputFrame.copyTo(mInputFrame);
+        inputFrame.copyTo(mOutputFrame);
 
 		convertToHSVImage(mInputFrame, mHSV);
 		splitHSVChannels(mHSV, mHSVChannels);
