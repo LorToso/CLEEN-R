@@ -76,4 +76,9 @@ public class CleenrUtils {
 		return new Size(rgba.cols(), rgba.rows());
 	}
 
+    public static void applySize(Mat rgba, Size size)
+    {
+        size.width = rgba.cols();
+        size.height = rgba.rows();
+    }
 }

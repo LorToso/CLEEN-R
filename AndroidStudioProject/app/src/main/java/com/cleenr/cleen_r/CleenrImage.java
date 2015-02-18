@@ -16,10 +16,10 @@ public class CleenrImage {
 	public final Mat mInputFrame;
 	public final Mat mOutputFrame;
 
-	private Mat mHSV;
-	private ArrayList<Mat> mHSVChannels;
+	private final Mat mHSV;
+	private final ArrayList<Mat> mHSVChannels;
 
-	private Size mFrameSize = new Size(0, 0);
+	private final Size mFrameSize = new Size(0, 0);
 	private boolean mFrameSizeChanged = false; // shows if the frame size
 												// changed between the last two
 												// calls of setImage
@@ -35,6 +35,7 @@ public class CleenrImage {
 		mHSVChannels = new ArrayList<Mat>();
         mInputFrame = new Mat();
         mOutputFrame = new Mat();
+        mHSV = new Mat();
 	}
 
 	public void changeFrame(Mat inputFrame) {
@@ -48,9 +49,9 @@ public class CleenrImage {
 	}
 
 	private void applyFrameSize(Mat inputFrame) {
-		if (mInputFrame == null || (inputFrame.cols() != mInputFrame.cols() || inputFrame.rows() != mInputFrame.rows())) {
-			mFrameSize = CleenrUtils.generateSize(inputFrame);
-			mHSV = new Mat((int) mFrameSize.height, (int) mFrameSize.width, CvType.CV_8SC3);
+		if (inputFrame.cols() != mInputFrame.cols() || inputFrame.rows() != mInputFrame.rows()) {
+			CleenrUtils.applySize(inputFrame, mFrameSize);
+            mHSV.create((int) mFrameSize.height, (int) mFrameSize.width, CvType.CV_8SC3);
 			mFrameSizeChanged = true;
 			return;
 		}
