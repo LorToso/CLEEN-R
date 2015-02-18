@@ -24,7 +24,7 @@ public class CLEENRBrain {
 	}
 
 	public Mat onCameraFrame(Mat inputFrame) {
-		/*mCleenrImage.changeFrame(inputFrame);
+		mCleenrImage.changeFrame(inputFrame);
 		
 		findFocus();
 		drawFocus();
@@ -32,9 +32,9 @@ public class CLEENRBrain {
 
 		isCamerainitialized = true;
 		
-		System.gc();
-		return mCleenrImage.mOutputFrame;*/
-		return inputFrame;
+		//System.gc();
+		return mCleenrImage.mOutputFrame;
+		//return inputFrame;
 	}
 
 

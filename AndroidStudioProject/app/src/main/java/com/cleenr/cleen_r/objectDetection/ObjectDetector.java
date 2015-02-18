@@ -83,7 +83,7 @@ public class ObjectDetector {
 		//CLEENRBrain.outputFrame = image; 
 
 		//findContours(image.nativeObj, rects.nativeObj);
-		//Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);		
+		Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
         
         return contours;
 	}
