@@ -76,6 +76,8 @@ public class NxtTalker {
 //    public static final byte SENSOR_MODE_SLOPEMASK = 0x1F;
 //    public static final byte SENSOR_MODE_MODEMASK = (byte) 0xE0;
 
+    private final UUID NXT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
     private int mState;
     private BluetoothAdapter mAdapter;
     private BluetoothSocket mBtSocket;
@@ -278,7 +280,7 @@ public class NxtTalker {
             mAdapter.cancelDiscovery();
 
             try {
-                mmSocket = mmDevice.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                mmSocket = mmDevice.createRfcommSocketToServiceRecord(NXT_UUID);
                 mmSocket.connect();
             } catch (IOException e) {
                 e.printStackTrace();
