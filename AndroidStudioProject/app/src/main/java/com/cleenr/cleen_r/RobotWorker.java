@@ -15,7 +15,7 @@ public class RobotWorker implements Runnable {
     public RobotWorker(CleenrBrain brain) {
         mBrain = brain;
         mWorkPhase = new Idle(this);
-        mRobotControlUnit = new NxtControlUnit(new NxtTalker());
+        mRobotControlUnit = new NxtControlUnit(brain.mNxtTalker);
     }
 
     public void switchWorkphase(WorkPhase newWorkPhase) {
@@ -38,7 +38,7 @@ public class RobotWorker implements Runnable {
     }
 
     private void waitForFirstFrame() {
-        while (!mBrain.isCamerainitialized)
+        while (!mBrain.isCameraInitialized)
             Thread.yield();
     }
 }

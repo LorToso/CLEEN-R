@@ -5,20 +5,22 @@ import org.opencv.core.Mat;
 import com.cleenr.cleen_r.focusObject.FocusObject;
 import com.cleenr.cleen_r.focusObject.FocusObjectDetector;
 import com.cleenr.cleen_r.focusObject.NoFocus;
+import com.cleenr.cleen_r.nxt.NxtTalker;
 
 import android.util.Log;
 
 public class CleenrBrain {
     public CleenrImage mCleenrImage;
+    public boolean isCameraInitialized;
+    public final NxtTalker mNxtTalker;
 
-    public boolean isCamerainitialized;
     private FocusObject mFocusedObject = new NoFocus();
     private FocusObjectDetector mFocusObjectFinder = new FocusObjectDetector();
     private RobotWorker mWorkLoop;
 
-
-    public CleenrBrain() {
+    public CleenrBrain(NxtTalker nxtTalker) {
         mCleenrImage = CleenrImage.getInstance();
+        mNxtTalker = nxtTalker;
         mWorkLoop = new RobotWorker(this);
         new Thread(mWorkLoop).start();
     }
@@ -30,7 +32,7 @@ public class CleenrBrain {
         drawFocus();
         printFocus();
 
-        isCamerainitialized = true;
+        isCameraInitialized = true;
 
         //System.gc();
         return mCleenrImage.mOutputFrame;
