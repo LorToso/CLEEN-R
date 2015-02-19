@@ -15,9 +15,9 @@ public class DetectionParameters {
 
     public DetectionParameters(int frameWidth, int frameHeight) {
         int frameArea = frameWidth * frameHeight;
-        nMinimumObjectSize = (int) (0.001 * frameArea);
-        nMaximumObjectSize = frameArea / 2;
-        nSaturationThreshold = 128;
+        nMinimumObjectSize = (int) (0.005 * frameArea);
+        nMaximumObjectSize = frameArea/2 ;
+        nSaturationThreshold = 100;
         nDarknessThreshold = 25;
     }
 

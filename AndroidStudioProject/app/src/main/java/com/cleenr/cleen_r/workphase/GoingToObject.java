@@ -14,7 +14,8 @@ public class GoingToObject extends WorkPhase {
     @Override
     public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
         if (!focusObject.isValidFocus()) {
-            mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
+            controlUnit.repeatLastAction();
+            //mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
             return;
         }
 
