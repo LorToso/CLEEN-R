@@ -7,7 +7,7 @@ import com.cleenr.cleen_r.focusObject.FocusObject;
 
 import android.util.Log;
 
-public class TempControlUnit implements RobotControlUnit {
+public class NxtControlUnit implements RobotControlUnit {
 
 
     public boolean isClawClosed() {
