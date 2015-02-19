@@ -8,6 +8,11 @@
         android:title="Connect"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_disconnect"
+        android:orderInCategory="100"
+        android:title="Disconnect"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="200"
         android:title="@string/action_settings"

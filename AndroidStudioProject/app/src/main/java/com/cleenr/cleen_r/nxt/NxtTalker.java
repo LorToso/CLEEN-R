@@ -90,6 +90,10 @@ public class NxtTalker {
         setState(STATE_NONE);
     }
 
+    public void release() {
+        setMotorSpeed(MOTOR_PORT_ALL, (byte) 0, MOTOR_REG_MODE_NONE);
+    }
+
     public synchronized int getState() {
         return mState;
     }

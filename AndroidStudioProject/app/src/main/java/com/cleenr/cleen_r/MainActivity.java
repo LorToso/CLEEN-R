@@ -49,8 +49,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
                     mOpenCvCameraView.enableView();
 
-                    if(mCleenrBrain == null)
-                    {
+                    if (mCleenrBrain == null) {
                         mCleenrBrain = new CleenrBrain(mNXTTalker);
                         mCleenrBrain.onResume();
                     }
@@ -95,7 +94,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         super.onResume();
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_10, this, mLoaderCallback);
 
-        if(mCleenrBrain != null)
+        if (mCleenrBrain != null)
             mCleenrBrain.onResume();
     }
 
@@ -105,8 +104,11 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
 
-        if(mCleenrBrain != null)
+        if (mCleenrBrain != null)
             mCleenrBrain.onPause();
+
+        if (mNXTTalker != null)
+            mNXTTalker.release();
     }
 
     @Override
@@ -118,9 +120,12 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_connect) {
-            findBrick();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_connect:
+                findBrick();
+                return true;
+            case R.id.action_disconnect:
+                mNXTTalker.release();
         }
         return super.onOptionsItemSelected(item);
     }
