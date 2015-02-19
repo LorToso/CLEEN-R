@@ -10,42 +10,59 @@ import com.cleenr.cleen_r.nxt.NxtTalker;
 import android.util.Log;
 
 public class CleenrBrain {
-    public CleenrImage mCleenrImage;
-    public boolean isCameraInitialized;
+    public boolean isCamerainitialized;
     public final NxtTalker mNxtTalker;
 
     private FocusObject mFocusedObject = new NoFocus();
     private FocusObjectDetector mFocusObjectFinder = new FocusObjectDetector();
+    private Thread mRobotWorkerThread;
     private RobotWorker mWorkLoop;
 
     public CleenrBrain(NxtTalker nxtTalker) {
-        mCleenrImage = CleenrImage.getInstance();
         mNxtTalker = nxtTalker;
         mWorkLoop = new RobotWorker(this);
-        new Thread(mWorkLoop).start();
+        mRobotWorkerThread = new Thread(mWorkLoop);
     }
 
     public Mat onCameraFrame(Mat inputFrame) {
-        mCleenrImage.changeFrame(inputFrame);
+        CleenrImage.getInstance().changeFrame(inputFrame);
 
         findFocus();
         drawFocus();
         printFocus();
 
-        isCameraInitialized = true;
+        isCamerainitialized = true;
 
         //System.gc();
-        return mCleenrImage.mOutputFrame;
+        return CleenrImage.getInstance().mOutputFrame;
         //return inputFrame;
     }
 
+    public void onResume()
+    {
+        Log.d("onResume", "Resuming workerthread");
+        mRobotWorkerThread = new Thread(mWorkLoop);
+        mRobotWorkerThread.start();
+    }
+    public void onPause()
+    {
+        Log.d("onPause", "Stopping workerthread");
+        mWorkLoop.stopOnNextTurn();
+
+        try {
+            mRobotWorkerThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.interrupted();
+        }
+    }
 
     private void findFocus() {
         focusObject(mFocusObjectFinder.findFocusTarget(mFocusedObject));
     }
 
     private void drawFocus() {
-        CleenrUtils.drawFocusObject(mCleenrImage.mOutputFrame, mFocusedObject);
+        CleenrUtils.drawFocusObject(CleenrImage.getInstance().mOutputFrame, mFocusedObject);
     }
 
     private void printFocus() {

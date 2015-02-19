@@ -47,7 +47,12 @@ public class MainActivity extends Activity implements CvCameraViewListener {
                     //Log.i(TAG, "Native library loaded successfully");
 
                     mOpenCvCameraView.enableView();
-                    mCleenrBrain = new CleenrBrain(mNXTTalker);
+
+                    if(mCleenrBrain == null)
+                    {
+                        mCleenrBrain = new CleenrBrain(mNXTTalker);
+                        mCleenrBrain.onResume();
+                    }
                 }
                 break;
                 default: {
@@ -64,7 +69,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
 
@@ -82,6 +87,9 @@ public class MainActivity extends Activity implements CvCameraViewListener {
     public void onResume() {
         super.onResume();
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_10, this, mLoaderCallback);
+
+        if(mCleenrBrain != null)
+            mCleenrBrain.onResume();
     }
 
     @Override
@@ -89,6 +97,9 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         super.onPause();
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
+
+        if(mCleenrBrain != null)
+            mCleenrBrain.onPause();
     }
 
     @Override
@@ -151,10 +162,6 @@ public class MainActivity extends Activity implements CvCameraViewListener {
     public void onCameraViewStopped() {
     }
 
-    /*@Override
-    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-        return mCleenrBrain.onCameraFrame(inputFrame);
-    }*/
     @Override
     public Mat onCameraFrame(Mat inputFrame) {
         return mCleenrBrain.onCameraFrame(inputFrame);

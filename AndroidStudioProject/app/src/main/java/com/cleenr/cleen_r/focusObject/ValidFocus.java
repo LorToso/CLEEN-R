@@ -79,7 +79,7 @@ public class ValidFocus extends FocusObject {
         double frameHeight = CleenrImage.getInstance().getFrameSize().height;
 
         double distance = (1 - (mArea.br().y / frameHeight)) * dTop + (mArea.br().y / frameHeight) * (dBot);
-        Log.d("Distance", "" + distance);
+        //Log.d("Distance", "" + distance);
 
         // Not totally correct yet.
 

@@ -35,11 +35,6 @@ public class CleenrUtils {
             drawFocusObject(outputFrame, focus, color);
     }
 
-    public static void drawFocusObjects(Mat outputFrame, ArrayList<FocusObject> objects) {
-        for (FocusObject focus : objects)
-            drawFocusObject(outputFrame, focus);
-    }
-
     public static void drawFocusObject(Mat outputFrame, FocusObject object, Scalar color) {
         drawRect(outputFrame, object.getRect(), color);
         drawPoint(outputFrame, object.getCenter(), color);
@@ -48,15 +43,6 @@ public class CleenrUtils {
     public static void drawFocusObject(Mat outputFrame, FocusObject object) {
         drawRect(outputFrame, object.getRect());
         drawPoint(outputFrame, object.getCenter());
-    }
-
-    public static void drawRects(Mat outputFrame, ArrayList<Rect> rects) {
-        drawRects(outputFrame, rects, defaultDrawColor);
-    }
-
-    public static void drawRects(Mat outputFrame, ArrayList<Rect> rects, Scalar scalar) {
-        for (Rect r : rects)
-            drawRect(outputFrame, r, scalar);
     }
 
     public static void drawRect(Mat outputFrame, Rect rect) {
@@ -73,10 +59,6 @@ public class CleenrUtils {
 
     public static void drawPoint(Mat outputFrame, Point point, Scalar color) {
         drawRect(outputFrame, new Rect(point, point), color);
-    }
-
-    public static Size generateSize(Mat rgba) {
-        return new Size(rgba.cols(), rgba.rows());
     }
 
     public static void applySize(Mat rgba, Size size) {
