@@ -32,7 +32,7 @@ public class CleenrImage {
 	}
 
 	private CleenrImage() {
-		mHSVChannels = new ArrayList<Mat>();
+		mHSVChannels = new ArrayList<>();
         mInputFrame = new Mat();
         mOutputFrame = new Mat();
         mHSV = new Mat();
@@ -67,7 +67,7 @@ public class CleenrImage {
 			m.release();
 		}
 		outChannels.clear();
-		Core.split(mHSV, mHSVChannels);
+		Core.split(hsv, outChannels);
 
 	}
 

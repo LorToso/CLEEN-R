@@ -38,8 +38,8 @@ public class FocusObjectDetector {
 		
 		for(FocusObject detectedObject : detectedObjects)
 		{
-			boolean areSimilar = true;
-			areSimilar &= previousFocus.haveSimilarPosition(detectedObject);
+			boolean areSimilar;
+			areSimilar = previousFocus.haveSimilarPosition(detectedObject);
 			areSimilar &= previousFocus.haveSimilarColor(detectedObject);
 			areSimilar &= previousFocus.haveSimilarSize(previousFocus);
 			if(areSimilar)

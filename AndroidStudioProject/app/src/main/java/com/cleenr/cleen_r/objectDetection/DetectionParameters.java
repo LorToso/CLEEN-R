@@ -19,7 +19,7 @@ public class DetectionParameters {
 		nMinimumObjectSize = (int) (0.001*frameArea);
 		nMaximumObjectSize = frameArea/2;
 		nSaturationThreshold = 128;
-		nDarknessThreshold = 50;
+		nDarknessThreshold = 25;
 	}
 	
 	public void lower()

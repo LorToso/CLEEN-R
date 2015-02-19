@@ -15,18 +15,22 @@ public abstract class FocusObject {
 	public static final double sHorizonalCentrationTolerance = 1.05;
 	public static final double sVerticalCentrationTolerance = 1.05;
 
-	public final static double sColorSimilarity = 1.2;
+    public final static double sColorSimilarityHue = 1.2;
+    public final static double sColorSimilaritySaturation = 1.2;
+    public final static double sColorSimilarityValue = 1.4;
+
 	public final static double sAreaSimilarity = 1.1;
-	public final static double sPositionSimilarity = 1.1;
+	public final static double sPositionSimilarity = 1.15;
 	
 	public static FocusObject createFromRect(Rect area) {
-		Mat submat = CleenrImage.getInstance().mInputFrame.submat(area);
-		Mat rgba = submat.clone();
+		Mat subMatrix = CleenrImage.getInstance().mInputFrame.submat(area);
+        Mat rgba = new Mat();
+        subMatrix.copyTo(rgba);
 
 		return new ValidFocus(rgba, area);
 	}
 	public static ArrayList<FocusObject> createFromRects(ArrayList<Rect> boundingRects) {
-		ArrayList<FocusObject> focusObjects = new ArrayList<FocusObject>();
+		ArrayList<FocusObject> focusObjects = new ArrayList<>();
 		for (Rect rect : boundingRects)
 			focusObjects.add(FocusObject.createFromRect(rect));
 		return focusObjects;
@@ -66,27 +70,27 @@ public abstract class FocusObject {
 	}
 
 	public boolean haveSimilarColor(FocusObject otherObject) {
-		double[] coreColor = getMeanColor().val;
-		double minR = coreColor[0] * (2 - sColorSimilarity);
-		double maxR = coreColor[0] * sColorSimilarity;
-		double minG = coreColor[1] * (2 - sColorSimilarity);
-		double maxG = coreColor[1] * sColorSimilarity;
-		double minB = coreColor[2] * (2 - sColorSimilarity);
-		double maxB = coreColor[2] * sColorSimilarity;
+		double[] coreColor = getMeanColorHSV().val;
+		double minH = coreColor[0] * (2 - sColorSimilarityHue);
+		double maxH = coreColor[0] * sColorSimilarityHue;
+		double minS = coreColor[1] * (2 - sColorSimilaritySaturation);
+		double maxS = coreColor[1] * sColorSimilaritySaturation;
+		double minV = coreColor[2] * (2 - sColorSimilarityValue);
+		double maxV = coreColor[2] * sColorSimilarityValue;
 
-		double[] otherColors = otherObject.getMeanColor().val;
-		// TODO: THIS SHOULD BE HSV, NOT RGB
+		double[] otherColors = otherObject.getMeanColorHSV().val;
 
-		return 	(otherColors[0] > minR && otherColors[0] < maxR) 
-				&& (otherColors[1] > minG && otherColors[1] < maxG) 
-				&& (otherColors[2] > minB && otherColors[2] < maxB);
+		return 	(otherColors[0] > minH && otherColors[0] < maxH)
+				&& (otherColors[1] > minS && otherColors[1] < maxS)
+				&& (otherColors[2] > minV && otherColors[2] < maxV);
 
 	}
 	
 	
 	public abstract Rect getRect();
 	public abstract Point getCenter();
-	public abstract Scalar getMeanColor();
+    public abstract Scalar getMeanColorRGBA();
+    public abstract Scalar getMeanColorHSV();
 	public abstract boolean isInRange();
 	public abstract String toString();
 	public abstract boolean isValidFocus();

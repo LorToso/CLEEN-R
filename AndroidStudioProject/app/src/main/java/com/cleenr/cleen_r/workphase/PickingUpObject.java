@@ -14,7 +14,7 @@ public class PickingUpObject extends WorkPhase {
 	public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
 		controlUnit.closeClaw();
 
-		if (controlUnit.hasObjectInClaw()) {
+		if (!controlUnit.hasObjectInClaw()) {
 			controlUnit.openClaw();
 			mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
 			return;

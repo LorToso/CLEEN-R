@@ -17,9 +17,12 @@ public class NoFocus extends FocusObject {
 	}
 
 	@Override
-	public Scalar getMeanColor() {
-		return new Scalar(0,0,0);
-	}
+    public Scalar getMeanColorRGBA() {
+        return new Scalar(0,0,0,0);
+    }
+    public Scalar getMeanColorHSV() {
+        return new Scalar(0,0,0);
+    }
 
 	@Override
 	public boolean isInRange() {

@@ -47,15 +47,19 @@ public class ObjectDetector {
 		CleenrImage image = CleenrImage.getInstance();
 		image.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
 		image.detectDarkColors(mDarkColors, mDetectionParameters.nDarknessThreshold);
-		Mat strongButNotDarkPixels = mStrongColors.mul(mDarkColors);
-		return strongButNotDarkPixels;
+        Mat resultImage = mStrongColors.mul(mDarkColors);
+
+        //resultImage.copyTo(CleenrImage.getInstance().mOutputFrame);
+
+        return resultImage;
+        //return  mStrongColors;
 	}
 
 	/*
 	 * Creates bounding Rects to every countour List 
 	 */
 	private ArrayList<Rect> createBoundingRects(ArrayList<MatOfPoint> contours) {
-		ArrayList<Rect> allBoundingRects = new ArrayList<Rect>();
+		ArrayList<Rect> allBoundingRects = new ArrayList<>();
 		
 		for(MatOfPoint contour : contours)
 		{
@@ -75,7 +79,7 @@ public class ObjectDetector {
 	 * Finds contours of all objects in the image
 	 */
 	public ArrayList<MatOfPoint> findContours(Mat image) {
-		ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+		ArrayList<MatOfPoint> contours = new ArrayList<>();
 		Imgproc.blur(image, image, new Size(3,3));
 		Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
 		
@@ -87,7 +91,7 @@ public class ObjectDetector {
         
         return contours;
 	}
-	
+	/*
 	public void setDetectionParameters(DetectionParameters detectionParameters)
 	{
 		mDetectionParameters = detectionParameters;
@@ -95,7 +99,7 @@ public class ObjectDetector {
 	
 	/*
 	 * Lowers the detection criteria by 10%
-	 */
+	 * /
 	public void lowerDetectionCriteria()
 	{
 		mDetectionParameters.lower();
@@ -103,11 +107,10 @@ public class ObjectDetector {
 
 	/*
 	 * Increases the detection criteria by 10%
-	 */
+	 * /
 	public void increaseDetectionCriteria()
 	{
 		mDetectionParameters.increase();
-	}
-	private native void findContours(long pImage, long pContures);
-	
+	}*/
+
 }
