@@ -13,8 +13,8 @@ public class NxtControlUnit implements RobotControlUnit {
     private final NxtTalker mNxtTalker;
 
     private final byte CLAW_MOTOR = NxtTalker.MOTOR_PORT_A;
-    private final byte LEFT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_B;
-    private final byte RIGHT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_C;
+    private final byte LEFT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_C;
+    private final byte RIGHT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_B;
 
     private final byte MOTOR_SPEED = 100; // -100 to 100
 
