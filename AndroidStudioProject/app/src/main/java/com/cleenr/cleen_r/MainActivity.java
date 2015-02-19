@@ -1,5 +1,6 @@
 package com.cleenr.cleen_r;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -23,27 +24,24 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 
 
-public class MainActivity extends Activity implements CvCameraViewListener
-{
+public class MainActivity extends Activity implements CvCameraViewListener {
     private static final String TAG = "MainActivity";
 
+    private static final int REQUEST_ENABLE_BT = 1;
+    private static final int REQUEST_FIND_BRICK = 2;
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    private CLEENRBrain      mCleenrBrain;
+    private CLEENRBrain mCleenrBrain;
     private BluetoothAdapter mBluetoothAdapter;
-    private       String    mDeviceAddress = null;
-    private final NXTTalker mNXTTalker     = new NXTTalker();
+    private String mDeviceAddress = null;
+    private final NXTTalker mNXTTalker = new NXTTalker();
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this)
-    {
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
-        public void onManagerConnected(int status)
-        {
-            switch (status)
-            {
-                case LoaderCallbackInterface.SUCCESS:
-                {
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS: {
                     Log.i(TAG, "OpenCV loaded successfully");
                     // Load native library after(!) OpenCV initialization
                     //System.loadLibrary("CLEEN_R");
@@ -53,8 +51,7 @@ public class MainActivity extends Activity implements CvCameraViewListener
                     mCleenrBrain = new CLEENRBrain();
                 }
                 break;
-                default:
-                {
+                default: {
                     super.onManagerConnected(status);
                 }
                 break;
@@ -63,14 +60,12 @@ public class MainActivity extends Activity implements CvCameraViewListener
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 
         setContentView(R.layout.activity_main);
 
@@ -78,56 +73,54 @@ public class MainActivity extends Activity implements CvCameraViewListener
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
 
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_10, this, mLoaderCallback);
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main_activity, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if (item.getItemId() == R.id.action_settings)
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
             findBrick();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void findBrick()
-    {
-        if (!checkForBluetooth())
+    private void findBrick() {
+        if (!isBluetoothAvailable())
             return;
 
-        Intent intent = new Intent(this, ChooseDeviceActivity.class);
-        startActivityForResult(intent, 0);
+        if (enableBluetooth())
+            startBrickFindingActivity();
     }
 
-    private boolean checkForBluetooth()
-    {
+    private void startBrickFindingActivity() {
+        mOpenCvCameraView.disableView();
+        Intent intent = new Intent(this, ChooseDeviceActivity.class);
+        startActivityForResult(intent, REQUEST_FIND_BRICK);
+    }
+
+    private boolean isBluetoothAvailable() {
         if (mBluetoothAdapter != null)
             return true;
 
@@ -140,14 +133,21 @@ public class MainActivity extends Activity implements CvCameraViewListener
         return false;
     }
 
-    @Override
-    public void onCameraViewStarted(int width, int height)
-    {
+    private boolean enableBluetooth() {
+        if (mBluetoothAdapter.isEnabled())
+            return true;
+
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        return false;
     }
 
     @Override
-    public void onCameraViewStopped()
-    {
+    public void onCameraViewStarted(int width, int height) {
+    }
+
+    @Override
+    public void onCameraViewStopped() {
     }
 
     /*@Override
@@ -155,21 +155,35 @@ public class MainActivity extends Activity implements CvCameraViewListener
         return mCleenrBrain.onCameraFrame(inputFrame);
     }*/
     @Override
-    public Mat onCameraFrame(Mat inputFrame)
-    {
+    public Mat onCameraFrame(Mat inputFrame) {
         return mCleenrBrain.onCameraFrame(inputFrame);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (resultCode == Activity.RESULT_OK)
-        {
-            String address = data.getExtras().getString(ChooseDeviceActivity.EXTRA_DEVICE_ADDRESS);
-            BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-            //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
-            mDeviceAddress = address;
-            mNXTTalker.connect(device);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_ENABLE_BT:
+                if (resultCode != Activity.RESULT_OK) {
+                    Toast.makeText(this, "Bluetooth could not be enabled", Toast.LENGTH_LONG).show();
+                    break;
+                }
+                startBrickFindingActivity();
+                break;
+            case REQUEST_FIND_BRICK:
+                if (resultCode != Activity.RESULT_OK) {
+                    mOpenCvCameraView.enableView();
+                    break;
+                }
+                String address = data.getExtras().getString(ChooseDeviceActivity.EXTRA_DEVICE_ADDRESS);
+                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+                //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
+                mDeviceAddress = address;
+                mNXTTalker.connect(device);
+                mOpenCvCameraView.enableView();
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
         }
     }
 }
