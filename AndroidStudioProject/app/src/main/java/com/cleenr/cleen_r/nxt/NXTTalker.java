@@ -33,15 +33,10 @@ import java.util.UUID;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
-import com.cleenr.cleen_r.nxt.NxtSensorReturnPackage;
-
-public class NXTTalker {
-    public static final String TAG = NXTTalker.class.getSimpleName();
+public class NxtTalker {
+    public static final String TAG = NxtTalker.class.getSimpleName();
 
     public static final int STATE_NONE = 0;
     public static final int STATE_CONNECTING = 1;
@@ -88,7 +83,7 @@ public class NXTTalker {
     private OutputStream mBtOutputStream;
     private ConnectThread mConnectThread;
 
-    public NXTTalker() {
+    public NxtTalker() {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         setState(STATE_NONE);
     }
@@ -305,7 +300,7 @@ public class NXTTalker {
                 }
             }
 
-            synchronized (NXTTalker.this) {
+            synchronized (NxtTalker.this) {
                 mConnectThread = null;
             }
 

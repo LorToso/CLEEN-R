@@ -1,6 +1,5 @@
 package com.cleenr.cleen_r;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -14,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.cleenr.cleen_r.nxt.ChooseDeviceActivity;
-import com.cleenr.cleen_r.nxt.NXTTalker;
+import com.cleenr.cleen_r.nxt.NxtTalker;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -35,7 +34,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
     private CLEENRBrain mCleenrBrain;
     private BluetoothAdapter mBluetoothAdapter;
     private String mDeviceAddress = null;
-    private final NXTTalker mNXTTalker = new NXTTalker();
+    private final NxtTalker mNXTTalker = new NxtTalker();
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
