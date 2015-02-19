@@ -87,12 +87,16 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
     public void onStart() {
         super.onStart();
+        findBrick();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_10, this, mLoaderCallback);
+
+        if (mOpenCvCameraView != null)
+            mOpenCvCameraView.enableView();
 
         if (mCleenrBrain != null)
             mCleenrBrain.onResume();
@@ -108,7 +112,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
             mCleenrBrain.onPause();
 
         if (mNXTTalker != null)
-            mNXTTalker.release();
+            mNXTTalker.stop();
     }
 
     @Override
@@ -125,7 +129,8 @@ public class MainActivity extends Activity implements CvCameraViewListener {
                 findBrick();
                 return true;
             case R.id.action_disconnect:
-                mNXTTalker.release();
+                mNXTTalker.stop();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

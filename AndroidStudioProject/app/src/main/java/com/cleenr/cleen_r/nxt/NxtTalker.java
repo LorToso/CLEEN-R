@@ -148,6 +148,8 @@ public class NxtTalker {
             mConnectThread = null;
         }
 
+        release();
+
         closeBtSocket();
         setState(STATE_NONE);
     }

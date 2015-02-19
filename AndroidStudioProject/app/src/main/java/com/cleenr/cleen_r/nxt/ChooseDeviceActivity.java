@@ -49,7 +49,8 @@ import com.cleenr.cleen_r.R;
 
 public class ChooseDeviceActivity extends Activity {
 
-    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+    public static final boolean AUTO_CONNECT = true;
+    public static final String EXTRA_DEVICE_ADDRESS = "device_address";
 
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
@@ -96,6 +97,12 @@ public class ChooseDeviceActivity extends Activity {
             for (BluetoothDevice device : pairedDevices) {
                 if ((device.getBluetoothClass() != null) && (device.getBluetoothClass().getDeviceClass() == BluetoothClass.Device.TOY_ROBOT)) {
                     mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+
+                    if (AUTO_CONNECT)
+                    {
+                        returnFoundDevice(device.getAddress());
+                    }
+
                     empty = false;
                 }
             }
@@ -138,18 +145,20 @@ public class ChooseDeviceActivity extends Activity {
 
     private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
-            mBtAdapter.cancelDiscovery();
-
             String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
-
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
-
-            setResult(Activity.RESULT_OK, intent);
-            finish();
+            returnFoundDevice(info.substring(info.length() - 17));
         }
     };
+
+    private void returnFoundDevice(String address) {
+        mBtAdapter.cancelDiscovery();
+
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
