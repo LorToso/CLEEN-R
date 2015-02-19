@@ -6,37 +6,37 @@ import org.opencv.core.Scalar;
 
 public class NoFocus extends FocusObject {
 
-	@Override
-	public Rect getRect() {
-		return new Rect();
-	}
+    @Override
+    public Rect getRect() {
+        return new Rect();
+    }
 
-	@Override
-	public Point getCenter() {
-		return new Point();
-	}
+    @Override
+    public Point getCenter() {
+        return new Point();
+    }
 
-	@Override
+    @Override
     public Scalar getMeanColorRGBA() {
-        return new Scalar(0,0,0,0);
+        return new Scalar(0, 0, 0, 0);
     }
+
     public Scalar getMeanColorHSV() {
-        return new Scalar(0,0,0);
+        return new Scalar(0, 0, 0);
     }
 
-	@Override
-	public boolean isInRange() {
-		return false;
-	}
-	
-	public String toString()
-	{
-		return "No Focus found.";
-	}
+    @Override
+    public boolean isInRange() {
+        return false;
+    }
 
-	@Override
-	public boolean isValidFocus() {
-		return false;
-	}
-	
+    public String toString() {
+        return "No Focus found.";
+    }
+
+    @Override
+    public boolean isValidFocus() {
+        return false;
+    }
+
 }

@@ -6,15 +6,15 @@ import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
 
 public class DroppingOffObject extends WorkPhase {
 
-	public DroppingOffObject(RobotWorker worker) {
-		super(worker);
-	}
+    public DroppingOffObject(RobotWorker worker) {
+        super(worker);
+    }
 
-	@Override
-	public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
-		controlUnit.openClaw();
-		mRobotWorker.switchWorkphase(new Idle(mRobotWorker));
-	}
+    @Override
+    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
+        controlUnit.openClaw();
+        mRobotWorker.switchWorkphase(new Idle(mRobotWorker));
+    }
 
 
 }

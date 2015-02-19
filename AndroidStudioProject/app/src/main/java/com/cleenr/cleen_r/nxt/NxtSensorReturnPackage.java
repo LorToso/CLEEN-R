@@ -19,8 +19,7 @@ public class NxtSensorReturnPackage {
             byte status, byte port, boolean valid,
             boolean calibrated, byte sensorType,
             byte sensorMode, short rawValue, short normalizedValue,
-            short scaledValue, short calibratedValue)
-    {
+            short scaledValue, short calibratedValue) {
         mStatus = status;
         mPort = port;
         mValid = valid;
@@ -33,7 +32,7 @@ public class NxtSensorReturnPackage {
         mCalibratedValue = calibratedValue;
     }
 
-    public NxtSensorReturnPackage(byte[] packet){
+    public NxtSensorReturnPackage(byte[] packet) {
         this(
                 packet[2], packet[3],
                 packet[4] != 0, packet[5] != 0,

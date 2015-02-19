@@ -6,14 +6,14 @@ import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
 
 public class SearchingDestination extends WorkPhase {
 
-	public SearchingDestination(RobotWorker worker) {
-		super(worker);
-	}
+    public SearchingDestination(RobotWorker worker) {
+        super(worker);
+    }
 
-	@Override
-	public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
-		// TODO 		
-	}
+    @Override
+    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
+        // TODO
+    }
 
 
 }

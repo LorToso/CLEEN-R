@@ -7,29 +7,29 @@ import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
 
 public class GoingToObject extends WorkPhase {
 
-	public GoingToObject(RobotWorker worker) {
-		super(worker);
-	}
+    public GoingToObject(RobotWorker worker) {
+        super(worker);
+    }
 
-	@Override
-	public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
-		if (!focusObject.isValidFocus()) {
-			mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
-			return;
-		}
+    @Override
+    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
+        if (!focusObject.isValidFocus()) {
+            mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
+            return;
+        }
 
-		if (focusObject.isInRange()) {
-			mRobotWorker.switchWorkphase(new PickingUpObject(mRobotWorker));
-			return;
-		}
+        if (focusObject.isInRange()) {
+            mRobotWorker.switchWorkphase(new PickingUpObject(mRobotWorker));
+            return;
+        }
 
-		if (!focusObject.isHorizontallyCentered()) {
-			controlUnit.centerObject(focusObject);
-			return;
-		}
+        if (!focusObject.isHorizontallyCentered()) {
+            controlUnit.centerObject(focusObject);
+            return;
+        }
 
-		controlUnit.driveForward();
-	}
+        controlUnit.driveForward();
+    }
 
 
 }

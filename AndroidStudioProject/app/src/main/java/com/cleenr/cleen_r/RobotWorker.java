@@ -6,39 +6,36 @@ import com.cleenr.cleen_r.workphase.Idle;
 import com.cleenr.cleen_r.workphase.SearchingObject;
 import com.cleenr.cleen_r.workphase.WorkPhase;
 
-public class RobotWorker implements Runnable{
-	private WorkPhase mWorkPhase 				= new Idle(this);
-	private RobotControlUnit mRobotControlUnit 	= new TempControlUnit();
-	private CLEENRBrain mBrain;
-	
-	public RobotWorker(CLEENRBrain brain)
-	{
-		mBrain = brain;
-	}
-	
-	public void switchWorkphase(WorkPhase newWorkPhase)
-	{
-		mWorkPhase = newWorkPhase;
-	}
-	
-	@Override
-	public void run() {
-		workLoop();
-	}
+public class RobotWorker implements Runnable {
+    private WorkPhase mWorkPhase = new Idle(this);
+    private RobotControlUnit mRobotControlUnit = new TempControlUnit();
+    private CLEENRBrain mBrain;
 
-	private void workLoop() 
-	{
-		waitForFirstFrame();
+    public RobotWorker(CLEENRBrain brain) {
+        mBrain = brain;
+    }
 
-		switchWorkphase(new SearchingObject(this));
+    public void switchWorkphase(WorkPhase newWorkPhase) {
+        mWorkPhase = newWorkPhase;
+    }
 
-		while (true) {
-			mWorkPhase.executeWork(mBrain.getFocusedObject(), mRobotControlUnit);
-		}
-	}
+    @Override
+    public void run() {
+        workLoop();
+    }
 
-	private void waitForFirstFrame() {
-		while(!mBrain.isCamerainitialized)
-			Thread.yield();
-	}
+    private void workLoop() {
+        waitForFirstFrame();
+
+        switchWorkphase(new SearchingObject(this));
+
+        while (true) {
+            mWorkPhase.executeWork(mBrain.getFocusedObject(), mRobotControlUnit);
+        }
+    }
+
+    private void waitForFirstFrame() {
+        while (!mBrain.isCamerainitialized)
+            Thread.yield();
+    }
 }

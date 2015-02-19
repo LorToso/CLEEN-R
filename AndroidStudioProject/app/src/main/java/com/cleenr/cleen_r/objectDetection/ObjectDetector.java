@@ -13,85 +13,82 @@ import com.cleenr.cleen_r.focusObject.FocusObject;
 
 
 public class ObjectDetector {
-		
-	private DetectionParameters mDetectionParameters;
 
-	private Mat mHierarchy = new Mat();
-	private Mat mStrongColors = new Mat();
-	private Mat mDarkColors = new Mat();
-	
-	public ObjectDetector()
-	{
-		mDetectionParameters = new DetectionParameters(0,0);
-	}
+    private DetectionParameters mDetectionParameters;
 
+    private Mat mHierarchy = new Mat();
+    private Mat mStrongColors = new Mat();
+    private Mat mDarkColors = new Mat();
 
-	public ArrayList<FocusObject> detectObjects()
-	{	
-		CleenrImage image = CleenrImage.getInstance();
-		if(image.didFrameSizeChange())
-			mDetectionParameters = new DetectionParameters(image.getFrameSize());
-		
-		Mat strongButNotDarkPixels = prepareImageForDetection();
-		
-		ArrayList<MatOfPoint> contours 	= findContours(strongButNotDarkPixels);
-		ArrayList<Rect>	boundingRects 	= createBoundingRects(contours);
-		contours.clear();
-		ArrayList<FocusObject>	detectedObjects = FocusObject.createFromRects(boundingRects);
-		boundingRects.clear();
-		return detectedObjects;
-	}
+    public ObjectDetector() {
+        mDetectionParameters = new DetectionParameters(0, 0);
+    }
 
 
-	private Mat prepareImageForDetection() {
-		CleenrImage image = CleenrImage.getInstance();
-		image.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
-		image.detectDarkColors(mDarkColors, mDetectionParameters.nDarknessThreshold);
+    public ArrayList<FocusObject> detectObjects() {
+        CleenrImage image = CleenrImage.getInstance();
+        if (image.didFrameSizeChange())
+            mDetectionParameters = new DetectionParameters(image.getFrameSize());
+
+        Mat strongButNotDarkPixels = prepareImageForDetection();
+
+        ArrayList<MatOfPoint> contours = findContours(strongButNotDarkPixels);
+        ArrayList<Rect> boundingRects = createBoundingRects(contours);
+        contours.clear();
+        ArrayList<FocusObject> detectedObjects = FocusObject.createFromRects(boundingRects);
+        boundingRects.clear();
+        return detectedObjects;
+    }
+
+
+    private Mat prepareImageForDetection() {
+        CleenrImage image = CleenrImage.getInstance();
+        image.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
+        image.detectDarkColors(mDarkColors, mDetectionParameters.nDarknessThreshold);
         Mat resultImage = mStrongColors.mul(mDarkColors);
 
         //resultImage.copyTo(CleenrImage.getInstance().mOutputFrame);
 
         return resultImage;
         //return  mStrongColors;
-	}
+    }
 
-	/*
-	 * Creates bounding Rects to every countour List 
-	 */
-	private ArrayList<Rect> createBoundingRects(ArrayList<MatOfPoint> contours) {
-		ArrayList<Rect> allBoundingRects = new ArrayList<>();
-		
-		for(MatOfPoint contour : contours)
-		{
-			Rect r = Imgproc.boundingRect(contour);
-			if(r.area() < mDetectionParameters.nMinimumObjectSize)
-				continue;
-			if(r.area() > mDetectionParameters.nMaximumObjectSize)
-				continue;
-			
-			allBoundingRects.add(r);
-			contour.release();
-		}
-		return allBoundingRects;
-	}
+    /*
+     * Creates bounding Rects to every countour List
+     */
+    private ArrayList<Rect> createBoundingRects(ArrayList<MatOfPoint> contours) {
+        ArrayList<Rect> allBoundingRects = new ArrayList<>();
 
-	/*
-	 * Finds contours of all objects in the image
-	 */
-	public ArrayList<MatOfPoint> findContours(Mat image) {
-		ArrayList<MatOfPoint> contours = new ArrayList<>();
-		Imgproc.blur(image, image, new Size(3,3));
-		Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
-		
-		
-		//CLEENRBrain.outputFrame = image; 
+        for (MatOfPoint contour : contours) {
+            Rect r = Imgproc.boundingRect(contour);
+            if (r.area() < mDetectionParameters.nMinimumObjectSize)
+                continue;
+            if (r.area() > mDetectionParameters.nMaximumObjectSize)
+                continue;
 
-		//findContours(image.nativeObj, rects.nativeObj);
-		Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
-        
+            allBoundingRects.add(r);
+            contour.release();
+        }
+        return allBoundingRects;
+    }
+
+    /*
+     * Finds contours of all objects in the image
+     */
+    public ArrayList<MatOfPoint> findContours(Mat image) {
+        ArrayList<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.blur(image, image, new Size(3, 3));
+        Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
+
+
+        //CLEENRBrain.outputFrame = image;
+
+        //findContours(image.nativeObj, rects.nativeObj);
+        Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+
         return contours;
-	}
-	/*
+    }
+    /*
 	public void setDetectionParameters(DetectionParameters detectionParameters)
 	{
 		mDetectionParameters = detectionParameters;

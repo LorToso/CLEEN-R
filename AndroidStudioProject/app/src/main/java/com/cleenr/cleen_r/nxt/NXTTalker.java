@@ -130,8 +130,7 @@ public class NXTTalker {
         try {
             mBtInputStream = socket.getInputStream();
             mBtOutputStream = socket.getOutputStream();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             connectionFailed();
             return;
@@ -154,12 +153,11 @@ public class NXTTalker {
 
     private synchronized void closeBtSocket() {
         if (mBtSocket == null)
-        return;
+            return;
 
         try {
             mBtSocket.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         mBtSocket = null;
@@ -206,8 +204,7 @@ public class NXTTalker {
         sendPacket(data);
     }
 
-    public void setSensorType(byte port, byte type, byte mode)
-    {
+    public void setSensorType(byte port, byte type, byte mode) {
         if (port < 0 || port > 3)
             throw new IllegalArgumentException("port");
         if (type < 0x00 || type > 0x0C)
@@ -228,8 +225,7 @@ public class NXTTalker {
         sendPacket(data);
     }
 
-    public NxtSensorReturnPackage readSensor(byte port)
-    {
+    public NxtSensorReturnPackage readSensor(byte port) {
         if (port < 0 || port > 3)
             throw new IllegalArgumentException("port");
 
@@ -247,8 +243,7 @@ public class NXTTalker {
         byte buffer[] = new byte[16];
         try {
             mBtInputStream.read(buffer);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             connectionLost();
             return null;
@@ -269,8 +264,7 @@ public class NXTTalker {
             mBtOutputStream.write(len & 0xFF);          // message length LSB
             mBtOutputStream.write((len & 0xFF00) >> 8); // message length MSB
             mBtOutputStream.write(out);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             connectionLost();
         }
