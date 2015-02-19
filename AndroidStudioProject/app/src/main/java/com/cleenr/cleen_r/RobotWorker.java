@@ -9,9 +9,9 @@ import com.cleenr.cleen_r.workphase.WorkPhase;
 public class RobotWorker implements Runnable {
     private WorkPhase mWorkPhase = new Idle(this);
     private RobotControlUnit mRobotControlUnit = new TempControlUnit();
-    private CLEENRBrain mBrain;
+    private CleenrBrain mBrain;
 
-    public RobotWorker(CLEENRBrain brain) {
+    public RobotWorker(CleenrBrain brain) {
         mBrain = brain;
     }
 

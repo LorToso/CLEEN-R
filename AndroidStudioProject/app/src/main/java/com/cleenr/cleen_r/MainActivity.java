@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    private CLEENRBrain mCleenrBrain;
+    private CleenrBrain mCleenrBrain;
     private BluetoothAdapter mBluetoothAdapter;
     private String mDeviceAddress = null;
     private final NxtTalker mNXTTalker = new NxtTalker();
@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
                     //Log.i(TAG, "Native library loaded successfully");
 
                     mOpenCvCameraView.enableView();
-                    mCleenrBrain = new CLEENRBrain();
+                    mCleenrBrain = new CleenrBrain();
                 }
                 break;
                 default: {

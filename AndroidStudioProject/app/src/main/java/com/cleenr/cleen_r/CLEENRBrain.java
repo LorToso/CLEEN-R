@@ -8,7 +8,7 @@ import com.cleenr.cleen_r.focusObject.NoFocus;
 
 import android.util.Log;
 
-public class CLEENRBrain {
+public class CleenrBrain {
     public CleenrImage mCleenrImage;
 
     public boolean isCamerainitialized;
@@ -17,7 +17,7 @@ public class CLEENRBrain {
     private RobotWorker mWorkLoop;
 
 
-    public CLEENRBrain() {
+    public CleenrBrain() {
         mCleenrImage = CleenrImage.getInstance();
         mWorkLoop = new RobotWorker(this);
         new Thread(mWorkLoop).start();
