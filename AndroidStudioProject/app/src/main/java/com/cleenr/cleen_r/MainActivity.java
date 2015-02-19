@@ -98,7 +98,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_connect) {
             findBrick();
             return true;
         }
