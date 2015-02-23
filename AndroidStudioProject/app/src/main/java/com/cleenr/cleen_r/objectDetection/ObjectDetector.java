@@ -34,9 +34,10 @@ public class ObjectDetector {
 
         ArrayList<MatOfPoint> contours = findContours(strongButNotDarkPixels);
         ArrayList<Rect> boundingRects = createBoundingRects(contours);
-        contours.clear();
         ArrayList<FocusObject> detectedObjects = FocusObject.createFromRects(boundingRects);
-        boundingRects.clear();
+
+        //CleenrImage.getInstance().getHSVChannel(CleenrImage.CHANNEL_HUE).copyTo(CleenrImage.getInstance().mOutputFrame);
+
         return detectedObjects;
     }
 
@@ -81,9 +82,6 @@ public class ObjectDetector {
         Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
 
 
-        //CLEENRBrain.outputFrame = image;
-
-        //findContours(image.nativeObj, rects.nativeObj);
         Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
 
         return contours;
