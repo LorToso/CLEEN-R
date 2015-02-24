@@ -51,7 +51,7 @@ public class ValidFocus extends FocusObject {
     }
 
     public boolean isInRange() {
-        int maximumDistance = 5; // TODO
+        int maximumDistance = 6; // TODO
         return getDistanceInCentimeter() < maximumDistance;
     }
 
@@ -62,24 +62,18 @@ public class ValidFocus extends FocusObject {
         double streuung = Math.toRadians(20);
 
         int cameraWidth = 3; //cm
-        int modelHeight = 5; //cm
+        int modelHeight = 10; //cm
 
         double cameraX = cameraWidth * Math.sin(alpha);
         double cameraY = cameraWidth * Math.cos(alpha) + modelHeight;
 
-        //double tMid = cameraY/Math.sin(alpha);
-        //double dMid = cameraX + tMid*Math.cos(alpha);
-
-        double tTop = cameraY / Math.sin(alpha - streuung);
-        double dTop = cameraX + tTop * Math.cos(alpha - streuung);
-
-        double tBot = cameraY / Math.sin(alpha + streuung);
-        double dBot = cameraX + tBot * Math.cos(alpha + streuung);
-
         double frameHeight = CleenrImage.getInstance().getFrameSize().height;
+        double objectPositionRatio = mArea.br().y / frameHeight;
 
-        double distance = (1 - (mArea.br().y / frameHeight)) * dTop + (mArea.br().y / frameHeight) * (dBot);
-        //Log.d("Distance", "" + distance);
+        double distance = Math.tan(alpha+(2*streuung*objectPositionRatio-streuung))*cameraY + cameraX;
+
+
+        Log.d("Distance", "" + distance);
 
         // Not totally correct yet.
 
