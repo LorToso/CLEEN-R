@@ -39,7 +39,7 @@ public class NxtControlUnit implements RobotControlUnit {
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED);
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
             Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -51,9 +51,9 @@ public class NxtControlUnit implements RobotControlUnit {
     public void closeClaw() {
         try {
             Log.d("ControlUnit", "Closing claw");
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED);
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED, NxtTalker.MOTOR_REG_MODE_NONE);
             Thread.sleep(250);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class NxtControlUnit implements RobotControlUnit {
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED);
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED);
             Thread.sleep(SLEEP_TIME_DRIVING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -84,9 +84,9 @@ public class NxtControlUnit implements RobotControlUnit {
         // TODO
         try {
             Log.d("ControlUnit", "Opening claw");
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED));
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED), NxtTalker.MOTOR_REG_MODE_NONE);
             Thread.sleep(250);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -99,7 +99,7 @@ public class NxtControlUnit implements RobotControlUnit {
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED);
             Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -154,7 +154,7 @@ public class NxtControlUnit implements RobotControlUnit {
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED_SLOW);
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW));
             Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
             Thread.sleep(200);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
@@ -170,7 +170,7 @@ public class NxtControlUnit implements RobotControlUnit {
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW));
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED_SLOW);
             Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
             Thread.sleep(200);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
