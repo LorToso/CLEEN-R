@@ -1,8 +1,16 @@
 \chapter{Softwareumsetzung}
+\label{cha:Software}
+
+Mit Hilfe des in Kapitel \ref{sec:Kamera} beschriebenen Kameramoduls müssen verschiedene Aufgaben aus dem Bereich der Bildverarbeitung bewältigt werden. 
 
 \section{Wahl der Bildverarbeitungsbibliothek}
+
+Die Umsetzung der zu bewältigenden Aufgaben kann durch die Wahl einer geeigneten Bildverarbeitungsbibliothek deutlich vereinfacht werden. Wichtige Kriterien für die Wahl der Bibliothek sind unter anderem Funktionsumfang, Dokumentation und aktivität der Community.
+
 \subsection{LibCCV}
-Kein guter Android Port vorhanden
+
+LibCCV ist eine open-source Bildverarbeitungsbilbiothek, die viele bekannte Algorithmen implementiert. LibCCV steht unter einer BSD-Clause-3-Lizenz und kann somit für eine Studienarbeit problemlos unbegrenzt verwendet werden. Die Bibliothek ist größtenteils in C++ verfasst und somit potenziell auf einem Android-Smartphone verwendet werden. Die Verwendung auf dem Smartphone wird jedoch nicht offiziell unterstützt und kann potenziell weitere Schwierigkeiten mit sich bringen.
+
 \subsection{Imagemagick}
 Kleines Project, Outdated
 \subsection{OpenCV}
@@ -40,6 +48,7 @@ Arbeitszustände
 \item{Objekt suchen}
 \item{Objekt ansteuern}
 \item{Objekt aufnehmen}
+\item{Objekt kategorisieren}
 \item{Zielbereich suchen}
 \item{Zielbereich ansteuern}
 \item{Objekt ablegen}
