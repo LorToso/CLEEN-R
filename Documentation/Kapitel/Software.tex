@@ -9,23 +9,21 @@ Die Umsetzung der zu bewältigenden Aufgaben kann durch die Wahl einer geeignete
 
 \subsection{LibCCV}
 
-LibCCV ist eine open-source Bildverarbeitungsbilbiothek, die viele bekannte Algorithmen implementiert. LibCCV steht unter einer BSD-Clause-3-Lizenz und kann somit für eine Studienarbeit problemlos unbegrenzt verwendet werden. Die Bibliothek ist größtenteils in C++ verfasst und somit potenziell auf einem Android-Smartphone verwendet werden. Die Verwendung auf dem Smartphone wird jedoch nicht offiziell unterstützt und kann potenziell weitere Schwierigkeiten mit sich bringen.
+LibCCV \cite{libccv} ist eine open-source Bildverarbeitungsbilbiothek, die viele bekannte Algorithmen implementiert. LibCCV steht unter einer BSD-Clause-3-Lizenz und kann somit für eine Studienarbeit problemlos unbegrenzt verwendet werden. Die Bibliothek ist größtenteils in C++ verfasst und somit potenziell auf einem Android-Smartphone verwendet werden. Die Verwendung auf dem Smartphone wird jedoch nicht offiziell unterstützt und kann potenziell weitere Schwierigkeiten mit sich bringen.
 
 \subsection{Imagemagick}
-Kleines Project, Outdated
+
+Bei Imagemagick \cite{imagemagick} handelt es sich um eine Bildverarbeitungsbibliothek, welche sehr viele Algorithmen bereits implementiert hat. Algorithmen zur Objekterkennung müssten jedoch vollständig selbst implementiert werden, was zu einem großen zusätzlichen Aufwand führen kann. Imagemagick wird unter der Apache 2.0 Lizenz vertrieben.
+
 \subsection{OpenCV}
-Guter Android Port\\
-Sehr große Library\\
-Sehr bekannt\\
-Gute Dokumentation\\
+\label{subsec:opencv}
 
+OpenCV \cite{bradski2008learning} stellt eine der größten Open-Source-Bibliotheken für Bildverarbeitung da. Die Bibliothek hat einen starken Focus auf Echtzeitverarbeitung und wird daher auch in vielen Projekten im Bereich der Robotik verwendet. OpenCV hat eine große aktive Community, wodurch eventuelle Fragen und Probleme schnell beantwortet werden können. Zusätzlich bietet OpenCV eine offizielle Verison für Android und eignet sich somit ideal für diese Studienarbeit.
 
-\section{Raumerkennung}
-\subsection{Kameragestützt}
-\subsection{Ultraschallsensor}
-\subsection{Kombination unterschiedlicher Sensordaten}
 
 \section{Algorithmen zur Objekterkennung}
+
+
 \subsection{Farbbasierte Objekterkennung}
 Konvertierung in HSV-Format\\
 Filtern nach Saturation\\
@@ -37,6 +35,13 @@ Suzuki, S. and Abe, K., Topological Structural Analysis of Digitized Binary Imag
 \subsection{Fokussierung eines Objekts}
 
 \section{Mono-Kamerabasierte Entfernungsschätzung}
+
+
+\section{Raumerkennung}
+\subsection{Kameragestützt}
+\subsection{Ultraschallsensor}
+\subsection{Kombination unterschiedlicher Sensordaten}
+
 
 \section{Zielzonenerkennung}
 
