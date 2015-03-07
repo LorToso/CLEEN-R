@@ -21,7 +21,7 @@ Bei Imagemagick \cite{imagemagick} handelt es sich um eine Bildverarbeitungsbibl
 OpenCV \cite{opencv_library, bradski2008learning} stellt eine der größten Open-Source-Bibliotheken für Bildverarbeitung da. Die Bibliothek hat einen starken Focus auf Echtzeitverarbeitung und wird daher auch in vielen Projekten im Bereich der Robotik verwendet. OpenCV hat eine große aktive Community, wodurch eventuelle Fragen und Probleme schnell beantwortet werden können. Zusätzlich bietet OpenCV eine offizielle Verison für Android und eignet sich somit ideal für diese Studienarbeit.
 
 
-\section{Algorithmen zur Objekterkennung}
+\section{Algorithmus zur Objekterkennung}
 
 Aufgabe des Roboters, ist es Gegenstände in einem Raum mit Hilfe von Kamerabildern zu erkennen. Folglich spielt die Objekterkennung eine große Rolle.
 
@@ -29,21 +29,27 @@ Aufgabe des Roboters, ist es Gegenstände in einem Raum mit Hilfe von Kamerabild
 Einen einfachen Ansatz der Objekterkennung unter Verwendung von Methoden der in \ref{subsec:opencv} beschriebenen Bibliothek OpenCV stellt eine farbbasierte Objekterkennung dar. Hierfür wird das Kamerabild zunächst vom RGB-Format [ZITAT EINFÜGEN] in das HSV-Format [ZITAT] konvertiert. Dies wird durchgeführt, da das HSV-Format unempfindlicher gegen Veränderungen in der Beleuchtung ist als das RGB-Format. Abbildung \ref{fig:ColorModels} zeigt die Aufteilung eines Bildes in die verschiedenen Kanäle.
 
 \begin{figure}[h]
-\label{fig:ColorModels}
 \centering
 \includegraphics[width=\textwidth]{Bilder/Software/ColormodelsAll}
 \caption{Beispiel einer Aufspaltung in RGB-Kanäle (links) und HSV-Kanäle (rechts)}
+\label{fig:ColorModels}
 \end{figure}
 
-Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der Saturation-Kanal des Bildes um farbige Objekte zu erkennen, da dieser hohe Werte annimmt wenn die Farbintensität hoch ist.
+Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der Saturation-Kanal des Bildes um farbige Objekte zu erkennen, da dieser hohe Werte annimmt wenn die Farbintensität hoch ist. Zuletzt erfolgt eine Binarisierung mit einem empirisch ermittelten Schwellwert von 50. Dies ist notwendig, da die, in der OpenCV-Bibliothek implementierte, Methode von Suzuki und Abe \cite{suzuki1985topological} zur Segmentierung von Objekten ein Binärbild erwartet. Aus dem in Abbildung \ref{fig:ColorModels} dargestellten Beispiel entsteht nach der Binarisierung schließlich Abbildung \ref{fig:BinarizedColorModels}. Der Algorithmus zur Segmentierung erkennt daraus drei Objekte und zeichnet ihren Konturen, wie in Abbildung \ref{fig:SegmentedColorModels} ersichtlich, ein.
 
-Filtern nach Saturation\\
-Filtern nach Intensity\\
-FindContoures() - von OpenCV benutzt:
-Suzuki, S. and Abe, K., Topological Structural Analysis of Digitized Binary Images by Border Following. CVGIP 30 1, pp 32-46 (1985)
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/2]{Bilder/Software/ColormodelsBinarized}
+\caption{Beispiel der Binarisierung des Sättigungskanals}
+\label{fig:BinarizedColorModels}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/2]{Bilder/Software/ColormodelsSegmentated}
+\caption{Beispiel einer Segmentierung des binarisierten Sättigungskanals}
+\label{fig:SegmentedColorModels}
+\end{figure}
 
-\subsection{Kantenerkennung}
-\subsection{Fokussierung eines Objekts}
 
 \section{Entfernungsschätzung}
 \subsection{Stereo-Kamerabasiert}
