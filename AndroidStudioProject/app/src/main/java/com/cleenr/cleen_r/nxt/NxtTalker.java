@@ -176,6 +176,7 @@ public class NxtTalker {
     private void connectionLost() {
         setState(STATE_NONE);
         Log.e(TAG, "Connection lost");
+        System.exit(1);
     }
 
     public void setMotorSpeed(byte port, byte power) {

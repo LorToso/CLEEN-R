@@ -96,8 +96,6 @@ public abstract class FocusObject {
 
     public abstract Scalar getMeanColorHSV();
 
-    public abstract boolean isInRange();
-
     public abstract String toString();
 
     public abstract boolean isValidFocus();

@@ -25,11 +25,6 @@ public class NoFocus extends FocusObject {
         return new Scalar(0, 0, 0);
     }
 
-    @Override
-    public boolean isInRange() {
-        return false;
-    }
-
     public String toString() {
         return "No Focus found.";
     }

@@ -1,9 +1,5 @@
 package com.cleenr.cleen_r.focusObject;
 
-import android.util.Log;
-
-import com.cleenr.cleen_r.CleenrImage;
-
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -48,36 +44,6 @@ public class ValidFocus extends FocusObject {
 
     public Scalar getMeanColorHSV() {
         return mCoreColorHSV;
-    }
-
-    public boolean isInRange() {
-        int maximumDistance = 6; // TODO
-        return getDistanceInCentimeter() < maximumDistance;
-    }
-
-    private double getDistanceInCentimeter() {
-
-
-        double alpha = Math.toRadians(30);
-        double streuung = Math.toRadians(20);
-
-        int cameraWidth = 3; //cm
-        int modelHeight = 10; //cm
-
-        double cameraX = cameraWidth * Math.sin(alpha);
-        double cameraY = cameraWidth * Math.cos(alpha) + modelHeight;
-
-        double frameHeight = CleenrImage.getInstance().getFrameSize().height;
-        double objectPositionRatio = mArea.br().y / frameHeight;
-
-        double distance = Math.tan(alpha+(2*streuung*objectPositionRatio-streuung))*cameraY + cameraX;
-
-
-        Log.d("Distance", "" + distance);
-
-        // Not totally correct yet.
-
-        return distance;
     }
 
     public String toString() {

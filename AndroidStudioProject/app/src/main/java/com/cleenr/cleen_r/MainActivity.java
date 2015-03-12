@@ -34,7 +34,6 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
     private CleenrBrain mCleenrBrain;
     private BluetoothAdapter mBluetoothAdapter;
-    private String mDeviceAddress = null;
     private NxtTalker mNXTTalker = null;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -202,7 +201,6 @@ public class MainActivity extends Activity implements CvCameraViewListener {
                 String address = data.getExtras().getString(ChooseDeviceActivity.EXTRA_DEVICE_ADDRESS);
                 BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
                 //Toast.makeText(this, address, Toast.LENGTH_LONG).show();
-                mDeviceAddress = address;
                 mNXTTalker.connect(device);
                 mOpenCvCameraView.enableView();
                 break;
