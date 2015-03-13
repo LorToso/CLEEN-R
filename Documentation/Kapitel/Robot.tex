@@ -8,6 +8,7 @@ Nach kurzer Recherche\cite{building_instructions} und Durchsicht von Bauanleitun
 Sie wurde lediglich um den Schall- und den Abstandssensor erleichtert; eine Halterung für das Smartphone wurde hinzugefügt.
 
 \todo{hier Bild des Roboters einfügen}
+
 \pagebreak
 
 \subsection{Sensoren}
@@ -17,19 +18,30 @@ Sie wurde lediglich um den Schall- und den Abstandssensor erleichtert; eine Halt
 Der berührungsempfindliche Sensor vorne dient zum Detektieren von Gegenständen im Bereich des Greifarms, woraufhin dieser geschlossen werden kann.
 \item[Rotationssensoren]\hfill \\
 Die Rotationssensoren in den Servomotoren erlauben es dem NXT-Roboter, die Geschwindigkeit der Motoren abhängig des Widerstands (des Untergrunds) zu regulieren. So werden unter anderem präzises Abbremsen und Fehlerminimierung bei der Positionsbestimmung ermöglicht.
+\item[\todo{Farbsensor?}]
 \end{description}
 
 \subsection{Aktoren}
 
 \begin{description}
 \item[Antriebsmotoren]\hfill \\
-Die beiden Servomotoren links und rechts des NXT-Roboters bilden differentialen Antrieb und ermöglichen freie Fortbewegung.
+Die beiden Servomotoren links und rechts des NXT-Roboters bilden den differentialen Antrieb und ermöglichen freie Fortbewegung.
 \item[Greifarmmotor]\hfill \\
 Der dritte Motor im vorderen Teil des Roboters dient zum Öffnen und Schließen des Greifarms und so zur Mitführung von Gegenständen.
 \end{description}
 
+\pagebreak
+
 \section{Steuerung des Roboters}
-Bluetooth Verbindung zu Smartphone
+
+Die Steuerung des Roboters durch das Smartphone erfolgt via Bluetooth.
+Das Kommunikationsprotokoll und damit die nötigen Befehle zum Regeln der Aktoren und Auslesen der Sensoren wurde von LEGO dokumentiert und ist online erhältlich\cite{nxt_comm_protocol}.
+
+Auf dem NXT selbst wird hierbei kein Programm ausgeführt, um die Logik zentral in der NXT-App auf dem Smartphone zu halten.
+
+Zunächst muss eine Bluetooth-Verbindung erstellt werden, wozu beide Geräte aktiviertes Bluetooth aufweisen, der Roboter zusätzlich sichtbar für das Smartphone sein müssen.
+
+Kommt eine Verbindung zustande, werden seriell Byte für Byte die Kommandos an den NXT übertragen und eventuell Antworten zurückgesandt.
 
 \section{Wahl des Kameramoduls}
 \label{sec:Kamera}
