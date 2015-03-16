@@ -37,11 +37,16 @@ Der dritte Motor im vorderen Teil des Roboters dient zum Öffnen und Schließen 
 Die Steuerung des Roboters durch das Smartphone erfolgt via Bluetooth.
 Das Kommunikationsprotokoll und damit die nötigen Befehle zum Regeln der Aktoren und Auslesen der Sensoren wurde von LEGO dokumentiert und ist online erhältlich\cite{nxt_comm_protocol}.
 
-Auf dem NXT selbst wird hierbei kein Programm ausgeführt, um die Logik zentral in der NXT-App auf dem Smartphone zu halten.
+Auf dem NXT selbst wird hierbei kein Programm ausgeführt, um alle Logik zentral in der NXT-App auf dem Smartphone zu halten.
 
 Zunächst muss eine Bluetooth-Verbindung erstellt werden, wozu beide Geräte aktiviertes Bluetooth aufweisen, der Roboter zusätzlich sichtbar für das Smartphone sein müssen.
 
-Kommt eine Verbindung zustande, werden seriell Byte für Byte die Kommandos an den NXT übertragen und eventuell Antworten zurückgesandt.
+Bei Erstverbindung muss der gesuchte NXT ausgewählt werden, danach ist die Bluetooth-Adresse bekannt und die App kann ohne Benutzerinteraktion eine Verbindung mit dem NXT-Roboter aufnehmen.
+
+Kommt eine Verbindung zustande, können seriell Byte für Byte die Kommandos an den NXT übertragen, eventuelle Antworten empfangen werden.
+
+App-seitig übernimmt ein gesonderter Thread in der Klasse NxtTalker nach Zustandekommen einer Verbindung das Management der Daten.
 
 \section{Wahl des Kameramoduls}
 \label{sec:Kamera}
+
