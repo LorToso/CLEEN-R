@@ -11,6 +11,7 @@ import android.util.Log;
 public class NxtControlUnit implements RobotControlUnit {
 
     private final NxtTalker mNxtTalker;
+    private final PositionTracker mPosTracker;
 
     private RobotAction lastAction = null;
 
@@ -24,8 +25,9 @@ public class NxtControlUnit implements RobotControlUnit {
     private final long SLEEP_TIME_TURNING = 50;
     private final long SLEEP_TIME_DRIVING = 100;
 
-    public NxtControlUnit(NxtTalker nxtTalker) {
+    public NxtControlUnit(NxtTalker nxtTalker, PositionTracker posTracker) {
         mNxtTalker = nxtTalker;
+        mPosTracker = posTracker;
     }
 
     public boolean isClawClosed() {
@@ -38,8 +40,11 @@ public class NxtControlUnit implements RobotControlUnit {
             Log.d("ControlUnit", "Turning right");
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED);
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
+
             Thread.sleep(SLEEP_TIME_TURNING);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.RIGHT, MOTOR_SPEED, SLEEP_TIME_TURNING);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -66,8 +71,11 @@ public class NxtControlUnit implements RobotControlUnit {
             Log.d("ControlUnit", "Driving forward");
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED);
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED);
+
             Thread.sleep(SLEEP_TIME_DRIVING);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.FORWARD, MOTOR_SPEED, SLEEP_TIME_DRIVING);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -98,8 +106,11 @@ public class NxtControlUnit implements RobotControlUnit {
             Log.d("ControlUnit", "Turning left");
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED);
+
             Thread.sleep(SLEEP_TIME_TURNING);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.LEFT, MOTOR_SPEED, SLEEP_TIME_TURNING);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -153,9 +164,12 @@ public class NxtControlUnit implements RobotControlUnit {
             Log.d("ControlUnit", "Turning right");
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED_SLOW);
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW));
+
             Thread.sleep(SLEEP_TIME_TURNING);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
             Thread.sleep(200);
+
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.RIGHT, MOTOR_SPEED_SLOW, SLEEP_TIME_TURNING);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -169,9 +183,12 @@ public class NxtControlUnit implements RobotControlUnit {
             Log.d("ControlUnit", "Turning left");
             mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW));
             mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED_SLOW);
+
             Thread.sleep(SLEEP_TIME_TURNING);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
             Thread.sleep(200);
+
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.LEFT, MOTOR_SPEED_SLOW, SLEEP_TIME_TURNING);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

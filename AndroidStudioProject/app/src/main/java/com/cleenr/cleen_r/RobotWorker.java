@@ -20,7 +20,7 @@ public class RobotWorker implements Runnable {
     public RobotWorker(CleenrBrain brain) {
         mBrain = brain;
         mWorkPhase = new Idle(this);
-        mRobotControlUnit = new NxtControlUnit(brain.mNxtTalker);
+        mRobotControlUnit = new NxtControlUnit(brain.mNxtTalker, brain.mPositionTracker);
     }
 
     public void switchWorkphase(WorkPhase newWorkPhase) {

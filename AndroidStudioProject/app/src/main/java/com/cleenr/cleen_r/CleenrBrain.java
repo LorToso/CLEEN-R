@@ -6,25 +6,30 @@ import com.cleenr.cleen_r.focusObject.FocusObject;
 import com.cleenr.cleen_r.focusObject.FocusObjectDetector;
 import com.cleenr.cleen_r.focusObject.NoFocus;
 import com.cleenr.cleen_r.nxt.NxtTalker;
+import com.cleenr.cleen_r.robotcontrolunits.PositionTracker;
 
 import android.util.Log;
 
 public class CleenrBrain {
-    public boolean isCamerainitialized;
-    public final NxtTalker mNxtTalker;
+    public       boolean         isCamerainitialized;
+    public final NxtTalker       mNxtTalker;
+    public final PositionTracker mPositionTracker;
 
-    private FocusObject mFocusedObject = new NoFocus();
+    private FocusObject         mFocusedObject     = new NoFocus();
     private FocusObjectDetector mFocusObjectFinder = new FocusObjectDetector();
-    private Thread mRobotWorkerThread;
+    private Thread      mRobotWorkerThread;
     private RobotWorker mWorkLoop;
 
-    public CleenrBrain(NxtTalker nxtTalker) {
+    public CleenrBrain(NxtTalker nxtTalker)
+    {
         mNxtTalker = nxtTalker;
+        mPositionTracker = new PositionTracker();
         mWorkLoop = new RobotWorker(this);
         mRobotWorkerThread = new Thread(mWorkLoop);
     }
 
-    public Mat onCameraFrame(Mat inputFrame) {
+    public Mat onCameraFrame(Mat inputFrame)
+    {
         CleenrImage.getInstance().changeFrame(inputFrame);
 
         findFocus();
