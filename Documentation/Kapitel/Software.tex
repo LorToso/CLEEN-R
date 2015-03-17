@@ -21,7 +21,7 @@ Bei Imagemagick \cite{imagemagick} handelt es sich um eine Bildverarbeitungsbibl
 OpenCV \cite{opencv_library, bradski2008learning} stellt eine der größten Open-Source-Bibliotheken für Bildverarbeitung da. Die Bibliothek hat einen starken Focus auf Echtzeitverarbeitung und wird daher auch in vielen Projekten im Bereich der Robotik verwendet. OpenCV hat eine große aktive Community, wodurch eventuelle Fragen und Probleme schnell beantwortet werden können. Zusätzlich bietet OpenCV eine offizielle Verison für Android und eignet sich somit ideal für diese Studienarbeit.
 
 
-\section{Algorithmus zur Objekterkennung}
+\section{Algorithmen zur Objekterkennung}
 \label{sec:Objekterkennung}
 
 Aufgabe des Roboters, ist es Gegenstände in einem Raum mit Hilfe von Kamerabildern zu erkennen. Folglich spielt die Objekterkennung eine große Rolle.
@@ -54,6 +54,24 @@ Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der S
 \section{Objektverfolgung}
 
 Sobald ein Objekt durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurde, so muss sichergestellt werden, dass die Fokussierung auf dieses Objekt beibehalten werden kann. Ein zufälliges Umspringen auf zufällige andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Bildern erkannt werden kann.
+
+\subsection{Ähnlichkeitskriterien}
+
+Um den Fokus auf ein Objekt zu behalten lassen sich verschiedene Ähnlichkeitskriterien formulieren durch die das erkannte Objekt in der Menge der im nachfolgenden Bild erkannten Objekte wieder gefunden werden kann.
+
+\subsubsection{Lokale Nähe}
+Das trivialste Kriterium stellt die lokale Nähe da. Geht man von einem Stillstand der Kamera und der aufgenommenen Szene aus, so befinden sich sämtliche Objekte in nachfolgenden Aufnahmen an der selben Stelle. Fokussierte Objekte können also rein aus ihrer Position wiedergefunden werden. Geschieht Bewegung, so kann nicht mehr von einer exakten Übereinstimmung der Koordinaten ausgegangen werden. Stattdessen muss eine gewisse Toleranz gegeben werden. Als Maß kann hierbei angenommen werden, dass sich die Position des Zentrums eines Objektes in fortlaufenden Aufnahmen um nicht mehr als beispielsweise 10\% der Aufnahmegröße geändert hat.
+
+\subsubsection{Größenkriterium}
+Das Größenkriterium ähnelt zunächst dem Kriterium der lokalen Nähe, bezieht sich jedoch nicht auf den Mittelpunkt des Objekts, sondern auf die vom Objekt in der Aufnahme eingenommenen Fläche. Diese bleibt bei einer beliebigen Translation des Objektes in der Aufnahme konstant und eignet sich daher als Ähnlichkeitsmaß. Bewegt sich das Objekt jedoch auf die Kamera zu, oder von ihr weg, so verändert sich die eingenommene Fläche. Auch hier muss eine Toleranz gewählt werden. Dise kann entweder konstant gegeben sein (beispielsweise 10\%) oder abhängig von der aktuellen Geschwindigkeit des Roboters gewählt werden.
+
+
+\subsubsection{Farbliche Ähnlichkeit}
+Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist Abhängig vom Farbraum in dem die Aufnahme getätigt oder konvertiert wurde. Wie in Abschnitt \ref{sec:Objekterkennung} beschrieben, wird die Aufnahme bei der Objekterkennung in das HSV-Format konvertiert. Daher kann das Ähnlichkeitsmaß sich auf den Farbkanal, den Sättigungskanal oder den Intensitätskanal beziehen. Durch außschließen des Intensitätskanals kann eine weitgehend helligkeitsunabhängige Bestimmung erreicht werden. Daher ist das Filtern nach Objekten ähnlicher Farbe und Sättigung durchaus sinnvoll. Auch hier lässt sich eine Toleranz formulieren, wie etwa 10\% Abweichung von der durchschnittlichen Farbe des zuvor ermittelten Objektes.
+
+
+\subsection{Kurzzeitiges Verlieren eines Objektes}
+\subsection{Verschwommene Bilder durch Bewegung des Roboters}
 
 \section{Entfernungsschätzung}
 Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen bevor er kollidiert und unter Umständen seine Fracht verliert.
