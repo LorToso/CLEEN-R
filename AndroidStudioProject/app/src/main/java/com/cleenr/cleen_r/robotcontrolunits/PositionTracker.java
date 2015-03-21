@@ -7,11 +7,11 @@ public class PositionTracker
         FORWARD, BACKWARD, LEFT, RIGHT
     }
 
-    private static final double MAX_NXT_METERS_PER_SECOND = 0.5;
-    private static final double WHEELBASE                 = 0.2; // distance between the driving wheels
+    private static final double MAX_METERS_PER_SECOND = 0.5;
+    private static final double WHEELBASE             = 0.2; // distance between the driving wheels
 
     private double mPosX, mPosY;
-    private double mAngle; // mathematically negative, clockwise
+    private double mAngle; // mathematically negative radians, clockwise
 
     public PositionTracker()
     {
@@ -43,7 +43,7 @@ public class PositionTracker
     {
         // With mAngle=0, a forward movement is in y direction
         // (distance in meters)
-        double distance = (motorSpeed / 100.0) * MAX_NXT_METERS_PER_SECOND * (duration / 1000.0);
+        double distance = (motorSpeed / 100.0) * MAX_METERS_PER_SECOND * (duration / 1000.0);
         if (backward)
             distance *= -1;
 
@@ -56,13 +56,13 @@ public class PositionTracker
     private void addCircularMovement(boolean anticlockwise, byte motorSpeed, long duration)
     {
         // both motors are moving, in opposite directions
-        final double maxDegreesPerSecond = (2.0 * Math.PI * WHEELBASE) * (2.0 * MAX_NXT_METERS_PER_SECOND) / 360.0;
+        final double maxDegreesPerSecond = (2.0 * Math.PI * WHEELBASE) * (2.0 * MAX_METERS_PER_SECOND) / (2.0 * Math.PI);
 
-        double degreesTurned = (motorSpeed / 100.0) * maxDegreesPerSecond * (duration / 1000.0);
+        double radiansTurned = (motorSpeed / 100.0) * maxDegreesPerSecond * (duration / 1000.0);
         if (anticlockwise)
-            degreesTurned *= -1;
+            radiansTurned *= -1;
 
-        addVector(0.0, 0.0, degreesTurned);
+        addVector(0.0, 0.0, radiansTurned);
     }
 
     public void addVector(double x, double y, double rotation)
