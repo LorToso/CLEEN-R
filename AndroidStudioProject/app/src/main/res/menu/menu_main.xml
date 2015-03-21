@@ -5,16 +5,21 @@
     <item
         android:id="@+id/action_connect"
         android:orderInCategory="100"
-        android:title="Connect"
+        android:title="@string/action_connect"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_disconnect"
         android:orderInCategory="100"
-        android:title="Disconnect"
+        android:title="@string/action_disconnect"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="200"
         android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_manualControl"
+        android:orderInCategory="200"
+        android:title="@string/action_manualControl"
         app:showAsAction="never" />
 </menu>
