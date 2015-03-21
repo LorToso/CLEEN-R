@@ -1,5 +1,7 @@
 package com.cleenr.cleen_r.robotcontrolunits;
 
+import com.cleenr.cleen_r.Utils;
+
 public class PositionTracker
 {
     public enum MOVEMENT_DIRECTION
@@ -69,7 +71,7 @@ public class PositionTracker
     {
         mPosX += x;
         mPosY += y;
-        mAngle += rotation;
+        mAngle = Utils.normalizeAngle(mAngle + rotation);
     }
 
     public void resetPosition()
