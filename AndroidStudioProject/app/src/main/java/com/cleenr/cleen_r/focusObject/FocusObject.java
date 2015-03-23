@@ -9,6 +9,9 @@ import org.opencv.core.Scalar;
 
 import com.cleenr.cleen_r.CleenrImage;
 import com.cleenr.cleen_r.CleenrUtils;
+import com.cleenr.cleen_r.objectCategorisation.Category;
+import com.cleenr.cleen_r.objectCategorisation.Color;
+import com.cleenr.cleen_r.objectCategorisation.Shape;
 
 
 public abstract class FocusObject {
@@ -87,6 +90,14 @@ public abstract class FocusObject {
 
     }
 
+    public Category getCategory()
+    {
+        return new Category(getShapeCategorisation(), getColorCategorisation());
+    }
+
+
+    public abstract Shape getShapeCategorisation();
+    public abstract Color getColorCategorisation();
 
     public abstract Rect getRect();
 

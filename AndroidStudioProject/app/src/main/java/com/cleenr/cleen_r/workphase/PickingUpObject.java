@@ -19,7 +19,7 @@ public class PickingUpObject extends WorkPhase {
             mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
             return;
         }
-        mRobotWorker.switchWorkphase(new SearchingDestination(mRobotWorker));
+        mRobotWorker.switchWorkphase(new CategorisingObject(mRobotWorker));
     }
 
 

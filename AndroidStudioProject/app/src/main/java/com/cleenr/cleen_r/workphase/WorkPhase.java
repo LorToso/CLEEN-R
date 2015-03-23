@@ -13,10 +13,3 @@ public abstract class WorkPhase {
 
     public abstract void executeWork(FocusObject focusObject, RobotControlUnit controlUnit);
 }
-    /*INITIALIZING,
-	SEARCHING_OBJECT,
-	GOING_TO_OBJECT,
-	PICKING_UP_OBJECT,
-	SEARCHING_DESTINATION,
-	GOING_TO_DESTINATION,
-	DROPPING_OFF_OBJECT*/

@@ -1,5 +1,8 @@
 package com.cleenr.cleen_r.focusObject;
 
+import com.cleenr.cleen_r.objectCategorisation.Color;
+import com.cleenr.cleen_r.objectCategorisation.Shape;
+
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -28,6 +31,16 @@ public class ValidFocus extends FocusObject {
 
     private Point calcCenter(Rect area) {
         return new Point(area.x + area.width / 2, area.y + area.height / 2);
+    }
+
+    @Override
+    public Shape getShapeCategorisation() {
+        return null;
+    }
+
+    @Override
+    public Color getColorCategorisation() {
+        return null;
     }
 
     public Rect getRect() {

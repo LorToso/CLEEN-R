@@ -1,10 +1,23 @@
 package com.cleenr.cleen_r.focusObject;
 
+import com.cleenr.cleen_r.objectCategorisation.Color;
+import com.cleenr.cleen_r.objectCategorisation.Shape;
+
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 
 public class NoFocus extends FocusObject {
+
+    @Override
+    public Shape getShapeCategorisation() {
+        return null;
+    }
+
+    @Override
+    public Color getColorCategorisation() {
+        return null;
+    }
 
     @Override
     public Rect getRect() {
@@ -34,4 +47,8 @@ public class NoFocus extends FocusObject {
         return false;
     }
 
+    public Shape getForm()
+    {
+        return Shape.NONE;
+    }
 }
