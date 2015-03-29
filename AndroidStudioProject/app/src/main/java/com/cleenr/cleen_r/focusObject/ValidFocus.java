@@ -40,7 +40,7 @@ public class ValidFocus extends FocusObject {
 
     @Override
     public Color getColorCategorisation() {
-        return null;
+        return Color.getObjectColor(mCoreColorHSV);
     }
 
     public Rect getRect() {

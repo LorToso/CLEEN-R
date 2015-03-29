@@ -51,7 +51,6 @@ public class ObjectDetector {
         //resultImage.copyTo(CleenrImage.getInstance().mOutputFrame);
 
         return resultImage;
-        //return  mStrongColors;
     }
 
     /*
@@ -86,26 +85,5 @@ public class ObjectDetector {
 
         return contours;
     }
-    /*
-	public void setDetectionParameters(DetectionParameters detectionParameters)
-	{
-		mDetectionParameters = detectionParameters;
-	}
-	
-	/*
-	 * Lowers the detection criteria by 10%
-	 * /
-	public void lowerDetectionCriteria()
-	{
-		mDetectionParameters.lower();
-	}
-
-	/*
-	 * Increases the detection criteria by 10%
-	 * /
-	public void increaseDetectionCriteria()
-	{
-		mDetectionParameters.increase();
-	}*/
 
 }

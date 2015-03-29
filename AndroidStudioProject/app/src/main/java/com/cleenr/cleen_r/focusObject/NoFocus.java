@@ -11,12 +11,12 @@ public class NoFocus extends FocusObject {
 
     @Override
     public Shape getShapeCategorisation() {
-        return null;
+        return Shape.NONE;
     }
 
     @Override
     public Color getColorCategorisation() {
-        return null;
+        return Color.NONE;
     }
 
     @Override
