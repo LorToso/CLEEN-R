@@ -1,6 +1,7 @@
 package com.cleenr.cleen_r.objectDetection;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -10,6 +11,8 @@ import org.opencv.imgproc.Imgproc;
 
 import com.cleenr.cleen_r.CleenrImage;
 import com.cleenr.cleen_r.focusObject.FocusObject;
+
+import static com.cleenr.cleen_r.focusObject.FocusObject.createFromContours;
 
 
 public class ObjectDetector {
@@ -33,12 +36,9 @@ public class ObjectDetector {
         Mat strongButNotDarkPixels = prepareImageForDetection();
 
         ArrayList<MatOfPoint> contours = findContours(strongButNotDarkPixels);
-        ArrayList<Rect> boundingRects = createBoundingRects(contours);
-        ArrayList<FocusObject> detectedObjects = FocusObject.createFromRects(boundingRects);
+        filterObjectsBySize(contours);
 
-        //CleenrImage.getInstance().getHSVChannel(CleenrImage.CHANNEL_HUE).copyTo(CleenrImage.getInstance().mOutputFrame);
-
-        return detectedObjects;
+        return createFromContours(contours);
     }
 
 
@@ -46,30 +46,23 @@ public class ObjectDetector {
         CleenrImage image = CleenrImage.getInstance();
         image.detectStrongColors(mStrongColors, mDetectionParameters.nSaturationThreshold);
         image.detectDarkColors(mDarkColors, mDetectionParameters.nDarknessThreshold);
-        Mat resultImage = mStrongColors.mul(mDarkColors);
 
-        //resultImage.copyTo(CleenrImage.getInstance().mOutputFrame);
-
-        return resultImage;
+        return mStrongColors.mul(mDarkColors);
     }
 
-    /*
-     * Creates bounding Rects to every countour List
-     */
-    private ArrayList<Rect> createBoundingRects(ArrayList<MatOfPoint> contours) {
-        ArrayList<Rect> allBoundingRects = new ArrayList<>();
-
-        for (MatOfPoint contour : contours) {
+    private void filterObjectsBySize(ArrayList<MatOfPoint> contours) {
+        Iterator<MatOfPoint> iterator =  contours.iterator();
+        while (iterator.hasNext()) {
+            MatOfPoint contour = iterator.next();
             Rect r = Imgproc.boundingRect(contour);
-            if (r.area() < mDetectionParameters.nMinimumObjectSize)
-                continue;
-            if (r.area() > mDetectionParameters.nMaximumObjectSize)
+
+            if (r.area() > mDetectionParameters.nMinimumObjectSize
+                    &&
+                r.area() < mDetectionParameters.nMaximumObjectSize)
                 continue;
 
-            allBoundingRects.add(r);
-            contour.release();
+            iterator.remove();
         }
-        return allBoundingRects;
     }
 
     /*
@@ -79,8 +72,6 @@ public class ObjectDetector {
         ArrayList<MatOfPoint> contours = new ArrayList<>();
         Imgproc.blur(image, image, new Size(3, 3));
         Imgproc.threshold(image, image, 150, 255, Imgproc.THRESH_BINARY);
-
-
         Imgproc.findContours(image, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
 
         return contours;

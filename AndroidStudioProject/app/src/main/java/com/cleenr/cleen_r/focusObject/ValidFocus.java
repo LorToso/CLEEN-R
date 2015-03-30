@@ -6,26 +6,28 @@ import com.cleenr.cleen_r.objectCategorisation.Shape;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 public class ValidFocus extends FocusObject {
-    private Rect mArea;
-    private Point mCenter;
-    private Scalar mCoreColorRGBA;
-    private Scalar mCoreColorHSV;
+    private final Rect mRect;
+    private final MatOfPoint mContour;
+    private final Point mCenter;
+    private final Scalar mCoreColorRGBA;
+    private final Scalar mCoreColorHSV;
 
-    protected ValidFocus(Mat rgba, Rect area) {
-
+    protected ValidFocus(Mat rgba, Rect rect, MatOfPoint contour) {
         Mat hsv = new Mat(rgba.size(), CvType.CV_8SC3);
         Imgproc.cvtColor(rgba, hsv, Imgproc.COLOR_RGB2HSV);
 
-        mArea = area;
-        mCenter = calcCenter(area);
-        mCoreColorRGBA = Core.mean(rgba);
-        mCoreColorHSV = Core.mean(hsv);
+        this.mContour = contour;
+        this.mRect = rect;
+        this.mCenter = calcCenter(rect);
+        this.mCoreColorRGBA = Core.mean(rgba);
+        this.mCoreColorHSV = Core.mean(hsv);
     }
 
 
@@ -35,7 +37,7 @@ public class ValidFocus extends FocusObject {
 
     @Override
     public Shape getShapeCategorisation() {
-        return null;
+        return Shape.getObjectShape(mContour);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ValidFocus extends FocusObject {
     }
 
     public Rect getRect() {
-        return mArea;
+        return mRect;
     }
 
     public Point getCenter() {
@@ -66,5 +68,9 @@ public class ValidFocus extends FocusObject {
     @Override
     public boolean isValidFocus() {
         return true;
+    }
+
+    public MatOfPoint getContour() {
+        return mContour;
     }
 }
