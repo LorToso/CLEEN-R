@@ -13,11 +13,6 @@
         android:title="@string/action_disconnect"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="200"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_manualControl"
         android:orderInCategory="200"
         android:title="@string/action_manualControl"

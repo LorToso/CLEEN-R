@@ -45,11 +45,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.cleenr.cleen_r.MainActivity;
 import com.cleenr.cleen_r.R;
 
 public class ChooseDeviceActivity extends Activity {
 
-    public static final boolean AUTO_CONNECT = true;
     public static final String EXTRA_DEVICE_ADDRESS = "device_address";
 
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
@@ -99,7 +99,7 @@ public class ChooseDeviceActivity extends Activity {
                 if ((device.getBluetoothClass() != null) && (device.getBluetoothClass().getDeviceClass() == BluetoothClass.Device.TOY_ROBOT)) {
                     mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 
-                    if (AUTO_CONNECT)
+                    if (MainActivity.AUTO_CONNECT)
                     {
                         returnFoundDevice(device.getAddress());
                     }
