@@ -102,8 +102,21 @@ public class NxtControlUnit implements RobotControlUnit
         lastAction = RobotAction.DRIVE_FORWARD;
     }
 
-    public boolean hasObjectInClaw()
-    {
+    public void driveBackward() {
+        try {
+            Log.d("ControlUnit", "Driving backward");
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
+            Thread.sleep(SLEEP_TIME_DRIVING);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        lastAction = RobotAction.DRIVE_FORWARD;
+    }
+
+    public boolean hasObjectInClaw() {
         // TODO Auto-generated method stub
         return false;
     }
