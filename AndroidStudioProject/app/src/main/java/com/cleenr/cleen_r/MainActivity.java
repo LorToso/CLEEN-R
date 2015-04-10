@@ -135,6 +135,9 @@ public class MainActivity extends Activity implements CvCameraViewListener {
                 if (mNXTTalker != null)
                     mNXTTalker.stop();
                 break;
+            case R.id.action_manualControl:
+                startManualControlActivity();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,6 +148,12 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
         if (enableBluetooth())
             startBrickFindingActivity();
+    }
+
+    private void startManualControlActivity() {
+        mOpenCvCameraView.disableView();
+        Intent intent = new Intent(this, ManualControlActivity.class);
+        startActivity(intent);
     }
 
     private void startBrickFindingActivity() {

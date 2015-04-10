@@ -24,4 +24,6 @@ public interface RobotControlUnit
     public void centerObject(FocusObject focusObject);
 
     public void repeatLastAction();
+
+    public void returnToStartingPoint();
 }

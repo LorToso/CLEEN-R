@@ -10,12 +10,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cleenr.cleen_r.nxt.ChooseDeviceActivity;
 import com.cleenr.cleen_r.nxt.NxtTalker;
 import com.cleenr.cleen_r.robotcontrolunits.NxtControlUnit;
+import com.cleenr.cleen_r.robotcontrolunits.PositionTracker;
 import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ManualControlActivity extends ActionBarActivity
@@ -23,10 +28,11 @@ public class ManualControlActivity extends ActionBarActivity
     private static final int REQUEST_ENABLE_BT  = 1;
     private static final int REQUEST_FIND_BRICK = 2;
 
-    private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothAdapter mBluetoothAdapter = null;
     private String           mDeviceAddress    = null;
     private NxtTalker        mNXTTalker        = null;
     private RobotControlUnit mRobotControlUnit = null;
+    private PositionTracker  mPosTracker       = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,7 +41,8 @@ public class ManualControlActivity extends ActionBarActivity
         setContentView(R.layout.activity_manual_control);
 
         mNXTTalker = new NxtTalker();
-        mRobotControlUnit = new NxtControlUnit(mNXTTalker);
+        mPosTracker = new PositionTracker();
+        mRobotControlUnit = new NxtControlUnit(mNXTTalker, mPosTracker);
 
         Button forwardButton = (Button) findViewById(R.id.button_moveForward);
         Button backwardButton = (Button) findViewById(R.id.button_moveBackward);
@@ -86,8 +93,50 @@ public class ManualControlActivity extends ActionBarActivity
                     }
                 }
         );
+
+        returnToStartingPointButton.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        mRobotControlUnit.returnToStartingPoint();
+                    }
+                }
+        );
+
+        Timer timer = new Timer("refreshDisplay timer");
+        timer.scheduleAtFixedRate(new RefreshPositionDisplayTimerTask(), 0, 100);
     }
 
+    private class RefreshPositionDisplayTimerTask extends TimerTask
+    {
+        @Override
+        public void run()
+        {
+            refreshPositionDisplay();
+        }
+    }
+
+    private void refreshPositionDisplay()
+    {
+        runOnUiThread(
+                new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        TextView xView = (TextView) findViewById(R.id.textView_x);
+                        TextView yView = (TextView) findViewById(R.id.textView_y);
+                        TextView angleView = (TextView) findViewById(R.id.textView_angle);
+
+                        xView.setText(String.format("%.2f", mPosTracker.getX()));
+                        yView.setText(String.format("%.2f", mPosTracker.getY()));
+                        angleView.setText(String.format("%.2f", mPosTracker.getAngle()));
+                    }
+                }
+        );
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
