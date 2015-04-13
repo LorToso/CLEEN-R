@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
     public void onStart() {
         super.onStart();
-        findBrick();
+        //findBrick();
     }
 
     @Override

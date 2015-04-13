@@ -62,7 +62,7 @@ public class ValidFocus extends FocusObject {
     }
 
     public String toString() {
-        return "FocusObject at " + getCenter() + ". Width = " + getRect().width + ". Height = " + getRect().height + ". Mean Color: " + getMeanColorRGBA() + ".";
+        return "FocusObject at " + getCenter() + ". Width = " + getRect().width + ". Height = " + getRect().height + ". Category: " + getCategory() + ". HSVColor: " + mCoreColorHSV;
     }
 
     @Override

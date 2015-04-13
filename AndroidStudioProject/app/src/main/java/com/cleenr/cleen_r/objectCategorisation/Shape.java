@@ -16,8 +16,13 @@ public enum Shape {
      * @return the Shape of the object.
      */
     public static Shape getObjectShape(MatOfPoint contour){
-        return null;
+        return NONE;
         // TODO:
 
+    }
+
+    public String toString()
+    {
+        return this.name();
     }
 }
