@@ -3,12 +3,17 @@ package com.cleenr.cleen_r.focusObject;
 import java.util.ArrayList;
 
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 
 import com.cleenr.cleen_r.CleenrImage;
 import com.cleenr.cleen_r.CleenrUtils;
+import com.cleenr.cleen_r.objectCategorisation.Category;
+import com.cleenr.cleen_r.objectCategorisation.Color;
+import com.cleenr.cleen_r.objectCategorisation.Shape;
 
 
 public abstract class FocusObject {
@@ -22,18 +27,20 @@ public abstract class FocusObject {
     public final static double sAreaSimilarity = 1.1;
     public final static double sPositionSimilarity = 1.15;
 
-    public static FocusObject createFromRect(Rect area) {
-        Mat subMatrix = CleenrImage.getInstance().mInputFrame.submat(area);
+    public static FocusObject createFromContour(MatOfPoint contour) {
+        Rect rect = Imgproc.boundingRect(contour);
+        Mat subMatrix = CleenrImage.getInstance().mInputFrame.submat(rect);
+
         Mat rgba = new Mat();
         subMatrix.copyTo(rgba);
 
-        return new ValidFocus(rgba, area);
+        return new ValidFocus(rgba, rect, contour);
     }
 
-    public static ArrayList<FocusObject> createFromRects(ArrayList<Rect> boundingRects) {
+    public static ArrayList<FocusObject> createFromContours(ArrayList<MatOfPoint> boundingContours) {
         ArrayList<FocusObject> focusObjects = new ArrayList<>();
-        for (Rect rect : boundingRects)
-            focusObjects.add(FocusObject.createFromRect(rect));
+        for (MatOfPoint contour : boundingContours)
+            focusObjects.add(FocusObject.createFromContour(contour));
         return focusObjects;
     }
 
@@ -87,6 +94,14 @@ public abstract class FocusObject {
 
     }
 
+    public Category getCategory()
+    {
+        return new Category(getShapeCategorisation(), getColorCategorisation());
+    }
+
+
+    public abstract Shape getShapeCategorisation();
+    public abstract Color getColorCategorisation();
 
     public abstract Rect getRect();
 
@@ -95,8 +110,6 @@ public abstract class FocusObject {
     public abstract Scalar getMeanColorRGBA();
 
     public abstract Scalar getMeanColorHSV();
-
-    public abstract boolean isInRange();
 
     public abstract String toString();
 

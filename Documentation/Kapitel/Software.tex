@@ -21,7 +21,8 @@ Bei Imagemagick \cite{imagemagick} handelt es sich um eine Bildverarbeitungsbibl
 OpenCV \cite{opencv_library, bradski2008learning} stellt eine der größten Open-Source-Bibliotheken für Bildverarbeitung da. Die Bibliothek hat einen starken Focus auf Echtzeitverarbeitung und wird daher auch in vielen Projekten im Bereich der Robotik verwendet. OpenCV hat eine große aktive Community, wodurch eventuelle Fragen und Probleme schnell beantwortet werden können. Zusätzlich bietet OpenCV eine offizielle Verison für Android und eignet sich somit ideal für diese Studienarbeit.
 
 
-\section{Algorithmus zur Objekterkennung}
+\section{Algorithmen zur Objekterkennung}
+\label{sec:Objekterkennung}
 
 Aufgabe des Roboters, ist es Gegenstände in einem Raum mit Hilfe von Kamerabildern zu erkennen. Folglich spielt die Objekterkennung eine große Rolle.
 
@@ -50,12 +51,91 @@ Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der S
 \label{fig:SegmentedColorModels}
 \end{figure}
 
+\section{Objektverfolgung}
+
+Sobald ein Objekt durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurde, so muss sichergestellt werden, dass die Fokussierung auf dieses Objekt beibehalten werden kann. Ein zufälliges Umspringen auf zufällige andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Bildern erkannt werden kann.
+
+\subsection{Ähnlichkeitskriterien}
+\label{subsec:Similarity}
+Um den Fokus auf ein Objekt zu behalten lassen sich verschiedene Ähnlichkeitskriterien formulieren durch die das erkannte Objekt in der Menge der im nachfolgenden Bild erkannten Objekte wieder gefunden werden kann.
+
+\subsubsection{Lokale Nähe}
+Das trivialste Kriterium stellt die lokale Nähe da. Geht man von einem Stillstand der Kamera und der aufgenommenen Szene aus, so befinden sich sämtliche Objekte in nachfolgenden Aufnahmen an der selben Stelle. Fokussierte Objekte können also rein aus ihrer Position wiedergefunden werden. Geschieht Bewegung, so kann nicht mehr von einer exakten Übereinstimmung der Koordinaten ausgegangen werden. Stattdessen muss eine gewisse Toleranz gegeben werden. Als Maß kann hierbei angenommen werden, dass sich die Position des Zentrums eines Objektes in fortlaufenden Aufnahmen um nicht mehr als beispielsweise 10\% der Aufnahmegröße geändert hat. Abbildung \ref{fig:LokaleNaehe} zeigt das beschriebene Verhalten anschaulich.
+
+\begin{figure}[h]
+\centering
+\caption{Objektverfolgung durch Kriterium der lokalen Nähe}
+\label{fig:LokaleNaehe}
+\end{figure}
+
+\subsubsection{Größenkriterium}
+Das Größenkriterium ähnelt zunächst dem Kriterium der lokalen Nähe, bezieht sich jedoch nicht auf den Mittelpunkt des Objekts, sondern auf die vom Objekt in der Aufnahme eingenommenen Fläche. Diese bleibt bei einer beliebigen Translation des Objektes in der Aufnahme konstant und eignet sich daher als Ähnlichkeitsmaß. Bewegt sich das Objekt jedoch auf die Kamera zu, oder von ihr weg, so verändert sich die eingenommene Fläche. Auch hier muss eine Toleranz gewählt werden. Dise kann entweder konstant gegeben sein (beispielsweise 10\%) oder abhängig von der aktuellen Geschwindigkeit des Roboters gewählt werden. Abbildung \ref{fig:GroessenKriterium} zeigt exemplarisch die Verfolgung eines Objektes dessen Größe sich im Verlauf der Aufnahmeserie verändert.
+
+\begin{figure}[h]
+\centering
+\caption{Objektverfolgung durch Größenkriterium}
+\label{fig:GroessenKriterium}
+\end{figure}
+
+\subsubsection{Farbliche Ähnlichkeit}
+Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist Abhängig vom Farbraum in dem die Aufnahme getätigt oder konvertiert wurde. Wie in Abschnitt \ref{sec:Objekterkennung} beschrieben, wird die Aufnahme bei der Objekterkennung in das HSV-Format konvertiert. Daher kann das Ähnlichkeitsmaß sich auf den Farbkanal, den Sättigungskanal oder den Intensitätskanal beziehen. Durch außschließen des Intensitätskanals kann eine weitgehend helligkeitsunabhängige Bestimmung erreicht werden. Daher ist das Filtern nach Objekten ähnlicher Farbe und Sättigung durchaus sinnvoll. Auch hier lässt sich eine Toleranz formulieren, wie etwa 10\% Abweichung von der durchschnittlichen Farbe des zuvor ermittelten Objektes. Abbildung \ref{fig:FarbKriterium} zeigt die farbliche Ähnlichkeit zweier Objekte und die dadurch resultierende Wiederfindung des Objektes in der Folgeaufnahme.
+
+\begin{figure}[h]
+\centering
+\caption{Objektverfolgung durch farbliche Ähnlichkeit}
+\label{fig:FarbKriterium}
+\end{figure}
+
+\subsection{Kurzzeitiger Verlust des Verfolgungsziels}
+
+Tendenziell muss bei der Objektverfolgung immer von einem Verlust des verfolgten Objektes ausgegangen werden. Dies kann permanent sein, wie beispielsweise bei apprupter starker Veränderung der Lichtbedingungen, oder lediglich temporär durch Fehler bei der Bildaufnahme geschehen. In diesem Abschnitt wird auf letzteres eingegangen, da das Verhalten bei längerfristigem Verlust wird in Abschnitt \ref{sec:MainLoop} beschrieben wird.
+
+Es hat sich gezeigt, dass kleine Fehler oder Ungenauigkeiten bei der Bildaufnahme bereits dazu führen können, dass ein Objekt nicht in der darauf folgenden Aufnahme wiedergefunden werden kann. Ist dies nur von kurzer Dauer, muss dies gesondert behandelt werden um zu vermeiden, dass der Roboter einen plötzlichen Wechsel des Verfolgungsziels durchführt. Ähnlich der in Abschnitt \ref{subsec:Similarity} beschriebenen Ähnlichkeitskriterien muss auch hier eine Toleranz für eine maximale Anzahl Aufnahmen gelegt werden, in denen das verfolgte Ziel nicht gefudnen werden muss ohne, dass das Objekt als "verloren" angesehen wird. Die Wahl einer zu hohen Toleranz hat die Folge, dass der Roboter lange Zeit in einem undefinierten Zustand ein Objekt verfolgt, welches er nicht sieht. Ist die Schwelle zu niedrig gewählt, so kann dies ein häufiges Springen zwischen verschiedenen Objekten zur Folge haben, was sich sehr negativ auf die Laufzeit auswirken könnte. Empirisch hat sich gezeigt, dass eine solche Schwelle bereits bei etwa drei Aufnahmen ohne das verfolgte Objekt liegen kann.
+
+// Hier könnte noch rein was passiert während kein Objekt erkannt wird
+// Stehen bleiben oder Weiter machen oder Langsam weiter machen
+
+\subsection{Verschwommene Bilder durch Bewegung des Roboters}
+
 
 \section{Entfernungsschätzung}
-\subsection{Stereo-Kamerabasiert}
-\subsection{Mono-Kamerabasiert}
+Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen bevor er kollidiert und unter Umständen seine Fracht verliert.
+
+\subsection{Stereokamerabasiert}
+\label{subsec:StereoKameraDist}
+
+Ein häufiger Ansatz für die Entfernungsschätzung stellt die Stereokamerabasierte Methode dar. Hierbei nimmt der Roboter seien Umgebung nicht mit nur einer Kamera, sondern mit mehreren, mindestens zwei, wahr. Durch einen bekannten Versatz zwischen den Aufnahmequellen der Bilder, lässt sich mittels Registrierung auch ein Versatz in den erzeugten Bildern ermitteln. Wie die beiden menschlichen Augen, erlaubt dies das Wahrnehmen der Umgebung in dritter Dimension. Abbildung \ref{fig:StereokameraEntfernung} zeigt exemplarisch eine solche Entfernugnsschätzung.
+
+\begin{figure}[h]
+\centering
+\caption{Stereokamerabasierte Entfernungsschätzung}
+\label{fig:StereokameraEntfernung}
+\end{figure}
+
+Der Stereokamerabasierte Ansatz ist von der Ausführung sehr elegant, da er sich an der Natur orientiert. Problematisch ist jedoch, dass zusätzliche Hardware benötigt wird. Eine weitere Kamera als bildgebendes Mittel birgt einen neuen Grad der Komplexität, da diese mit dem vorhandenen Smartphone synchronisiert werden muss. Zusätzlich müssen Rechenintensive Registrierungen vorgenommen werden, wodurch die Echtzeitfähigkeit des Systems beeinträchtigt werden könnte.
+
+[HIER FEHLT NOCH EINE QUELLE]
+
+
+\subsection{Monokamerabasiert}
+
+Der Monokamerabasierte Ansatz stützt sich auf allen vorhandenen Informationen. Hierbei wird mittels der bekannten Position und Inklination der Kamera, sowie ihres Streuwinkels ein virtuelles Blickfeld erstellt. Dieses Blickfeld breitet sich von der Kamer aus pyramidenfärmig aus und trifft den als planar angenommenen Boden. Abbildung \ref{fig:MonokameraEntfernung} zeigt den Aufbau eines solchen Systems. 
+
+\begin{figure}[h]
+\centering
+\caption{Monokamerabasierte Entfernungsschätzung}
+\label{fig:MonokameraEntfernung}
+\end{figure}
+
+Anhand der Position des detektierten Objektes im Kamerabild lässt sich daraufhin eine ungefähre Entfernungsschätzung liefern. Problematisch ist hierbei die Ungenauigkeit des Systems. Sowohl Fehler bei der Aufnahme, als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen.
+
+[HIER FEHLT NOCH EINE QUELLE]
+
 \subsection{Ultraschallbasiert}
 
+Die Ultraschallbasierte Entfernungsschätzung kann auch über Große Distanzen von bis zu zwei Metern zentimetergenaue Entfernungen messen. Die Messung wird durch einen Echo-Mechanismus mit, für den Menschen unhörbaren, Schallwellen im Ultraschallbereich durchgeführt. [HIER FEHLT NOCH EINE QUELLE] Zunächst wird jedoch, ähnlich dem in \ref{subsec:StereoKameraDist} beschriebenen Verfahren, zusätzliche Hardware in Form eines Ultraschallsensors benötigt. Ein solcher kann jedoch direkt von LEGO\texttrademark erworben und problemlos am Roboter angebracht werden. 
+
+Das Ultraschallbasierte Verfahren kann durch eine kleine Änderung des Roboters realisiert werden und liefert sehr genaue Ergebnisse. Die Koppelung mit dem Smartphone ist bereits gegeben und genügt daher Echtzeitanforderungen. 
 \section{Raumerkennung}
 \subsection{Kameragestützt}
 \subsection{Streckenbasiert}
@@ -67,6 +147,7 @@ Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der S
 
 
 \section{Hauptschleife}
+\label{sec:MainLoop}
 
 Arbeitszustände
 \begin{enumerate}
@@ -80,4 +161,5 @@ Arbeitszustände
 \end{enumerate}
 
 [INSERT ZUSTANDSÜBERGANGSDIAGRAMM]
+Petrinetz?
 
