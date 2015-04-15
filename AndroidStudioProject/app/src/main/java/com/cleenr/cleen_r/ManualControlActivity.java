@@ -57,6 +57,17 @@ public class ManualControlActivity extends ActionBarActivity
 
         setTaskButtonOnTouchListener();
 
+        findViewById(R.id.button_reset).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        mPosTracker.resetPosition();
+                    }
+                }
+        );
+
         mPositionDisplayTimer = new Timer("refreshDisplay timer");
         Log.d(TAG, "created activity");
     }

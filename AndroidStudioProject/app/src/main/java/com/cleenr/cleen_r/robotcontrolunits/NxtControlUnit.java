@@ -271,13 +271,13 @@ public class NxtControlUnit implements RobotControlUnit
         {
             // turning left is the shorter way
             while (mPosTracker.getAngle() > STARTING_POINT_ANGLE_TOLERANCE / 2.0)
-                turnLeftSlowly();
+                turnLeft();
         }
         else
         {
             // turning right is the shorter way
             while (mPosTracker.getAngle() < (2.0 * Math.PI) - (STARTING_POINT_ANGLE_TOLERANCE / 2.0))
-                turnRightSlowly();
+                turnRight();
         }
 
         // the robot should be facing the starting point now
