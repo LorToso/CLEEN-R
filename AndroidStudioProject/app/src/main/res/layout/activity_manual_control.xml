@@ -70,23 +70,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="0.0"
+        android:text="0.000"
         android:id="@+id/textView_x"
         android:width="100dp"
         android:textAlignment="center"
         android:layout_below="@+id/button_moveBackward"
-        android:layout_toEndOf="@+id/textView_label_angle"/>
+        android:layout_toEndOf="@+id/textView_label_angle"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="0.0"
+        android:text="0.000"
         android:id="@+id/textView_y"
         android:textAlignment="center"
         android:width="100dp"
         android:layout_below="@+id/textView_x"
-        android:layout_alignStart="@+id/textView_x"/>
+        android:layout_alignStart="@+id/textView_x"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,12 +103,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="0.0"
+        android:text="0.000"
         android:id="@+id/textView_angle"
         android:layout_below="@+id/textView_y"
         android:width="100dp"
         android:textAlignment="center"
-        android:layout_alignStart="@+id/textView_x"/>
+        android:layout_alignStart="@+id/textView_x"
+        android:gravity="center"/>
 
     <Button
         android:layout_width="wrap_content"

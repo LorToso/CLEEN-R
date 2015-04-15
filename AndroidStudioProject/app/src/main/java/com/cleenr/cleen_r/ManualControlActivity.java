@@ -6,10 +6,12 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.cleenr.cleen_r.nxt.ChooseDeviceActivity;
 import com.cleenr.cleen_r.nxt.NxtTalker;
 import com.cleenr.cleen_r.robotcontrolunits.NxtControlUnit;
 import com.cleenr.cleen_r.robotcontrolunits.PositionTracker;
+import com.cleenr.cleen_r.robotcontrolunits.RobotAction;
 import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
 
 import java.util.Timer;
@@ -25,6 +28,8 @@ import java.util.TimerTask;
 
 public class ManualControlActivity extends ActionBarActivity
 {
+    private static final String TAG = "ManualControlActivity";
+
     private static final int REQUEST_ENABLE_BT  = 1;
     private static final int REQUEST_FIND_BRICK = 2;
 
@@ -33,80 +38,122 @@ public class ManualControlActivity extends ActionBarActivity
     private NxtTalker        mNXTTalker        = null;
     private RobotControlUnit mRobotControlUnit = null;
     private PositionTracker  mPosTracker       = null;
+    private RobotAction      mRobotTask        = null;
+
+    private Timer   mPositionDisplayTimer = null;
+    private Thread  mTaskSenderThread     = null;
+    private boolean mStopSendingTasks     = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_manual_control);
 
         mNXTTalker = new NxtTalker();
         mPosTracker = new PositionTracker();
         mRobotControlUnit = new NxtControlUnit(mNXTTalker, mPosTracker);
 
-        Button forwardButton = (Button) findViewById(R.id.button_moveForward);
-        Button backwardButton = (Button) findViewById(R.id.button_moveBackward);
-        Button leftButton = (Button) findViewById(R.id.button_moveLeft);
-        Button rightButton = (Button) findViewById(R.id.button_moveRight);
-        Button returnToStartingPointButton = (Button) findViewById(R.id.button_return_to_starting_point);
+        setTaskButtonOnTouchListener();
 
-        forwardButton.setOnClickListener(
-                new View.OnClickListener()
+        mPositionDisplayTimer = new Timer("refreshDisplay timer");
+        Log.d(TAG, "created activity");
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        if (mPositionDisplayTimer != null)
+            mPositionDisplayTimer.cancel();
+        if (mTaskSenderThread != null)
+            stopTaskSenderThread();
+        Log.d(TAG, "paused activity");
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if (mPositionDisplayTimer != null)
+            // refresh every 100 ms
+            mPositionDisplayTimer.scheduleAtFixedRate(new RefreshPositionDisplayTimerTask(), 0, 100);
+        if (mTaskSenderThread != null)
+            stopTaskSenderThread();
+        mTaskSenderThread = new Thread(new NxtTaskSender(), "task sender thread");
+        mTaskSenderThread.start();
+        Log.d(TAG, "resumed activity");
+    }
+
+    private void stopTaskSenderThread()
+    {
+        Log.d(TAG, "stopping task sender thread...");
+        mStopSendingTasks = true;
+        try
+        {
+            mTaskSenderThread.join();
+        }
+        catch (InterruptedException ex)
+        {
+            ex.printStackTrace();
+            Thread.interrupted();
+        }
+        mStopSendingTasks = false;
+        Log.d(TAG, "stopped task sender thread");
+    }
+
+    private void setTaskButtonOnTouchListener()
+    {
+        View.OnTouchListener taskButtonOnTouchListener = new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                switch (event.getAction())
                 {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        mRobotControlUnit.driveForward();
-                    }
+                    case MotionEvent.ACTION_DOWN:
+                        // button pressed
+                        switch (v.getId())
+                        {
+                            case R.id.button_moveForward:
+                                mRobotTask = RobotAction.DRIVE_FORWARD;
+                                break;
+                            case R.id.button_moveBackward:
+                                mRobotTask = RobotAction.DRIVE_BACKWARD;
+                                break;
+                            case R.id.button_moveLeft:
+                                mRobotTask = RobotAction.TURN_LEFT;
+                                break;
+                            case R.id.button_moveRight:
+                                mRobotTask = RobotAction.TURN_RIGHT;
+                                break;
+                            case R.id.button_return_to_starting_point:
+                                mRobotTask = RobotAction.RETURN_TO_STARTING_POINT;
+                                break;
+                            default:
+                                return false;
+                        }
+                        v.setPressed(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // button released
+                        mRobotTask = null;
+                        v.setPressed(false);
+                        break;
+                    default:
+                        return false;
                 }
-        );
+                return true;
+            }
+        };
 
-        backwardButton.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        mRobotControlUnit.driveBackward();
-                    }
-                }
-        );
-
-        leftButton.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        mRobotControlUnit.turnLeft();
-                    }
-                }
-        );
-
-        rightButton.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        mRobotControlUnit.turnRight();
-                    }
-                }
-        );
-
-        returnToStartingPointButton.setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        mRobotControlUnit.returnToStartingPoint();
-                    }
-                }
-        );
-
-        Timer timer = new Timer("refreshDisplay timer");
-        timer.scheduleAtFixedRate(new RefreshPositionDisplayTimerTask(), 0, 100);
+        findViewById(R.id.button_moveForward).setOnTouchListener(taskButtonOnTouchListener);
+        findViewById(R.id.button_moveForward).setOnTouchListener(taskButtonOnTouchListener);
+        findViewById(R.id.button_moveBackward).setOnTouchListener(taskButtonOnTouchListener);
+        findViewById(R.id.button_moveLeft).setOnTouchListener(taskButtonOnTouchListener);
+        findViewById(R.id.button_moveRight).setOnTouchListener(taskButtonOnTouchListener);
+        findViewById(R.id.button_return_to_starting_point).setOnTouchListener(taskButtonOnTouchListener);
     }
 
     private class RefreshPositionDisplayTimerTask extends TimerTask
@@ -130,12 +177,48 @@ public class ManualControlActivity extends ActionBarActivity
                         TextView yView = (TextView) findViewById(R.id.textView_y);
                         TextView angleView = (TextView) findViewById(R.id.textView_angle);
 
-                        xView.setText(String.format("%.2f", mPosTracker.getX()));
-                        yView.setText(String.format("%.2f", mPosTracker.getY()));
-                        angleView.setText(String.format("%.2f", mPosTracker.getAngle()));
+                        xView.setText(String.format("%.3f", mPosTracker.getX()));
+                        yView.setText(String.format("%.3f", mPosTracker.getY()));
+                        angleView.setText(String.format("%.3f", mPosTracker.getAngle()));
                     }
                 }
         );
+    }
+
+    private class NxtTaskSender implements Runnable
+    {
+        @Override
+        public void run()
+        {
+            while (!mStopSendingTasks)
+            {
+                if (mRobotTask == null)
+                {
+                    Thread.yield();
+                    continue;
+                }
+                switch (mRobotTask)
+                {
+                    case DRIVE_FORWARD:
+                        mRobotControlUnit.driveForward();
+                        break;
+                    case DRIVE_BACKWARD:
+                        mRobotControlUnit.driveBackward();
+                        break;
+                    case TURN_LEFT:
+                        mRobotControlUnit.turnLeft();
+                        break;
+                    case TURN_RIGHT:
+                        mRobotControlUnit.turnRight();
+                        break;
+                    case RETURN_TO_STARTING_POINT:
+                        mRobotControlUnit.returnToStartingPoint();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     @Override
