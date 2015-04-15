@@ -16,9 +16,40 @@ public enum Shape {
      * @return the Shape of the object.
      */
     public static Shape getObjectShape(MatOfPoint contour){
+        double[] angles = calcAngles(contour);
         return NONE;
         // TODO:
 
+    }
+
+    private static double[] calcAngles(MatOfPoint contour) {
+        double[] angles = new double[contour.rows()];
+        int rowCount = contour.rows();
+
+        for(int row=0; row < contour.rows()-2; row++)
+        {
+
+            double[] point1 = contour.get(row, 0);
+            double[] point2 = contour.get((row+1)%rowCount, 0);
+            double[] point3 = contour.get((row+2)%rowCount, 0);
+            angles[row] = calcAngle(point1, point2, point3);
+        }
+
+        return angles;
+    }
+
+    private static double calcAngle(double[] point1, double[] point2, double[] point3) {
+        double d1 = getDistance(point1, point2);
+        double d2 = getDistance(point2, point3);
+
+        if(d1 == 0 || d2 == 0)
+            return 0;
+
+        return Math.atan(d1/d2);
+    }
+
+    private static double getDistance(double[] point1, double[] point2) {
+        return Math.sqrt(Math.pow(point1[0]-point2[0],2)+Math.pow(point1[1]-point2[1],2));
     }
 
     public String toString()
