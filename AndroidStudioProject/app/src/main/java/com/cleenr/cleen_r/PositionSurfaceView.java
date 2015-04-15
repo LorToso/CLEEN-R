@@ -20,6 +20,9 @@ import java.util.TimerTask;
 
 public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 {
+    private static final float PATH_SCALE = 200.0f;
+    private static final float PATH_WIDTH = 10.0f;
+
     private PositionTracker mPosTracker = null;
     private Timer           mDrawTimer  = null;
 
@@ -60,8 +63,9 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         mWayPaint = new Paint();
         mBackPaint.setColor(0xFFFFFFFF);
         mStartingPointPaint.setColor(0xFFAA0000);
+        mStartingPointPaint.setStrokeWidth((PATH_WIDTH + 10.0f) / PATH_SCALE);
         mWayPaint.setColor(0xFF0000AA);
-        mWayPaint.setStrokeWidth(1.02f);
+        mWayPaint.setStrokeWidth(PATH_WIDTH / PATH_SCALE);
         mWayPaint.setStrokeCap(Paint.Cap.ROUND);
 
         robotBmp = BitmapFactory.decodeResource(getResources(), R.drawable.arrow);
@@ -150,7 +154,7 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
 
     private void update(Canvas canvas)
     {
-        final float scale = 30.0f;
+        final float scale = 50.0f;
 
         int w = canvas.getWidth();
         int h = canvas.getHeight();
@@ -162,11 +166,16 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         canvas.translate(xCenter, yCenter);
 
         canvas.save();
-        canvas.scale(scale, scale);
 
+        // transform so that the endpoint of the path
+        // (the robot's position) is in the center
         float x = (float) mPosTracker.getX();
         float y = (float) mPosTracker.getY();
+        canvas.scale(-1.0f * PATH_SCALE, PATH_SCALE);
+        canvas.rotate((float) (180.0 + Math.toDegrees(mPosTracker.getAngle())));
+        canvas.translate(-1.0f * x, -1.0f * y);
 
+        // draw path
         for (PointF p : mPositions)
         {
             canvas.drawPoint(
@@ -174,6 +183,9 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
                     mWayPaint
             );
         }
+
+        // draw starting point
+        canvas.drawPoint(0.0f, 0.0f, mStartingPointPaint);
 
         // draw robot
         canvas.restore();
@@ -205,19 +217,19 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         private PositionIterator(List<PointF> list)
         {
             mList = list;
-            mIndex = list.size() - 1;
+            mIndex = 1;
         }
 
         @Override
         public boolean hasNext()
         {
-            return mIndex >= 0;
+            return mIndex < mList.size();
         }
 
         @Override
         public PointF next()
         {
-            return mList.get(mIndex--);
+            return mList.get(mIndex++);
         }
 
         @Override

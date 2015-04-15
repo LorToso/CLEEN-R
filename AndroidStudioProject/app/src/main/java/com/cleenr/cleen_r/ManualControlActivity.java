@@ -194,7 +194,7 @@ public class ManualControlActivity extends ActionBarActivity
 
                         xView.setText(String.format("%.3f", mPosTracker.getX()));
                         yView.setText(String.format("%.3f", mPosTracker.getY()));
-                        angleView.setText(String.format("%.3f", mPosTracker.getAngle()));
+                        angleView.setText(String.format("%.3f\u00b0", Math.toDegrees(mPosTracker.getAngle())));
                     }
                 }
         );
