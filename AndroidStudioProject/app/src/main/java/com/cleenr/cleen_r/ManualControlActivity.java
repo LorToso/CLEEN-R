@@ -57,6 +57,9 @@ public class ManualControlActivity extends ActionBarActivity
 
         setTaskButtonOnTouchListener();
 
+        final PositionSurfaceView posSurfaceView = (PositionSurfaceView) findViewById(R.id.positionSurfaceView);
+        posSurfaceView.setPositionTracker(mPosTracker);
+
         findViewById(R.id.button_reset).setOnClickListener(
                 new View.OnClickListener()
                 {
@@ -64,6 +67,7 @@ public class ManualControlActivity extends ActionBarActivity
                     public void onClick(View v)
                     {
                         mPosTracker.resetPosition();
+                        posSurfaceView.reset();
                     }
                 }
         );
