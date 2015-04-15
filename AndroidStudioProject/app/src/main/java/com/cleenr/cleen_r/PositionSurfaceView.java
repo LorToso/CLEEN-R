@@ -167,15 +167,12 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         float x = (float) mPosTracker.getX();
         float y = (float) mPosTracker.getY();
 
-        PointF prevP = new PointF(x, y);
         for (PointF p : mPositions)
         {
-            canvas.drawLine(
-                    prevP.x, prevP.y,
+            canvas.drawPoint(
                     p.x, p.y,
                     mWayPaint
             );
-            prevP = p;
         }
 
         // draw robot
@@ -214,8 +211,7 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         @Override
         public boolean hasNext()
         {
-            // skip the last (the current) point
-            return mIndex > 1;
+            return mIndex >= 0;
         }
 
         @Override
