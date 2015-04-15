@@ -11,6 +11,7 @@ import org.opencv.core.Point;
 
 public class NxtControlUnit implements RobotControlUnit
 {
+    private final String TAG = "NxtControlUnit";
 
     private final NxtTalker       mNxtTalker;
     private final PositionTracker mPosTracker;
@@ -93,6 +94,27 @@ public class NxtControlUnit implements RobotControlUnit
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
 
             mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.FORWARD, MOTOR_SPEED, SLEEP_TIME_DRIVING);
+        }
+        catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        lastAction = RobotAction.DRIVE_FORWARD;
+    }
+
+    public void driveBackward()
+    {
+        try
+        {
+            Log.d("ControlUnit", "Driving backward");
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
+
+            Thread.sleep(SLEEP_TIME_DRIVING);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.BACKWARD, MOTOR_SPEED, SLEEP_TIME_TURNING);
         }
         catch (InterruptedException e)
         {
@@ -235,7 +257,7 @@ public class NxtControlUnit implements RobotControlUnit
 
     }
 
-    private void returnToStartingPoint()
+    public void returnToStartingPoint()
     {
         // turn the robot until it faces the starting point,
         // which is equal to a robot angle of 180 degrees plus
@@ -251,17 +273,22 @@ public class NxtControlUnit implements RobotControlUnit
         double targetAngle = Utils.normalizeAngle(angleStartingPointToRobot + Math.PI);
         double radiansToTurn = Utils.normalizeAngle(targetAngle - robotAngle);
 
+        Log.d(TAG, String.format("target angle: %.3f\u00b0, to turn: %.3f\u00b0",
+                                 Math.toDegrees(targetAngle), Math.toDegrees(radiansToTurn)));
+
         if (radiansToTurn > Math.PI)
         {
             // turning left is the shorter way
-            while (mPosTracker.getAngle() > STARTING_POINT_ANGLE_TOLERANCE / 2.0)
-                turnLeftSlowly();
+            while (Utils.normalizeAngle(targetAngle - mPosTracker.getAngle()) >
+                    STARTING_POINT_ANGLE_TOLERANCE / 2.0)
+                turnLeft();
         }
         else
         {
             // turning right is the shorter way
-            while (mPosTracker.getAngle() < (2.0 * Math.PI) - (STARTING_POINT_ANGLE_TOLERANCE / 2.0))
-                turnRightSlowly();
+            while (Utils.normalizeAngle(targetAngle - mPosTracker.getAngle()) <
+                    (2.0 * Math.PI) - (STARTING_POINT_ANGLE_TOLERANCE / 2.0))
+                turnRight();
         }
 
         // the robot should be facing the starting point now
