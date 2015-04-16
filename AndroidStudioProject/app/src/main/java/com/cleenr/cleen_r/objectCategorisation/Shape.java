@@ -10,6 +10,8 @@ public enum Shape {
     SPHERE,
     CUBE;
 
+    private static final double rectangularAngle = 30;
+
     /**
      * Returns the Shape of an object, that was detected by the findContours() method.
      * @param contour The contours of the object.
@@ -17,9 +19,16 @@ public enum Shape {
      */
     public static Shape getObjectShape(MatOfPoint contour){
         double[] angles = calcAngles(contour);
-        return NONE;
-        // TODO:
 
+        double maxAngle = angles[0];
+
+        for(double angle : angles)
+            maxAngle = Math.max(angle, maxAngle);
+
+        if(maxAngle > rectangularAngle)
+            return CUBE;
+
+        return SPHERE;
     }
 
     private static double[] calcAngles(MatOfPoint contour) {
