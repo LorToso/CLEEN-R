@@ -22,11 +22,11 @@ public class NxtControlUnit implements RobotControlUnit
     private final byte LEFT_WHEEL_MOTOR  = NxtTalker.MOTOR_PORT_C;
     private final byte RIGHT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_B;
 
-    private final byte MOTOR_SPEED      = 20; // -100 to 100
-    private final byte MOTOR_SPEED_SLOW = 10; // -100 to 100
+    private final byte MOTOR_SPEED      = 50; // -100 to 100
+    private final byte MOTOR_SPEED_SLOW = 20; // -100 to 100
 
-    private final long SLEEP_TIME_TURNING = 50;
-    private final long SLEEP_TIME_DRIVING = 100;
+    private final long SLEEP_TIME_TURNING = 100;
+    private final long SLEEP_TIME_DRIVING = 200;
 
     private final double STARTING_POINT_POSITION_TOLERANCE = 0.1; // in meters
     private final double STARTING_POINT_ANGLE_TOLERANCE    = Math.PI / 180.0; // 1 degree
@@ -43,18 +43,19 @@ public class NxtControlUnit implements RobotControlUnit
         return false;
     }
 
-    public void turnRight()
+    public void turnRight(long sleepTime)
     {
         try
         {
             Log.d("ControlUnit", "Turning right");
-            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED);
-            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED, NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), NxtTalker.MOTOR_REG_MODE_NONE);
 
-            Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+            Thread.sleep(sleepTime);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
 
-            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.RIGHT, MOTOR_SPEED, SLEEP_TIME_TURNING);
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.RIGHT, MOTOR_SPEED, sleepTime);
+            Thread.sleep(200);
         }
         catch (InterruptedException e)
         {
@@ -65,14 +66,19 @@ public class NxtControlUnit implements RobotControlUnit
         lastAction = RobotAction.TURN_RIGHT;
     }
 
+    public void turnRight()
+    {
+        turnRight(SLEEP_TIME_TURNING);
+    }
+
     public void closeClaw()
     {
         try
         {
             Log.d("ControlUnit", "Closing claw");
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED, NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED);
             Thread.sleep(250);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
         }
         catch (InterruptedException e)
         {
@@ -82,18 +88,46 @@ public class NxtControlUnit implements RobotControlUnit
         lastAction = RobotAction.CLOSE_CLAW;
     }
 
-    public void driveForward()
+    public void driveForward(long sleepTime)
     {
         try
         {
             Log.d("ControlUnit", "Driving forward");
-            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED);
-            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED);
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED, NxtTalker.MOTOR_REG_MODE_SYNC);
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED, NxtTalker.MOTOR_REG_MODE_SYNC);
 
-            Thread.sleep(SLEEP_TIME_DRIVING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+            Thread.sleep(sleepTime);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
 
-            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.FORWARD, MOTOR_SPEED, SLEEP_TIME_DRIVING);
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.FORWARD, MOTOR_SPEED, sleepTime);
+            Thread.sleep(200);
+        }
+        catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        lastAction = RobotAction.DRIVE_FORWARD;
+    }
+
+    public void driveForward()
+    {
+        driveForward(SLEEP_TIME_DRIVING);
+    }
+
+    public void driveBackward(long sleepTime)
+    {
+        try
+        {
+            Log.d("ControlUnit", "Driving backward");
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), NxtTalker.MOTOR_REG_MODE_SYNC);
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), NxtTalker.MOTOR_REG_MODE_SYNC);
+
+            Thread.sleep(sleepTime);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
+
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.BACKWARD, MOTOR_SPEED, sleepTime);
+            Thread.sleep(200);
         }
         catch (InterruptedException e)
         {
@@ -105,23 +139,7 @@ public class NxtControlUnit implements RobotControlUnit
 
     public void driveBackward()
     {
-        try
-        {
-            Log.d("ControlUnit", "Driving backward");
-            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
-            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
-
-            Thread.sleep(SLEEP_TIME_DRIVING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
-
-            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.BACKWARD, MOTOR_SPEED, SLEEP_TIME_TURNING);
-        }
-        catch (InterruptedException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        lastAction = RobotAction.DRIVE_FORWARD;
+        driveBackward(SLEEP_TIME_DRIVING);
     }
 
     public boolean hasObjectInClaw()
@@ -136,9 +154,9 @@ public class NxtControlUnit implements RobotControlUnit
         try
         {
             Log.d("ControlUnit", "Opening claw");
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED), NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED));
             Thread.sleep(250);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
         }
         catch (InterruptedException e)
         {
@@ -147,18 +165,19 @@ public class NxtControlUnit implements RobotControlUnit
         lastAction = RobotAction.OPEN_CLAW;
     }
 
-    public void turnLeft()
+    public void turnLeft(long sleepTime)
     {
         try
         {
             Log.d("ControlUnit", "Turning left");
-            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED));
-            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED);
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED, NxtTalker.MOTOR_REG_MODE_NONE);
 
-            Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+            Thread.sleep(sleepTime);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
 
-            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.LEFT, MOTOR_SPEED, SLEEP_TIME_TURNING);
+            mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.LEFT, MOTOR_SPEED, sleepTime);
+            Thread.sleep(200);
         }
         catch (InterruptedException e)
         {
@@ -166,6 +185,11 @@ public class NxtControlUnit implements RobotControlUnit
             e.printStackTrace();
         }
         lastAction = RobotAction.TURN_LEFT;
+    }
+
+    public void turnLeft()
+    {
+        turnLeft(SLEEP_TIME_TURNING);
     }
 
     public void centerObject(FocusObject focusObject)
@@ -216,14 +240,15 @@ public class NxtControlUnit implements RobotControlUnit
         try
         {
             Log.d("ControlUnit", "Turning right");
-            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED_SLOW);
-            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW));
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED_SLOW, NxtTalker.MOTOR_REG_MODE_SYNC);
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW), NxtTalker.MOTOR_REG_MODE_SYNC);
 
             Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
             Thread.sleep(200);
 
             mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.RIGHT, MOTOR_SPEED_SLOW, SLEEP_TIME_TURNING);
+            Thread.sleep(200);
         }
         catch (InterruptedException e)
         {
@@ -239,14 +264,15 @@ public class NxtControlUnit implements RobotControlUnit
         try
         {
             Log.d("ControlUnit", "Turning left");
-            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW));
-            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED_SLOW);
+            mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_SLOW), NxtTalker.MOTOR_REG_MODE_SYNC);
+            mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED_SLOW, NxtTalker.MOTOR_REG_MODE_SYNC);
 
             Thread.sleep(SLEEP_TIME_TURNING);
-            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0, NxtTalker.MOTOR_REG_MODE_NONE);
+            mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
             Thread.sleep(200);
 
             mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.LEFT, MOTOR_SPEED_SLOW, SLEEP_TIME_TURNING);
+            Thread.sleep(200);
         }
         catch (InterruptedException e)
         {

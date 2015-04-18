@@ -9,8 +9,8 @@ public class PositionTracker
         FORWARD, BACKWARD, LEFT, RIGHT
     }
 
-    private static final double MAX_METERS_PER_SECOND = 0.5;
-    private static final double WHEELBASE             = 0.2; // distance between the driving wheels
+    private static final double MAX_METERS_PER_SECOND = 1.0/3.0;
+    private static final double MAX_DEGREES_PER_SECOND = Math.PI;
 
     private double mPosX, mPosY;
     private double mAngle; // mathematically negative radians, clockwise
@@ -58,9 +58,7 @@ public class PositionTracker
     private void addCircularMovement(boolean anticlockwise, byte motorSpeed, long duration)
     {
         // both motors are moving, in opposite directions
-        final double maxDegreesPerSecond = (2.0 * Math.PI * WHEELBASE) * (2.0 * MAX_METERS_PER_SECOND) / (2.0 * Math.PI);
-
-        double radiansTurned = (motorSpeed / 100.0) * maxDegreesPerSecond * (duration / 1000.0);
+        double radiansTurned = (motorSpeed / 100.0) * MAX_DEGREES_PER_SECOND * (duration / 1000.0);
         if (anticlockwise)
             radiansTurned *= -1;
 
