@@ -52,73 +52,12 @@ Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der S
 \end{figure}
 
 
-\section{Entfernungsschätzung}
-Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen bevor er kollidiert und unter Umständen seine Fracht verliert.
-
-\subsection{Stereokamerabasiert}
-\label{subsec:StereoKameraDist}
-
-Ein häufiger Ansatz für die Entfernungsschätzung stellt die Stereokamerabasierte Methode dar. Hierbei nimmt der Roboter seien Umgebung nicht mit nur einer Kamera, sondern mit mehreren, mindestens zwei, wahr. Durch einen bekannten Versatz zwischen den Aufnahmequellen der Bilder, lässt sich mittels Registrierung auch ein Versatz in den erzeugten Bildern ermitteln. Wie die beiden menschlichen Augen, erlaubt dies das Wahrnehmen der Umgebung in dritter Dimension. Abbildung \ref{fig:StereokameraEntfernung} zeigt exemplarisch eine solche Entfernungsschätzung.
-
-\begin{figure}[h]
-\centering
-\caption{Stereokamerabasierte Entfernungsschätzung}
-\label{fig:StereokameraEntfernung}
-\end{figure}
-
-Der Stereokamerabasierte Ansatz ist von der Ausführung sehr elegant, da er sich an der Natur orientiert. Problematisch ist jedoch, dass zusätzliche Hardware benötigt wird. Eine weitere Kamera als bildgebendes Mittel birgt einen neuen Grad der Komplexität, da diese mit dem vorhandenen Smartphone synchronisiert werden muss. Zusätzlich müssen Rechenintensive Registrierungen vorgenommen werden, wodurch die Echtzeitfähigkeit des Systems beeinträchtigt werden könnte.
-
-[HIER FEHLT NOCH EINE QUELLE]
+\section{Struktur der Android-App}
+\subsection{Activities}
+Aktivitätsdiagramm
 
 
-\subsection{Monokamerabasiert}
-
-Der Monokamerabasierte Ansatz stützt sich auf allen vorhandenen Informationen. Hierbei wird mittels der bekannten Position und Inklination der Kamera, sowie ihres Streuwinkels ein virtuelles Blickfeld erstellt. Dieses Blickfeld breitet sich von der Kamera aus pyramidenförmig aus und trifft den als planar angenommenen Boden. Abbildung \ref{fig:MonokameraEntfernung} zeigt den Aufbau eines solchen Systems. 
-
-\begin{figure}[h]
-\centering
-\caption{Monokamerabasierte Entfernungsschätzung}
-\label{fig:MonokameraEntfernung}
-\end{figure}
-
-Anhand der Position des detektierten Objektes im Kamerabild lässt sich daraufhin eine ungefähre Entfernungsschätzung liefern. Problematisch ist hierbei die Ungenauigkeit des Systems. Sowohl Fehler bei der Aufnahme, als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen.
-
-[HIER FEHLT NOCH EINE QUELLE]
-
-\subsection{Ultraschallbasiert}
-
-Die Ultraschallbasierte Entfernungsschätzung kann auch über Große Distanzen von bis zu zwei Metern zentimetergenaue Entfernungen messen. Die Messung wird durch einen Echo-Mechanismus mit, für den Menschen unhörbaren, Schallwellen im Ultraschallbereich durchgeführt. [HIER FEHLT NOCH EINE QUELLE] Zunächst wird jedoch, ähnlich dem in \ref{subsec:StereoKameraDist} beschriebenen Verfahren, zusätzliche Hardware in Form eines Ultraschallsensors benötigt. Ein solcher kann jedoch direkt von LEGO\texttrademark erworben und problemlos am Roboter angebracht werden. 
-
-Das Ultraschallbasierte Verfahren kann durch eine kleine Änderung des Roboters realisiert werden und liefert sehr genaue Ergebnisse. Die Koppelung mit dem Smartphone ist bereits gegeben und genügt daher Echtzeitanforderungen. 
 
 
-\section{Orientierung im Raum}
-\subsection{Kameragestützt}
-\subsection{Streckenbasiert}
-Über gefahrene Strecke
-\subsection{Kombination unterschiedlicher Sensordaten}
 
-
-\section{Zielzonenbestimmung}
-
-Zielzonen werden über App vor Start festgelegt.
-% TODO
-
-
-\section{Hauptschleife}
-\label{sec:MainLoop}
-
-Arbeitszustände
-\begin{enumerate}
-\item{Objekt suchen}
-\item{Objekt ansteuern}
-\item{Objekt aufnehmen}
-\item{Objekt kategorisieren}
-\item{Zielbereich suchen}
-\item{Zielbereich ansteuern}
-\item{Objekt ablegen}
-\end{enumerate}
-
-[INSERT ZUSTANDSÜBERGANGSDIAGRAMM]
-Petrinetz?
 

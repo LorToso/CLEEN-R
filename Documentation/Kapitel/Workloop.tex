@@ -1,7 +1,18 @@
 \chapter{Arbeitsablauf und Problematiken}
+
+Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind als in Abbildung als Petrinetz beschrieben.
+
+\begin{figure}[h]
+\centering
+\caption{Petrinetz des Arbeitsablaufs}
+\label{fig:Petrinetz}
+\end{figure}
+
+Die Arbeitsweise sowie auftretende Probleme sind in den folgenden Abschnitten beschrieben.
+
 \section{Objektsuche}
 
-\section{Objektverfolgung}
+%\section{Objektverfolgung}
 
 Sobald ein Objekt durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurde, muss sichergestellt werden, dass die Fokussierung auf dieses Objekt beibehalten werden kann. Ein zufälliges Umspringen auf zufällige andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Bildern erkannt werden kann.
 
@@ -43,5 +54,101 @@ Tendenziell muss bei der Objektverfolgung immer von einem Verlust des verfolgten
 Es hat sich gezeigt, dass kleine Fehler oder Ungenauigkeiten bei der Bildaufnahme bereits dazu führen können, dass ein Objekt nicht in der darauf folgenden Aufnahme wiedergefunden werden kann. Ist dies nur von kurzer Dauer, muss dies gesondert behandelt werden um zu vermeiden, dass der Roboter einen plötzlichen Wechsel des Verfolgungsziels durchführt. Ähnlich der in Abschnitt \ref{subsec:Similarity} beschriebenen Ähnlichkeitskriterien muss auch hier eine Toleranz für eine maximale Anzahl Aufnahmen gelegt werden, in denen das verfolgte Ziel nicht gefunden werden muss ohne, dass das Objekt als "verloren" angesehen wird. Die Wahl einer zu hohen Toleranz hat die Folge, dass der Roboter lange Zeit in einem undefinierten Zustand ein Objekt verfolgt, welches er nicht sieht. Ist die Schwelle zu niedrig gewählt, so kann dies ein häufiges Springen zwischen verschiedenen Objekten zur Folge haben, was sich sehr negativ auf die Laufzeit auswirken könnte. Empirisch hat sich gezeigt, dass eine solche Schwelle bereits bei etwa drei Aufnahmen ohne das verfolgte Objekt liegen kann. Wird ein Objekt verloren, so begibt sich der Roboter zurück in den Zustand der Objektsuche.
 
 
-\subsection{Verschwommene Bilder durch Bewegung des Roboters}
-% TODO
+\subsection{Verzerrte Aufnahmen durch Bewegung des Roboters}
+
+Durch Bewegung des Roboters während der Bildaufnahme, kann es zu verzerrten Bildern kommen. Dies kann unterschiedliche Folgen haben. Abbildung \ref{fig:Verzerrung} zeigt eine solche verzerrte Aufnahme. 
+
+\begin{figure}[h]
+\centering
+\caption{Verzerrte Aufnahme durch Bewegung des Roboters}
+\label{fig:Verzerrung}
+\end{figure}
+
+Durch die Verzerrung können unterschiedliche Phänomene auftreten. Die Verfolgung von Objekten, die in Abschnitt \ref{subsec:Similarity} beschrieben wurde kann versagen. In diesem Fall muss die Aufnahme ignoriert und verworfen werden. Es können jedoch auch Objekte fälschlicherweise erkannt und kategorisiert. Durch die Verzerrung wird die Form und Position der Objekte verfälscht. Eine solche verfälschte Aufnahme kann einen plötzlichen Wechsel des fokussierten Objektes zur Folge haben.
+
+\section{Ansteuerung von Objekten}
+\label{sec:Ansteuerung}
+
+\section{Entfernungsschätzung}
+Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen bevor er kollidiert und unter Umständen seine Fracht verliert.
+
+\subsection{Stereokamerabasiert}
+\label{subsec:StereoKameraDist}
+
+Ein häufiger Ansatz für die Entfernungsschätzung stellt die Stereokamerabasierte Methode dar. Hierbei nimmt der Roboter seien Umgebung nicht mit nur einer Kamera, sondern mit mehreren, mindestens zwei, wahr. Durch einen bekannten Versatz zwischen den Aufnahmequellen der Bilder, lässt sich mittels Registrierung auch ein Versatz in den erzeugten Bildern ermitteln. Wie die beiden menschlichen Augen, erlaubt dies das Wahrnehmen der Umgebung in dritter Dimension. Abbildung \ref{fig:StereokameraEntfernung} zeigt exemplarisch eine solche Entfernungsschätzung.
+
+\begin{figure}[h]
+\centering
+\caption{Stereokamerabasierte Entfernungsschätzung}
+\label{fig:StereokameraEntfernung}
+\end{figure}
+
+Der Stereokamerabasierte Ansatz ist von der Ausführung sehr elegant, da er sich an der Natur orientiert. Problematisch ist jedoch, dass zusätzliche Hardware benötigt wird. Eine weitere Kamera als bildgebendes Mittel birgt einen neuen Grad der Komplexität, da diese mit dem vorhandenen Smartphone synchronisiert werden muss. Zusätzlich müssen Rechenintensive Registrierungen vorgenommen werden, wodurch die Echtzeitfähigkeit des Systems beeinträchtigt werden könnte.
+
+[HIER FEHLT NOCH EINE QUELLE]
+
+
+\subsection{Monokamerabasiert}
+
+Der Monokamerabasierte Ansatz stützt sich auf allen vorhandenen Informationen. Hierbei wird mittels der bekannten Position und Inklination der Kamera, sowie ihres Streuwinkels ein virtuelles Blickfeld erstellt. Dieses Blickfeld breitet sich von der Kamera aus pyramidenförmig aus und trifft den als planar angenommenen Boden. Abbildung \ref{fig:MonokameraEntfernung} zeigt den Aufbau eines solchen Systems. 
+
+\begin{figure}[h]
+\centering
+\caption{Monokamerabasierte Entfernungsschätzung}
+\label{fig:MonokameraEntfernung}
+\end{figure}
+
+Anhand der Position des detektierten Objektes im Kamerabild lässt sich daraufhin eine ungefähre Entfernungsschätzung liefern. Problematisch ist hierbei die Ungenauigkeit des Systems. Sowohl Fehler bei der Aufnahme, als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen.
+
+[HIER FEHLT NOCH EINE QUELLE]
+
+\subsection{Ultraschallbasiert}
+
+Die Ultraschallbasierte Entfernungsschätzung kann auch über Große Distanzen von bis zu zwei Metern zentimetergenaue Entfernungen messen. Die Messung wird durch einen Echo-Mechanismus mit, für den Menschen unhörbaren, Schallwellen im Ultraschallbereich durchgeführt. [HIER FEHLT NOCH EINE QUELLE] Zunächst wird jedoch, ähnlich dem in \ref{subsec:StereoKameraDist} beschriebenen Verfahren, zusätzliche Hardware in Form eines Ultraschallsensors benötigt. Ein solcher kann jedoch direkt von LEGO\texttrademark\ erworben und problemlos am Roboter angebracht werden. 
+
+Das Ultraschallbasierte Verfahren kann durch eine kleine Änderung des Roboters realisiert werden und liefert sehr genaue Ergebnisse. Die Koppelung mit dem Smartphone ist bereits gegeben und genügt daher Echtzeitanforderungen.
+
+\section{Aufnehmen von Objekten}
+
+Das Aufnehmen von Objekten kann erfolgen sobald der Roboter, wie in Abschnitt \ref{sec:Ansteuerung} beschrieben, nah genug an das Objekt herangefahren ist. Zum Aufnehmen wird der Greifarm durch das Betreiben des dritten Motors geschlossen. Näheres hierzu findet sich im Kapitel \ref{sec:Greifarm}.
+
+\section{Kategorisierung von Objekten}
+
+Objekte werden nach zwei Kriterien kategorisiert. Diese Kriterien sind in den folgenden Abschnitten näher beschrieben.
+
+\subsection{Kategorisierung nach Farbe}
+Die Farbe des Objekts stellt ein Kriterium dar. Diese wird über die gesamte Objektverfolgung ermittelt. So kann akkurat eine beleuchtungsunabhängige Kategorisierung in menschlich wahrnehmbare Farben stattfinden. Tabelle \ref{tab:Farbtabelle} beschreibt die Auswertung der im HSV Farbraum ermittelten Farbwerte.
+
+\begin{table}
+	\centering
+	\begin{tabular}{lr}
+		\toprule
+		Farbe & HSV-Kriterium\\
+		\midrule
+		Rot & $H < 15\vee H \geq 160$ \\
+		Orange & $15 \leq H < 20$ \\
+		Gelb & $20 \leq H < 35$ \\
+		Grün & $35 \leq H < 60$ \\
+		Blau & $60 \leq H < 140$ \\
+		Violett & $140 \leq H < 160$ \\
+												
+		\bottomrule
+	\end{tabular}
+	\caption{Umrechnung von HSV-Werten in konkrete Farben.}
+	\label{tab:Farbtabelle}
+\end{table}
+
+In jeder Aufnahme wird die konkrete Farbe des Objekts bestimmt. Anschließend kann bei der Kategorisierung die am häufigsten bestimmte Farbe gewählt werden um Fehler durch Beleuchtung oder andere äußere Einflüsse zu korrigieren. 
+
+
+\subsection{Kategorisierung nach Form}
+
+
+\section{Suche des Zielbereichs}
+\subsection{Orientierung im Raum}
+\subsubsection{Kameragestützt}
+\subsubsection{Streckenbasiert}
+Über gefahrene Strecke
+
+\section{Ansteuerung des Zielbereichts}
+\section{Ablage von Objekten}
