@@ -1,17 +1,68 @@
 \chapter{Hardwareumsetzung}
 \section{Entwurf des NXT-Roboters}
 
+Die hardwareseitigen Voraussetzungen an den Roboter bestanden im Hauptsächlichen aus der freien Bewegung im Raum und dem Aufnehmen, Mitführen und Ablegen von kleinen Gegenständen in einem vordefinierten Bereich.
 
-Auf all diese Labels wird später refferenziert. Bitte beibehalten, oder alles abändern.
-[INSERT PLANS HERE]
+Nach kurzer Recherche\cite{building_instructions} und Durchsicht von Bauanleitungen für verschiedenste Anwendungsbereiche wurde sich für den Standardaufbau aus der zum Bauset zugehörigen LEGO NXT Bauanleitung entschieden.
+
+Sie wurde lediglich um den Schall- und den Abstandssensor erleichtert; eine Halterung für das Smartphone wurde hinzugefügt.
+
+\todo{hier Bild des Roboters einfügen}
+
+\pagebreak
+
 \subsection{Sensoren}
-\subsection{Aktorik}
+
+\begin{description}
+\item[Tastsensor]\hfill \\
+Der berührungsempfindliche Sensor vorne dient zum Detektieren von Gegenständen im Bereich des Greifarms, woraufhin dieser geschlossen werden kann.
+\item[Rotationssensoren]\hfill \\
+Die Rotationssensoren in den Servomotoren erlauben es dem NXT-Roboter, die Geschwindigkeit der Motoren abhängig des Widerstands (des Untergrunds) zu regulieren. So werden unter anderem präzises Abbremsen und Fehlerminimierung bei der Positionsbestimmung ermöglicht.
+\item[\todo{Farbsensor?}]
+\end{description}
+
+\subsection{Aktoren}
+
+\begin{description}
+\item[Antriebsmotoren]\hfill \\
+Die beiden Servomotoren links und rechts des NXT-Roboters bilden den differentialen Antrieb und ermöglichen freie Fortbewegung.
+\item[Greifarmmotor]\hfill \\
+Der dritte Motor im vorderen Teil des Roboters dient zum Öffnen und Schließen des Greifarms und so zur Mitführung von Gegenständen.
+\end{description}
+
+\pagebreak
 
 \section{Steuerung des Roboters}
-Bluetooth Verbindung zu Smartphone
+
+Die Steuerung des Roboters durch das Smartphone erfolgt via Bluetooth.
+Das Kommunikationsprotokoll und damit die nötigen Befehle zum Regeln der Aktoren und Auslesen der Sensoren wurde von LEGO dokumentiert und ist online erhältlich\cite{nxt_comm_protocol}.
+
+Auf dem NXT selbst wird hierbei kein Programm ausgeführt, um alle Logik zentral in der NXT-App auf dem Smartphone zu halten.
+
+Zunächst muss eine Bluetooth-Verbindung erstellt werden, wozu beide Geräte aktiviertes Bluetooth aufweisen, der Roboter zusätzlich sichtbar für das Smartphone sein müssen.
+
+Bei Erstverbindung muss der gesuchte NXT ausgewählt werden, danach ist die Bluetooth-Adresse bekannt und die App kann ohne Benutzerinteraktion eine Verbindung mit dem NXT-Roboter aufnehmen.
+
+Kommt eine Verbindung zustande, können seriell Byte für Byte die Kommandos an den NXT übertragen, eventuelle Antworten empfangen werden.
+
+App-seitig übernimmt ein gesonderter Thread in der Klasse NxtTalker nach Zustandekommen einer Verbindung das Management der Daten.
+
+Zum Bewegen der Motoren muss zunächst per Befehl pro Aktor eine Geschwindigkeit (und Parameter wie Regulierung) übergeben, zum Stoppen können alle Motoren mit einem Befehl auf Geschwindigkeit '0' gesetzt werden.
+
+Zwei Motoren können synchronisiert werden, sodass diese gleichzeitig starten. Ansonsten würde der Zeitversatz zwischen dem Absetzen der zwei 'setze Geschwindigkeit'-Befehle bewirken, dass der Roboter vor dem geradeaus fahren kurz nur das erste Rad ansteuert und in eine Richtung abdriftet.
+
+\pagebreak
 
 \section{Wahl des Kameramoduls}
 \label{sec:Kamera}
 
-\section{Der Greifarm}
-\label{sec:Greifarm} 
+Die Hauptfrage bezüglich des Kameramoduls bestand in der Wahl zwischen einem Ein- oder einem Zweikamerasystem.
+
+Der Vorteil eines Zweikamerasystems besteht in der Möglichkeit für wesentlich bessere Orientierung im 3D-Raum, da Entfernungen mittels der beiden Differenzbilder präziser berechnet werden können.
+Im Gegensatz dazu ist beim Einkamerasystem die Entfernungsberechnung auf ein 2D-Bild beschränkt und nicht annähernd so genau.
+
+Jedoch ist der Berechnungsaufwand für das Auswerten zweier Differenzbilder ungleich höher, weshalb sich letztendlich aufgrund dieser Ungleichheit des Implementierungsaufwandes für ein Einkamerasystem entschieden werden.
+
+Weitere Aspekte sind Auflösung und Öffnungswinkel des Kameramoduls.
+Höhere Auflösung bedeutet bessere Erkennung von Gegenständen auf weitere Entfernungen; Ein größerer Öffnungswinkel heißt, dass mehr Raum in einem Bild erfasst werden kann, somit weniger Drehbewegung des Roboters in Richtung eines Objekts nötig ist, bis es erfasst und detektiert werden kann.
+
