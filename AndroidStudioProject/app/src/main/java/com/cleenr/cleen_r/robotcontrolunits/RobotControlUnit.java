@@ -13,6 +13,8 @@ public interface RobotControlUnit
 
     public void driveForward();
 
+    public void driveBackward();
+
     public boolean hasObjectInClaw();
 
     public void openClaw();
@@ -24,4 +26,6 @@ public interface RobotControlUnit
     public void repeatLastAction();
 
     boolean objectInRange();
+
+    public void returnToStartingPoint();
 }
