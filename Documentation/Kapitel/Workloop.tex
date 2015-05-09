@@ -1,4 +1,5 @@
 \chapter{Arbeitsablauf und Problematiken}
+\label{cha:Workloop}
 
 Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind als in Abbildung als Petrinetz beschrieben.
 
@@ -14,17 +15,32 @@ Die Arbeitsweise sowie auftretende Probleme sind in den folgenden Abschnitten be
 
 %\section{Objektverfolgung}
 
-Sobald ein Objekt durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurde, muss sichergestellt werden, dass die Fokussierung auf dieses Objekt beibehalten werden kann. Ein zufälliges Umspringen auf zufällige andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Bildern erkannt werden kann.
+Sobald mehrere Objekte durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurden, muss eines als geeignetes Fokusziel gewählt werden. Diese Wahl erfolgt auf Basis der Form des Objektes, wobei versucht wird ein möglichst kompaktes Objekt auszuwählen, dass sich in der Bildmitte befindet
+
+TODO Hier kann noch mehr rein
+
+
+Damit der Roboter nicht ständig sein Ziel wechselt, muss er das Fokusobjekt in nachfolgenden Aufnahme wiedererkennen. Ein zufälliges Umspringen auf zufällige andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Aufnahmen erkannt werden kann. Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefundene Objekte durch ein rotes markiert. Dieses Vorgehen ist in Abbildung \ref{fig:Markierung} dargestellt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{Bilder/Workloop/Markierung}
+\caption{Auffindung eines Fokusobjekts}
+\label{fig:Markierung}
+\end{figure}
 
 \subsection{Ähnlichkeitskriterien}
 \label{subsec:Similarity}
 Um den Fokus auf ein Objekt zu behalten lassen sich verschiedene Ähnlichkeitskriterien formulieren durch die das erkannte Objekt in der Menge der im nachfolgenden Bild erkannten Objekte wieder gefunden werden kann.
 
+
+
 \subsubsection{Lokale Nähe}
-Das trivialste Kriterium stellt die lokale Nähe da. Geht man von einem Stillstand der Kamera und der aufgenommenen Szene aus, so befinden sich sämtliche Objekte in nachfolgenden Aufnahmen an der selben Stelle. Fokussierte Objekte können also rein aus ihrer Position wiedergefunden werden. Geschieht Bewegung, so kann nicht mehr von einer exakten Übereinstimmung der Koordinaten ausgegangen werden. Stattdessen muss eine gewisse Toleranz gegeben werden. Als Maß kann hierbei angenommen werden, dass sich die Position des Zentrums eines Objektes in fortlaufenden Aufnahmen um nicht mehr als beispielsweise 10\% der Aufnahmegröße geändert hat. Abbildung \ref{fig:LokaleNaehe} zeigt das beschriebene Verhalten anschaulich.
+Das trivialste Kriterium stellt die lokale Nähe da. Geht man von einem Stillstand der Kamera und der aufgenommenen Szene aus, so befinden sich sämtliche Objekte in nachfolgenden Aufnahmen an der selben Stelle. Fokussierte Objekte können daher rein aus ihrer Position wiedergefunden werden. Ist das System in Bewegung, so kann nicht mehr von einer exakten Übereinstimmung der Koordinaten ausgegangen werden. Stattdessen wird eine gewisse Toleranz gegeben. Als Maß kann hierbei angenommen werden, dass sich die Position des Zentrums eines Objektes in fortlaufenden Aufnahmen um nicht mehr als beispielsweise 10\% der Aufnahmegröße geändert hat. Abbildung \ref{fig:LokaleNaehe} zeigt das beschriebene Verhalten anschaulich am Beispiel einer nachfolgenden Aufnahme aus Abbildung \ref{fig:Markierung}. 
 
 \begin{figure}[h]
 \centering
+\includegraphics[width=0.8\textwidth]{Bilder/Workloop/MovingMarker}
 \caption{Objektverfolgung durch Kriterium der lokalen Nähe}
 \label{fig:LokaleNaehe}
 \end{figure}
