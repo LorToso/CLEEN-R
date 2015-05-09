@@ -51,6 +51,24 @@ Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der S
 \label{fig:SegmentedColorModels}
 \end{figure}
 
+\section{Ortsbestimmung}
+
+Die Aufgabe des Roboters ist es, Gegenstände in vordefinierte Bereiche zu befördern. Hierzu muss ihm jederzeit bekannt sein, wo diese sich befinden.
+
+\subsection{Arten der Positionsbestimmung}
+
+\subsubsection{Mitteilung von Beobachterkomponente}
+Ist im Raum ein weiteres System vorhanden, dessen Position konstant ist und welche den Roboter stets im Blick behält (über Kameras, Ultraschall, o. Ä.), ist eine simple und doch genaue Positionsbestimmung möglich. Der Roboter muss hierbei keine Berechnungen anstellen und verlässt sich für die korrekte Positionsbestimmung ganz auf den Beobachter, von welcher jederzeit die Lage des Roboters im Raum abrufbar ist.
+\subsubsection{Raumanalyse}
+Hierbei werden die Kamerabilder analysiert und aus ihnen Fixpunkte/-geraden des Raumes extrahiert, mit welchen sich der Roboter bei Bewegung im Raum zu orientieren versucht. Dies setzt jedoch relativ viel Rechenzeit bei der Bildverarbeitung und Implementierungsarbeit voraus.
+
+Auch müssen im Raum genügend Orientierungspunkte vorhanden sein. Verliert der Roboter die Orientierung, ist es nicht ohne weiteres möglich die ursprüngliche Position wiederzufinden.
+\subsubsection{Positionsverfolgung}
+Besitzt der Roboter einen möglichst exakten Sensor zur Beobachtung der eigens zurückgelegten Strecken in jede Richtung, kann er die Position bestimmen, indem er jede Bewegung aufzeichnet und diesen Vektor auf die letzte Position aufaddiert.
+
+Bei Rotationssensoren in den Rädern wird die Genauigkeit diese Verfahrens durch das Spiel der Räder und der Auflösung der Sensoren beeinträchtigt.
+
+Da bei diesem Projekt keine Beobachterkomponente vorhanden ist und die zusätzliche Auswertung der Bilder zu aufwändig wäre, wurde sich für die Variante der Positionsverfolgung entschieden. Die Auflösung der Rotationssensoren ist mit 1\degree ausreichend genau.
 
 \section{Struktur der Android-App}
 \subsection{Activities}

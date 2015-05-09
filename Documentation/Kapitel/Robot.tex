@@ -1,4 +1,5 @@
 \chapter{Hardwareumsetzung}
+\label{cha:robot}
 \section{Entwurf des NXT-Roboters}
 
 Die hardwareseitigen Voraussetzungen an den Roboter bestanden im Hauptsächlichen aus der freien Bewegung im Raum und dem Aufnehmen, Mitführen und Ablegen von kleinen Gegenständen in einem vordefinierten Bereich.
@@ -13,24 +14,59 @@ Sie wurde lediglich um den Schall- und den Abstandssensor erleichtert; eine Halt
 
 \subsection{Sensoren}
 
-\begin{description}
-\item[Tastsensor]\hfill \\
-Der berührungsempfindliche Sensor vorne dient zum Detektieren von Gegenständen im Bereich des Greifarms, woraufhin dieser geschlossen werden kann.
-\item[Rotationssensoren]\hfill \\
+\subsubsection{Tastsensor}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/3]{Bilder/Robot/button_sensor}
+\caption{Tastsensor des NXT-Systems}
+\label{fig:buttonSensor}
+\end{figure}
+
+Der berührungsempfindliche Sensor vorne diente zum Detektieren von Gegenständen im Bereich des Greifarms, woraufhin dieser geschlossen werden kann. Er wurde durch den Ultraschallsensor ersetzt, der nicht nur die unmittelbare Berührung bemerkt sondern auch ein herannahendes Objekt während der Fahrt detektiert.
+
+\subsubsection{Rotationssensoren}
+
 Die Rotationssensoren in den Servomotoren erlauben es dem NXT-Roboter, die Geschwindigkeit der Motoren abhängig des Widerstands (des Untergrunds) zu regulieren. So werden unter anderem präzises Abbremsen und Fehlerminimierung bei der Positionsbestimmung ermöglicht.
-\item[\todo{Farbsensor?}]
-\end{description}
+
+\subsubsection{Farbsensor}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/3]{Bilder/Robot/color_sensor}
+\caption{Farbsensor des NXT-Systems}
+\label{fig:colorSensor}
+\end{figure}
+
+Der RGB-Sensor am Boden des NXT dient dazu, die Farbe des Bodens herauszufinden. Diese kann sowohl dazu genutzt werden, bei der Bildverarbeitung die Hintergrundfarbe herauszurechnen und so die Qualität der Objekterkennung zu erhöhen, als auch eine farblich markierte Zielzone im Raum finden zu können, auf der ein getragenes Objekt abgelegt werden kann.
+
+\subsubsection{Ultraschallsensor}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/3]{Bilder/Robot/distance_sensor}
+\caption{Ultraschallsensor des NXT-Systems}
+\label{fig:distanceSensor}
+\end{figure}
+
+Der Ultraschallsensor dient zur Messung der Distanz vom Roboter zum nächsten soliden Objekt. Hier wird er genutzt um zu detektieren, wie weit ein Objekt vom Greifarm entfernt ist, um diesen im geeigneten Moment zu schließen und so das Objekt mitnehmen zu können. Auch ermöglicht er ein geregeltes Heranfahren an ein Objekt. Die Präzision des Distanzsensors beträgt $\pm$3cm.
 
 \subsection{Aktoren}
 
-\begin{description}
-\item[Antriebsmotoren]\hfill \\
-Die beiden Servomotoren links und rechts des NXT-Roboters bilden den differentialen Antrieb und ermöglichen freie Fortbewegung.
-\item[Greifarmmotor]\hfill \\
-Der dritte Motor im vorderen Teil des Roboters dient zum Öffnen und Schließen des Greifarms und so zur Mitführung von Gegenständen.
-\end{description}
+\subsubsection{Antriebsmotoren}
 
-\pagebreak
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/3]{Bilder/Robot/motor}
+\caption{Servo-Motor des NXT-Systems}
+\label{fig:motor}
+\end{figure}
+
+Die beiden Servomotoren links und rechts des NXT-Roboters bilden den differentialen Antrieb und ermöglichen freie Fortbewegung.
+
+\subsubsection{Greifarmmotor}
+\label{greifarm}
+Der dritte Motor im vorderen Teil des Roboters dient zum Öffnen und Schließen des Greifarms und so zur Mitführung von Gegenständen.
 
 \section{Steuerung des Roboters}
 
@@ -51,8 +87,6 @@ Zum Bewegen der Motoren muss zunächst per Befehl pro Aktor eine Geschwindigkeit
 
 Zwei Motoren können synchronisiert werden, sodass diese gleichzeitig starten. Ansonsten würde der Zeitversatz zwischen dem Absetzen der zwei 'setze Geschwindigkeit'-Befehle bewirken, dass der Roboter vor dem geradeaus fahren kurz nur das erste Rad ansteuert und in eine Richtung abdriftet.
 
-\pagebreak
-
 \section{Wahl des Kameramoduls}
 \label{sec:Kamera}
 
@@ -65,4 +99,15 @@ Jedoch ist der Berechnungsaufwand für das Auswerten zweier Differenzbilder ungl
 
 Weitere Aspekte sind Auflösung und Öffnungswinkel des Kameramoduls.
 Höhere Auflösung bedeutet bessere Erkennung von Gegenständen auf weitere Entfernungen; Ein größerer Öffnungswinkel heißt, dass mehr Raum in einem Bild erfasst werden kann, somit weniger Drehbewegung des Roboters in Richtung eines Objekts nötig ist, bis es erfasst und detektiert werden kann.
+
+Ein Problem bei der Kamera des Nexus ist, das sich diese nicht zentral auf dem Rücken des Smartphones befindet, sondern nach links oben versetzt. Dies setzt voraus, dass entweder Software- oder Hardwareseitig dieser Versatz aus der Bildverarbeitung kompensiert wird.
+
+Hier wurde der Einfachheit halber die Halterung am Roboter verschoben, wodurch aus der Sicht des Roboters die Kamera in der Mitte liegt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/3]{Bilder/Robot/nexus_backside}
+\caption{Servo-Motor des NXT-Systems}
+\label{fig:motor}
+\end{figure}
 
