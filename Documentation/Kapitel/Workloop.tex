@@ -50,15 +50,18 @@ Das Größenkriterium ähnelt zunächst dem Kriterium der lokalen Nähe, bezieht
 
 \begin{figure}[h]
 \centering
+\includegraphics[width=0.8\textwidth]{Bilder/Workloop/BigObject}
 \caption{Objektverfolgung durch Größenkriterium}
 \label{fig:GroessenKriterium}
 \end{figure}
+
 
 \subsubsection{Farbliche Ähnlichkeit}
 Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist Abhängig vom Farbraum in dem die Aufnahme getätigt oder konvertiert wurde. Wie in Abschnitt \ref{sec:Objekterkennung} beschrieben, wird die Aufnahme bei der Objekterkennung in das HSV-Format konvertiert. Daher kann das Ähnlichkeitsmaß sich auf den Farbkanal, den Sättigungskanal oder den Intensitätskanal beziehen. Durch außschließen des Intensitätskanals kann eine weitgehend helligkeitsunabhängige Bestimmung erreicht werden. Daher ist das Filtern nach Objekten ähnlicher Farbe und Sättigung durchaus sinnvoll. Auch hier lässt sich eine Toleranz formulieren, wie etwa 10\% Abweichung von der durchschnittlichen Farbe des zuvor ermittelten Objektes. Abbildung \ref{fig:FarbKriterium} zeigt die farbliche Ähnlichkeit zweier Objekte und die dadurch resultierende Wiederfindung des Objektes in der Folgeaufnahme.
 
 \begin{figure}[h]
 \centering
+\includegraphics[width=0.8\textwidth]{Bilder/Workloop/ColoredObjects}
 \caption{Objektverfolgung durch farbliche Ähnlichkeit}
 \label{fig:FarbKriterium}
 \end{figure}
@@ -67,7 +70,7 @@ Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist A
 
 Tendenziell muss bei der Objektverfolgung immer von einem Verlust des verfolgten Objektes ausgegangen werden. Dies kann permanent sein, wie beispielsweise bei apprupter starker Veränderung der Lichtbedingungen, oder lediglich temporär durch Fehler bei der Bildaufnahme geschehen. In diesem Abschnitt wird auf letzteres eingegangen, da das Verhalten bei längerfristigem Verlust wird in Abschnitt \ref{sec:MainLoop} beschrieben wird.
 
-Es hat sich gezeigt, dass kleine Fehler oder Ungenauigkeiten bei der Bildaufnahme bereits dazu führen können, dass ein Objekt nicht in der darauf folgenden Aufnahme wiedergefunden werden kann. Ist dies nur von kurzer Dauer, muss dies gesondert behandelt werden um zu vermeiden, dass der Roboter einen plötzlichen Wechsel des Verfolgungsziels durchführt. Ähnlich der in Abschnitt \ref{subsec:Similarity} beschriebenen Ähnlichkeitskriterien muss auch hier eine Toleranz für eine maximale Anzahl Aufnahmen gelegt werden, in denen das verfolgte Ziel nicht gefunden werden muss ohne, dass das Objekt als "verloren" angesehen wird. Die Wahl einer zu hohen Toleranz hat die Folge, dass der Roboter lange Zeit in einem undefinierten Zustand ein Objekt verfolgt, welches er nicht sieht. Ist die Schwelle zu niedrig gewählt, so kann dies ein häufiges Springen zwischen verschiedenen Objekten zur Folge haben, was sich sehr negativ auf die Laufzeit auswirken könnte. Empirisch hat sich gezeigt, dass eine solche Schwelle bereits bei etwa drei Aufnahmen ohne das verfolgte Objekt liegen kann. Wird ein Objekt verloren, so begibt sich der Roboter zurück in den Zustand der Objektsuche.
+Es hat sich gezeigt, dass kleine Fehler oder Ungenauigkeiten bei der Bildaufnahme bereits dazu führen können, dass ein Objekt nicht in der darauf folgenden Aufnahme wiedergefunden werden kann. Ist dies nur von kurzer Dauer, muss dies gesondert behandelt werden um zu vermeiden, dass der Roboter einen plötzlichen Wechsel des Verfolgungsziels durchführt. Ähnlich der in Abschnitt \ref{subsec:Similarity} beschriebenen Ähnlichkeitskriterien muss auch hier eine Toleranz für eine maximale Anzahl Aufnahmen gelegt werden, in denen das verfolgte Ziel nicht gefunden werden muss ohne, dass das Objekt als \glqq verloren\grqq\ angesehen wird. Die Wahl einer zu hohen Toleranz hat die Folge, dass der Roboter lange Zeit in einem undefinierten Zustand ein Objekt verfolgt, welches er nicht sieht. Ist die Schwelle zu niedrig gewählt, so kann dies ein häufiges Springen zwischen verschiedenen Objekten zur Folge haben, was sich sehr negativ auf die Laufzeit auswirken könnte. Empirisch hat sich gezeigt, dass eine solche Schwelle bereits bei etwa drei Aufnahmen ohne das verfolgte Objekt liegen kann. Wird ein Objekt verloren, so begibt sich der Roboter zurück in den Zustand der Objektsuche.
 
 
 \subsection{Verzerrte Aufnahmen durch Bewegung des Roboters}
@@ -89,6 +92,7 @@ Sobald ein Objekt gefunden wurde, kann der Roboter beginnen dies anzufahren. Hie
 
 \begin{figure}[h]
 \centering
+\includegraphics[width=\textwidth]{Bilder/Workloop/Zentrierung}
 \caption{Zentrierung eines Objekts}
 \label{fig:Zentrierung}
 \end{figure}
