@@ -138,4 +138,20 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="close"
+        android:id="@+id/button_closeClaw"
+        android:layout_below="@+id/button_moveBackward"
+        android:layout_alignStart="@+id/button_moveBackward" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="open"
+        android:id="@+id/button_openClaw"
+        android:layout_below="@+id/button_moveBackward"
+        android:layout_toEndOf="@+id/button_moveBackward" />
+
 </RelativeLayout>

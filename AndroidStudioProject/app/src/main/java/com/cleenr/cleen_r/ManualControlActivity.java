@@ -72,7 +72,6 @@ public class ManualControlActivity extends ActionBarActivity
                 }
         );
 
-        mPositionDisplayTimer = new Timer("refreshDisplay timer");
         Log.d(TAG, "created activity");
     }
 
@@ -80,8 +79,10 @@ public class ManualControlActivity extends ActionBarActivity
     protected void onPause()
     {
         super.onPause();
-        if (mPositionDisplayTimer != null)
+        if (mPositionDisplayTimer != null) {
             mPositionDisplayTimer.cancel();
+            mPositionDisplayTimer = null;
+        }
         if (mTaskSenderThread != null)
             stopTaskSenderThread();
         Log.d(TAG, "paused activity");
@@ -91,9 +92,9 @@ public class ManualControlActivity extends ActionBarActivity
     protected void onResume()
     {
         super.onResume();
-        if (mPositionDisplayTimer != null)
-            // refresh every 100 ms
-            mPositionDisplayTimer.scheduleAtFixedRate(new RefreshPositionDisplayTimerTask(), 0, 100);
+        // refresh every 100 ms
+        mPositionDisplayTimer = new Timer("refreshDisplay timer");
+        mPositionDisplayTimer.scheduleAtFixedRate(new RefreshPositionDisplayTimerTask(), 0, 100);
         if (mTaskSenderThread != null)
             stopTaskSenderThread();
         mTaskSenderThread = new Thread(new NxtTaskSender(), "task sender thread");
@@ -146,6 +147,12 @@ public class ManualControlActivity extends ActionBarActivity
                             case R.id.button_return_to_starting_point:
                                 mRobotTask = RobotAction.RETURN_TO_STARTING_POINT;
                                 break;
+                            case R.id.button_openClaw:
+                                mRobotTask = RobotAction.OPEN_CLAW;
+                                break;
+                            case R.id.button_closeClaw:
+                                mRobotTask = RobotAction.CLOSE_CLAW;
+                                break;
                             default:
                                 return false;
                         }
@@ -169,6 +176,8 @@ public class ManualControlActivity extends ActionBarActivity
         findViewById(R.id.button_moveLeft).setOnTouchListener(taskButtonOnTouchListener);
         findViewById(R.id.button_moveRight).setOnTouchListener(taskButtonOnTouchListener);
         findViewById(R.id.button_return_to_starting_point).setOnTouchListener(taskButtonOnTouchListener);
+        findViewById(R.id.button_openClaw).setOnTouchListener(taskButtonOnTouchListener);
+        findViewById(R.id.button_closeClaw).setOnTouchListener(taskButtonOnTouchListener);
     }
 
     private class RefreshPositionDisplayTimerTask extends TimerTask

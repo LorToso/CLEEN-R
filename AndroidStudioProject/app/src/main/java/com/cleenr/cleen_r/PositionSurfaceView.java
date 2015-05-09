@@ -54,8 +54,6 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
 
     private void init()
     {
-        mDrawTimer = new Timer("draw timer");
-
         mPositions = new PositionList();
 
         mBackPaint = new Paint();
@@ -88,6 +86,7 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
     public void surfaceCreated(SurfaceHolder holder)
     {
         // draw every 100 ms
+        mDrawTimer = new Timer("draw timer");
         mDrawTimer.scheduleAtFixedRate(new DrawTimerTask(holder), 0, 100);
     }
 
@@ -100,6 +99,7 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         mDrawTimer.cancel();
+        mDrawTimer = null;
     }
 
     private class DrawTimerTask extends TimerTask
