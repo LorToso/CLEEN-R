@@ -1,0 +1,157 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context="com.cleenr.cleen_r.ManualControlActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="forward"
+        android:id="@+id/button_moveForward"
+        android:width="110dp"
+        android:height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="left"
+        android:id="@+id/button_moveLeft"
+        android:width="110dp"
+        android:height="50dp"
+        android:layout_below="@+id/button_moveForward"
+        android:layout_toStartOf="@+id/button_moveForward"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="right"
+        android:id="@+id/button_moveRight"
+        android:layout_below="@+id/button_moveForward"
+        android:layout_toEndOf="@+id/button_moveForward"
+        android:width="110dp"
+        android:height="50dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="backward"
+        android:id="@+id/button_moveBackward"
+        android:width="110dp"
+        android:height="50dp"
+        android:layout_below="@+id/button_moveRight"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="X:"
+        android:id="@+id/textView_label_x"
+        android:layout_below="@+id/button_moveBackward"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Y:"
+        android:id="@+id/textView_label_y"
+        android:layout_below="@+id/textView_label_x"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0.000"
+        android:id="@+id/textView_x"
+        android:width="100dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/button_moveBackward"
+        android:layout_toEndOf="@+id/textView_label_angle"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0.000"
+        android:id="@+id/textView_y"
+        android:textAlignment="center"
+        android:width="100dp"
+        android:layout_below="@+id/textView_x"
+        android:layout_alignStart="@+id/textView_x"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Angle:"
+        android:id="@+id/textView_label_angle"
+        android:layout_below="@+id/textView_label_y"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0.000"
+        android:id="@+id/textView_angle"
+        android:layout_below="@+id/textView_y"
+        android:width="100dp"
+        android:textAlignment="center"
+        android:layout_alignStart="@+id/textView_x"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="return to starting point"
+        android:id="@+id/button_return_to_starting_point"
+        android:layout_below="@+id/textView_label_angle"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reset"
+        android:id="@+id/button_reset"
+        android:layout_toEndOf="@+id/button_return_to_starting_point"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignTop="@+id/button_return_to_starting_point"/>
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        class="com.cleenr.cleen_r.PositionSurfaceView"
+        android:id="@+id/positionSurfaceView"
+        android:layout_below="@+id/button_return_to_starting_point"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="close"
+        android:id="@+id/button_closeClaw"
+        android:layout_below="@+id/button_moveBackward"
+        android:layout_alignStart="@+id/button_moveBackward" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="open"
+        android:id="@+id/button_openClaw"
+        android:layout_below="@+id/button_moveBackward"
+        android:layout_toEndOf="@+id/button_moveBackward" />
+
+</RelativeLayout>

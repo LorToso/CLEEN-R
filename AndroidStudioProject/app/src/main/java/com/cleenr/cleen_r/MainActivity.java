@@ -23,8 +23,9 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 
-
 public class MainActivity extends Activity implements CvCameraViewListener {
+
+    public static final boolean AUTO_CONNECT = false;
     private static final String TAG = "MainActivity";
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -65,9 +66,8 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -77,17 +77,20 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.main_activity_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
+        /*
         mOpenCvCameraView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 findBrick();
             }
         });
+        */
     }
 
     public void onStart() {
         super.onStart();
-        findBrick();
+        if (AUTO_CONNECT)
+            findBrick();
     }
 
     @Override
@@ -129,7 +132,11 @@ public class MainActivity extends Activity implements CvCameraViewListener {
                 findBrick();
                 return true;
             case R.id.action_disconnect:
-                mNXTTalker.stop();
+                if (mNXTTalker != null)
+                    mNXTTalker.stop();
+                break;
+            case R.id.action_manualControl:
+                startManualControlActivity();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -141,6 +148,12 @@ public class MainActivity extends Activity implements CvCameraViewListener {
 
         if (enableBluetooth())
             startBrickFindingActivity();
+    }
+
+    private void startManualControlActivity() {
+        mOpenCvCameraView.disableView();
+        Intent intent = new Intent(this, ManualControlActivity.class);
+        startActivity(intent);
     }
 
     private void startBrickFindingActivity() {
