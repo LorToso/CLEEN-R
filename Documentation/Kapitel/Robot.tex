@@ -12,6 +12,23 @@ Sie wurde lediglich um den Schall- und den Abstandssensor erleichtert; eine Halt
 
 \pagebreak
 
+\subsection{NXT-Stein}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{Bilder/Robot/nxt_brick}
+\caption{NXT-Stein}
+\label{fig:nxtBrick}
+\end{figure}
+
+Der NXT-Stein bildet die Recheneinheit und damit die Hauptkomponente des NXT-Robotersystems. Er besitzt oben drei Ausgänge für Motoren über die gleichzeitig die Rotationssensoren in den Servo-Motoren ausgelesen werden.
+
+Unten befinden sich vier Eingänge für verschiedene Sensoren, die je nach Anwendungszweck über Flachbandkabel bestückt werden können, etwa ein Licht-, Schall-, Tastsensor oder beliebige Kombinationen daraus. Dies macht das NXT-System zu einem sehr flexiblem da einfach konfigurierbaren Robotersystem.
+
+Über einen USB-Anschluss oben wird der NXT mit dem PC verbunden um ihn mit Programmen zu versorgen. Hierfür wird von LEGO eine graphische Entwicklungsumgebung bereitgestellt um auch Neulingen den Einstieg in die Roboter-Programmierung zu vereinfachen und ihnen die Möglichkeit zu bieten schon innerhalb weniger Minuten einen funktionierenden Prototypen auf die Beine stellen zu können. Im Fall des CLEEN-R-Aufbaus wird jedoch lediglich die interne Bluetooth-Verbindung genutzt.
+
+Vorne befindet sich ein 100 mal 64 Pixel auflösendes binäres LCD-Display über das Einstellungen getätigt oder Statusmeldungen ausgegeben werden können. Auch Sound-Ausgabe über einen integrierten 8-Bit-Lautsprecher ist möglich.
+
 \subsection{Sensoren}
 
 \subsubsection{Tastsensor}
@@ -73,6 +90,13 @@ Der dritte Motor im vorderen Teil des Roboters dient zum Öffnen und Schließen 
 Die Steuerung des Roboters durch das Smartphone erfolgt via Bluetooth.
 Das Kommunikationsprotokoll und damit die nötigen Befehle zum Regeln der Aktoren und Auslesen der Sensoren wurde von LEGO dokumentiert und ist online erhältlich\cite{nxt_comm_protocol}.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth/2]{Bilder/Robot/bluetooth}
+\caption{Bluetooth-Verbindung zwischen NXT und Nexus 5}
+\label{fig:bluetooth}
+\end{figure}
+
 Auf dem NXT selbst wird hierbei kein Programm ausgeführt, um alle Logik zentral in der NXT-App auf dem Smartphone zu halten.
 
 Zunächst muss eine Bluetooth-Verbindung erstellt werden, wozu beide Geräte aktiviertes Bluetooth aufweisen, der Roboter zusätzlich sichtbar für das Smartphone sein müssen.
@@ -107,7 +131,7 @@ Hier wurde der Einfachheit halber die Halterung am Roboter verschoben, wodurch a
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth/3]{Bilder/Robot/nexus_backside}
-\caption{Servo-Motor des NXT-Systems}
-\label{fig:motor}
+\caption{Kameramodul des Nexus 5}
+\label{fig:camera}
 \end{figure}
 
