@@ -217,8 +217,8 @@ Kategorisieren<y:LabelModel>
           <y:Geometry height="40.0" width="80.0" x="337.518253968254" y="912.2391047013977"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.9375" modelName="custom" textColor="#000000" visible="true" width="60.84765625" x="9.576171875" y="4.03125">Zielzone
-erkennen<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.9375" modelName="custom" textColor="#000000" visible="true" width="72.537109375" x="3.7314453125" y="4.03125">Zielzone
+lokalisieren<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -485,7 +485,7 @@ zurückkehren<y:LabelModel>
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="22.68799503419109" sy="-11.933750000000884" tx="40.00000000000003" ty="0.0">
+          <y:Path sx="22.68799503419109" sy="-11.933750000000828" tx="40.00000000000003" ty="0.0">
             <y:Point x="400.2063492063492" y="286.31595"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>

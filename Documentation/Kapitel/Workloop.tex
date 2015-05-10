@@ -1,25 +1,26 @@
 \chapter{Arbeitsablauf und Problematiken}
 \label{cha:Workloop}
 
-Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind als in Abbildung als Petrinetz beschrieben.
-
-\begin{figure}[h]
-\centering
-\caption{Petrinetz des Arbeitsablaufs}
-\label{fig:Petrinetz}
-\end{figure}
-
-Die Arbeitsweise sowie auftretende Probleme sind in den folgenden Abschnitten beschrieben.
+Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind in den nachfolgenden Abschnitten beschrieben und zusätzlich in Abbildung \ref{fig:Ablauf} als Flussdiagramm dargestellt.
 
 \section{Objektsuche}
-
-%\section{Objektverfolgung}
 
 Sobald mehrere Objekte durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurden, muss eines als geeignetes Fokusziel gewählt werden. Wie diese Wahl erfolgt, ist im nachfolgenden Abschnitt beschrieben. Ist ein Fokusobjekt gefunden, so muss es in der nachfolgenden Aufnahme wiedererkannt werden um einen Wechsel zu verhindern. 
 
 Ein zufälliges Umspringen auf andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Aufnahmen erkannt werden kann.
 
 Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefundene Objekte durch ein rotes markiert. Dieses Vorgehen ist in Abbildung \ref{fig:Markierung} dargestellt.
+
+\pagebreak
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=\textheight]{Bilder/Workloop/Ablaufdiagramm}
+\caption{Flussdiagramm des Arbeitsablaufs}
+\label{fig:Ablauf}
+\end{figure}
+
+\pagebreak
 
 \begin{figure}[h]
 \centering
@@ -35,7 +36,7 @@ Eine weitere Bedingung ist, dass das begrenzende Rechteck des Fokusobjekts mögl
 
 \subsection{Ähnlichkeitskriterien}
 \label{subsec:Similarity}
-Um den Fokus auf ein Objekt zu behalten lassen sich verschiedene Ähnlichkeitskriterien formulieren durch die das erkannte Objekt in der Menge der im nachfolgenden Bild erkannten Objekte wieder gefunden werden kann.
+Um den Fokus auf ein Objekt zu behalten lassen sich verschiedene Ähnlichkeitskriterien formulieren durch die das erkannte Objekt in der Menge der im nachfolgenden Bild erkannten Objekte wiedergefunden werden kann.
 
 
 
@@ -106,6 +107,7 @@ Ist das Objekt zentral gelegen, so muss der Roboter lediglich geradeaus fahren, 
 Weiterhin wichtig, ist es jedoch zu wissen, wann in den Zustand des Objekt Aufhebens übergegangen werden kann. Hierfür darf der Roboter nur eine geringe Entfernung zum Objekt aufweisen. Die folgenden Abschnitte gehen auf verschiedene Methoden der Entfernungsmessung ein.
 
 \subsection{Entfernungsschätzung}
+\label{subsec:Entfernungsschätzung}
 Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen bevor er kollidiert und unter Umständen seine Fracht verliert.
 
 \subsubsection{Stereokamerabasiert}
