@@ -1,10 +1,19 @@
 \chapter{Arbeitsablauf und Problematiken}
 \label{cha:Workloop}
 
-Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind in den nachfolgenden Abschnitten beschrieben und zusätzlich in Abbildung \ref{fig:Ablauf} als Flussdiagramm dargestellt.
+Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind als in Abbildung als Petrinetz beschrieben.
 
+\begin{figure}[h]
+\centering
+\caption{Petrinetz des Arbeitsablaufs}
+\label{fig:Petrinetz}
+\end{figure}
+
+Die Arbeitsweise sowie auftretende Probleme sind in den folgenden Abschnitten beschrieben.
 
 \section{Objektsuche}
+
+%\section{Objektverfolgung}
 
 Sobald mehrere Objekte durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurden, muss eines als geeignetes Fokusziel gewählt werden. Wie diese Wahl erfolgt, ist im nachfolgenden Abschnitt beschrieben. Ist ein Fokusobjekt gefunden, so muss es in der nachfolgenden Aufnahme wiedererkannt werden um einen Wechsel zu verhindern. 
 
@@ -12,25 +21,12 @@ Ein zufälliges Umspringen auf andere erkannte Objekte wäre für den Prozess se
 
 Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefundene Objekte durch ein rotes markiert. Dieses Vorgehen ist in Abbildung \ref{fig:Markierung} dargestellt.
 
-\pagebreak
-
-\begin{figure}[H]
-\centering
-\includegraphics[height=\textheight]{Bilder/Workloop/Ablaufdiagramm}
-\caption{Flussdiagramm des Arbeitsablaufs}
-\label{fig:Ablauf}
-\end{figure}
-
-\pagebreak
-
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{Bilder/Workloop/Markierung}
 \caption{Auffindung eines Fokusobjekts}
 \label{fig:Markierung}
 \end{figure}
-
 
 \subsection{Auffinden eines Fokusobjekts}
 Die Wahl eines ersten Fokusobjekts erfolgt nach Positions- und Größenkriterien. Es wird versucht ein Objekt zu wählen, welches möglichst zentral in der Aufnahme liegt. 
@@ -110,7 +106,6 @@ Ist das Objekt zentral gelegen, so muss der Roboter lediglich geradeaus fahren, 
 Weiterhin wichtig, ist es jedoch zu wissen, wann in den Zustand des Objekt Aufhebens übergegangen werden kann. Hierfür darf der Roboter nur eine geringe Entfernung zum Objekt aufweisen. Die folgenden Abschnitte gehen auf verschiedene Methoden der Entfernungsmessung ein.
 
 \subsection{Entfernungsschätzung}
-\label{subsec:Entfernungsschätzung}
 Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen bevor er kollidiert und unter Umständen seine Fracht verliert.
 
 \subsubsection{Stereokamerabasiert}
@@ -231,17 +226,16 @@ Zur Orientierung im Raum wird die im Abschnitt \ref{sec:Ortsbestimmung} beschrie
 
 Die Klasse PositionTracker behält Position und Winkel des Roboters im Blick. Da der Roboter nur gerade fahren oder sich auf der Stelle drehen kann, also die Geschwindigkeit der beiden Antriebsmotoren stets gleich ist, ist die Vektorberechnung recht einfach.
 
-Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der angesteuerten prozentualen aktuellen Geschwindigkeit skaliert wird. Mit der Dauer der Bewegung erhält man die zurückgelegte Strecke. Abhängig vom Winkel des Roboters im Vergleich zum Startzeitpunkt werden nun der X- und der Y-Anteil berechnet und auf die Roboterposition aufaddiert.
+Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der angesteuerten prozentualen aktuellen Geschwindigkeit skaliert wird. Mit der Dauer der Bewegung erhält man die zurückgelegte Strecke. Abhängig vom Winkel des Roboters im Vergleich zum Startzeitpunkt werden nun der X- und der Y-Anteil ($X=sin(\alpha)$, $Y=cos(\alpha)$) berechnet und auf die Roboterposition aufaddiert.
 
-Bei Drehung um die eigene Achse wird 
-
-\todo{Skizze der Positionsverfolgung}
+Bei Drehung um die eigene Achse wird die kalibrierte maximale Drehgeschwindigkeit skaliert, mit der Dauer multipliziert und der resultierende Winkel auf den des Roboters aufaddiert.
 
 \section{Ansteuerung des Zielbereichs}
 
 
 
 \section{Ablegen von Objekten}
+
 Das Ablegen von Objekten erfolgt analog zum in Abschnitt \ref{sec:Aufnehmen} beschriebenen Aufnehmen von Objekten. Sobald die Zielzone erreicht wird, kann das getragene Objekt abgelegt werden. Dies erfolgt über die Ansteuerung des dritten Motors, der den Greifarm steuert. 
 
 Sobald das Objekt an der Zielzone abgelegt wurde, kann der Roboter zurück an seine Ausgangsposition fahren. 
