@@ -126,13 +126,44 @@ Problematisch ist jedoch, dass zusätzliche Hardware benötigt wird. Eine weiter
 
 \subsubsection{Monokamerabasiert}
 
-Der monokamerabasierte Ansatz stützt sich bei der Entfernungsberechnung auf alle vorhandenen Informationen. Hierbei wird mittels der bekannten Position und Inklination der Kamera, sowie ihres Streuwinkels ein virtuelles Blickfeld erstellt. Dieses Blickfeld breitet sich von der Kamera aus pyramidenförmig aus und trifft den als planar angenommenen Boden. Abbildung \ref{fig:MonokameraEntfernung} zeigt den Aufbau eines solchen Systems. 
+Der monokamerabasierte Ansatz stützt sich bei der Entfernungsberechnung auf alle vorhandenen Informationen. Hierbei wird mittels der bekannten Position und Inklination der Kamera, sowie ihres Öffnungswinkels ein virtuelles Blickfeld erstellt. Dieses Blickfeld breitet sich von der Kamera aus pyramidenförmig aus und trifft den als planar angenommenen Boden. Abbildung \ref{fig:MonokameraEntfernung} zeigt den Aufbau eines solchen Systems. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{Bilder/Workloop/Monokamera}
-\caption{Monokamerabasierte Entfernungsschätzung}
+\caption{Aufbau der monokamerabasierten Entfernungsschätzung}
 \label{fig:MonokameraEntfernung}
+\end{figure}
+
+Da der Boden als planar angenommen wird, ist davon auszugehen, dass die Position eines Objekts durch die niedrigste y-Koordinate in der Aufnahme approximiert werden kann. Dies ist aus Abbildung \ref{fig:MonokameraEntfernung2} näher ersichtlich. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{Bilder/Workloop/Monokamera2}
+\caption{Exemplarische monokamerabasierte Entfernungsschätzung}
+\label{fig:MonokameraEntfernung2}
+\end{figure}
+
+Abbildung \ref{fig:MonokameraEntfernung3} zeigt hierbei die entstehende Aufnahme des Verfahrens, sowie eine  Positionsschätzung des Objekts. Die Parameter wurden realitätsgetreu folgendermaßen gewählt: 
+\begin{table}
+\begin{tabular}{lcr}
+\toprule
+Parameter & Wert & Erklärung\\
+\midrule
+$y_1$ & $5cm$ & Kamera \glqq schwebt\grqq\ $5cm$ in der Luft\\
+$\alpha$ & $45\degree$ & Kamera ist im 45\degree\ Winkel zum Boden geneigt\\
+$\beta$ & $40\degree$ & Kamera hat 40\degree\ Öffnungswinkel\\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.33\textwidth]{Bilder/Workloop/Monokamera3}
+\caption{Aufnahme aus der monokamerabasierten Entfernungsschätzung}
+\label{fig:MonokameraEntfernung3}
 \end{figure}
 
 Anhand der Position des detektierten Objektes im Kamerabild lässt sich daraufhin eine ungefähre Entfernungsschätzung liefern. Problematisch ist hierbei die Ungenauigkeit des Systems. Sowohl Fehler bei der Aufnahme, als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen. 
