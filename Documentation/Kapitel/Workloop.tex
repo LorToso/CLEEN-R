@@ -15,12 +15,11 @@ Die Arbeitsweise sowie auftretende Probleme sind in den folgenden Abschnitten be
 
 %\section{Objektverfolgung}
 
-Sobald mehrere Objekte durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurden, muss eines als geeignetes Fokusziel gewählt werden. Diese Wahl erfolgt auf Basis der Form des Objektes, wobei versucht wird ein möglichst kompaktes Objekt auszuwählen, dass sich in der Bildmitte befindet
+Sobald mehrere Objekte durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurden, muss eines als geeignetes Fokusziel gewählt werden. Wie diese Wahl erfolgt, ist im nachfolgenden Abschnitt beschrieben. Ist ein Fokusobjekt gefunden, so muss es in der nachfolgenden Aufnahme wiedererkannt werden um einen Wechsel zu verhindern. 
 
-TODO Hier kann noch mehr rein
+Ein zufälliges Umspringen auf andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Aufnahmen erkannt werden kann.
 
-
-Damit der Roboter nicht ständig sein Ziel wechselt, muss er das Fokusobjekt in nachfolgenden Aufnahme wiedererkennen. Ein zufälliges Umspringen auf zufällige andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Aufnahmen erkannt werden kann. Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefundene Objekte durch ein rotes markiert. Dieses Vorgehen ist in Abbildung \ref{fig:Markierung} dargestellt.
+Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefundene Objekte durch ein rotes markiert. Dieses Vorgehen ist in Abbildung \ref{fig:Markierung} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -28,6 +27,11 @@ Damit der Roboter nicht ständig sein Ziel wechselt, muss er das Fokusobjekt in 
 \caption{Auffindung eines Fokusobjekts}
 \label{fig:Markierung}
 \end{figure}
+
+\subsection{Auffinden eines Fokusobjekts}
+Die Wahl eines ersten Fokusobjekts erfolgt nach Positions- und Größenkriterien. Es wird versucht ein Objekt zu wählen, welches möglichst zentral in der Aufnahme liegt. 
+
+Eine weitere Bedingung ist, dass das begrenzende Rechteck des Fokusobjekts möglichst quadratisch sein soll. Dies ist der Annahme zu Grunde zu führen, dass die zu suchenden Objekte nur Würfel und Kugeln sein sollen. Beide Formen zeichnen sich dadurch aus, dass sie ein quadratisches Begrenzendes Rechteck haben.
 
 \subsection{Ähnlichkeitskriterien}
 \label{subsec:Similarity}
@@ -122,10 +126,11 @@ Problematisch ist jedoch, dass zusätzliche Hardware benötigt wird. Eine weiter
 
 \subsubsection{Monokamerabasiert}
 
-Der Monokamerabasierte Ansatz stützt sich bei der Entfernungsberechnung auf alle vorhandenen Informationen. Hierbei wird mittels der bekannten Position und Inklination der Kamera, sowie ihres Streuwinkels ein virtuelles Blickfeld erstellt. Dieses Blickfeld breitet sich von der Kamera aus pyramidenförmig aus und trifft den als planar angenommenen Boden. Abbildung \ref{fig:MonokameraEntfernung} zeigt den Aufbau eines solchen Systems. 
+Der monokamerabasierte Ansatz stützt sich bei der Entfernungsberechnung auf alle vorhandenen Informationen. Hierbei wird mittels der bekannten Position und Inklination der Kamera, sowie ihres Streuwinkels ein virtuelles Blickfeld erstellt. Dieses Blickfeld breitet sich von der Kamera aus pyramidenförmig aus und trifft den als planar angenommenen Boden. Abbildung \ref{fig:MonokameraEntfernung} zeigt den Aufbau eines solchen Systems. 
 
 \begin{figure}[h]
 \centering
+\includegraphics[width=\textwidth]{Bilder/Workloop/Monokamera}
 \caption{Monokamerabasierte Entfernungsschätzung}
 \label{fig:MonokameraEntfernung}
 \end{figure}
