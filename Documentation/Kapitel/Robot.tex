@@ -123,27 +123,3 @@ Zum Bewegen der Motoren muss zunächst per Befehl pro Aktor eine Geschwindigkeit
 
 Zwei Motoren können synchronisiert werden, sodass diese gleichzeitig starten. Ansonsten würde der Zeitversatz zwischen dem Absetzen der zwei 'setze Geschwindigkeit'-Befehle bewirken, dass der Roboter vor dem geradeaus fahren kurz nur das erste Rad ansteuert und in eine Richtung abdriftet.
 
-\section{Wahl des Kameramoduls}
-\label{sec:Kamera}
-
-Die Hauptfrage bezüglich des Kameramoduls bestand in der Wahl zwischen einem Ein- oder einem Zweikamerasystem.
-
-Der Vorteil eines Zweikamerasystems besteht in der Möglichkeit für wesentlich bessere Orientierung im 3D-Raum, da Entfernungen mittels der beiden Differenzbilder präziser berechnet werden können.
-Im Gegensatz dazu ist beim Einkamerasystem die Entfernungsberechnung auf ein 2D-Bild beschränkt und nicht annähernd so genau.
-
-Jedoch ist der Berechnungsaufwand für das Auswerten zweier Differenzbilder ungleich höher, weshalb sich letztendlich aufgrund dieser Ungleichheit des Implementierungsaufwandes für ein Einkamerasystem entschieden werden.
-
-Weitere Aspekte sind Auflösung und Öffnungswinkel des Kameramoduls.
-Höhere Auflösung bedeutet bessere Erkennung von Gegenständen auf weitere Entfernungen; Ein größerer Öffnungswinkel heißt, dass mehr Raum in einem Bild erfasst werden kann, somit weniger Drehbewegung des Roboters in Richtung eines Objekts nötig ist, bis es erfasst und detektiert werden kann.
-
-Ein Problem bei der Kamera des Nexus ist, das sich diese nicht zentral auf dem Rücken des Smartphones befindet, sondern nach links oben versetzt. Dies setzt voraus, dass entweder Software- oder Hardwareseitig dieser Versatz aus der Bildverarbeitung kompensiert wird.
-
-Hier wurde der Einfachheit halber die Halterung am Roboter verschoben, wodurch aus der Sicht des Roboters die Kamera in der Mitte liegt.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth/3]{Bilder/Robot/nexus_backside}
-\caption{Kameramodul des Nexus 5}
-\label{fig:camera}
-\end{figure}
-
