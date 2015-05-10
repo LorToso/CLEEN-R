@@ -5,6 +5,18 @@ Im Rahmen dieser Studienarbeit wurde das Robotersystem CLEEN-R entwickelt. Ziel 
 
 In den vorhergehenden Kapiteln wurde zunächst die \hyperref[cha:Materials]{konkrete Anwendung der Hardware}  beschrieben. Daraufhin ist die \hyperref[cha:robot]{Konstruktion des Roboters} geschildert. In den darauf folgenden Kapiteln sind \hyperref[cha:Software]{genaue Algorithmen zur Bildverarbeitung}, sowie der \hyperref[cha:Workloop]{allgemeine Arbeitszyklus} des Systems beschrieben. Zuletzt folgen \hyperref[cha:Tests]{Tests in geschützten Raum, sowie Realtests}.
 
+\section{Zusammenfassung}
+
 Die Hauptaufgabe wurde erfolgreich gelöst. Wie aus Kapitel \ref{cha:Tests} ersichtlich, konnte ein Robotersystem konstruiert werden, welches erfolgreich Gegenstände \glqq aufräumen\grqq\ kann. Das System besteht aus zwei getrennten Modulen: Ein LEGO Mindstorm NXT-Roboter und ein Google Nexus 5 Android-Smartphone kommunizieren über eine Bluetooth-Schnittstelle mit einander und steuern so die Aktoren des Roboters. 
 
 Es konnte ein Großteil der Komplexität des Systems dadurch reduziert werden, dass das Smartphone als zentrale Steuereinheit benutzt wird und das NXT-System lediglich als Vermittler zu Sensoren und Aktoren genutzt wird. Der Roboter basiert auf einem modifizierten Bauplan, der von LEGO zur Verfügung gestellt wurde. Dieser Bauplan wurde dahingehend angepasst, dass einige Sensoren entfernt und durch eine Halterung für das Smartphone ersetzt wurden.
+
+Die Implementierung erfolgte mit der OpenCV-Bibliothek in einer Android-Applikation. Hierbei wurden verschiedene Verfahren der Bildverarbeitung eingesetzt um Objekte zu erkennen. Konkret wird in den Kameraaufnahmen nach Objekten mit hoher Farbsättigung gesucht. Bilder werden anschließend binarisiert und mit Hilfe von Algorithmen zur Kantenverfolgung segmentiert. 
+
+Ist ein Objekt erkannt, so fährt der Roboter es an und nimmt es mit einem Greifarm auf. Das Ansteuern des Objekts geschieht hierbei mit einer Kombination aus Sensordaten aus einem Ultraschallsensor und der Kamera des Smartphones. Wenn das Objekt erfolgreich aufgenommen wurde, wird es auf Grund seiner Farbe und Form kategorisiert. Je nach Kategorie, wird eine andere Zielzone ausgesucht und lokalisiert.
+
+Ist eine Zielzone bestimmt worden, transportiert der Roboter den aufgenommenen Gegenstand dort hin und legt ihn ab. Anschließend begibt er sich zurück in die Startposition und beginnt die Suche von vorne. Die Orientierung im Raum wurde dabei über einen Positionsverfolgungsansatz gelöst, welcher die gefahrene Strecke berechnet um die aktuelle Position zu bestimmen.
+
+\section{Bewertung der Ergebnisse}
+
+\section{Ausblick}
