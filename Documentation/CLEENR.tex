@@ -237,6 +237,16 @@ includefoot,
 		\include{Dependencies/Titelseite}
 	}{}
 	
+	\ifthenelse{\boolean{EidesstattlicheErklaerung}}
+	{
+		\fancyhead[L]{Eidesstattliche Erklärung}
+			\include{Dependencies/EidesstattlicheErklaerung}
+		\fancyhead[L]{\leftmark}
+	}{}
+	
+%	\fancyhead[L]{Abstract}
+	\include{Kapitel/Abstract}
+%	\fancyhead[L]{\leftmark}
 	
 	\ifthenelse{\boolean{Inhaltsverzeichnis}}
 	{
@@ -244,12 +254,6 @@ includefoot,
 	}{}
 	
 	
-	\ifthenelse{\boolean{EidesstattlicheErklaerung}}
-	{
-		\fancyhead[L]{Eidesstattliche Erklärung}
-			\include{Dependencies/EidesstattlicheErklaerung}
-		\fancyhead[L]{\leftmark}
-	}{}
 	
 	\ifthenelse{\boolean{RomanNumbering}}
 	{
