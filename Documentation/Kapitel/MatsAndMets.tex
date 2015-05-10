@@ -1,17 +1,55 @@
 \chapter{Materialien und Methoden}
 \label{cha:Materials}
 
-Dieses Kapitel vielleciht löschen?
+\section{Wahl des Robotersystems}
 
+Als Materialien stehen für das Projekt diverse Hardwaremodule zur Verfügung. Um die Problemstellung zu erfüllen ist zunächst ein mobiler Roboter notwendig. Für schnelle Prototypen-Erstellung bieten sich die Roboter-Baukästen von LEGO an.
 
-%Als Materialien stehen für das Projekt diverse Hardwaremodule zur Verfügung. Um die Problemstellung zu erfüllen ist zunächst ein mobiler Roboter notwendig.
+\subsection{LEGO Mindstorms}
 
+LEGO Mindstorms ist eine Produktreihe des Spielzeugherstellers LEGO, die bereits in drei Generationen erschienen ist. Sie zeichnen sich durch einen programmierbaren Hauptstein aus, der mit modularen Sensoren und Aktoren erweitert und in LEGO Technik-Aufbauten eingesetzt wird.
 
-NXT-Roboter\\
+\subsubsection{LEGO Mindstorms NXT}
 
-Android-Smartphone\\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{Bilder/MatsAndMets/nxt}
+\caption{Hauptbestandteile des LEGO Minstorms NXT-Systems}
+\label{fig:nxt}
+\end{figure}
 
-Bluetooth-Verbindung\\
+Der NXT-Bausatz besteht wie alle Mindstorms-Reihen aus einem intelligenten Baustein als Recheneinheit und Kernstück des Roboters. Er beinhaltet einen 32-Bit ARM7-Prozessor und einen 8-Bit Atmega-Mikrocontroller als Koprozessor zur Ausführung der über die USB-Schnittstelle übertragenen Programme.
 
-Some more Stuff\\
+Programmieren kann man den NXT über die von LEGO bereitgestellte graphische Entwicklungsumgebung NXT-G, was für Einsteiger den einfachsten Weg darstellt. Jedoch existieren auch für zahlreiche weitere Programmiersprachen wie C, Java, C\#, Matlab, Lua oder Ruby APIs zum Ansteuern der verschiedenen Funktionen.
 
+An den Hauptstein können bis zu drei Motoren und bis zu vier Sensoren angeschlossen werden. Kommuniziert wird hierbei im I$^2$C-Protokoll. Die Servomotoren besitzen einen eingebauten Rotationssensor, die sich über den Rückkanal beim NXT-Stein melden.
+
+Statusmeldungen werden über ein monochromes 100 mal 64 Pixel LCD-Display ausgegeben, auch bietet der Hauptstein einen eingebauten Lautsprecher und ein Bluetooth-Modul.
+
+Als Sensoren sind eine große Auswahl von LEGO erhältlich:
+\begin{itemize}
+\item Tastsensor
+\item Ultraschallsensor
+\item Lichtsensor
+\item Schallsensor
+\item RFID-Sensor
+\item Infrarot-Sensor
+\item Beschleunigungssensor
+\end{itemize}
+
+Darüber hinaus können über Adapterkabel viele weitere Aktoren und Sensoren die das I$^2$-Protokoll beherrschen (unter anderem die des älteren RCX-Systems) angeschlossen werden, was fast keine Bedürfnisse beim Roboterbau offen lässt.
+
+Das Gerüst bilden wie bei allen LEGO-Systemen die tausende verschiedenen Bauteile von LEGO Technik, was den NXT für fast jeden erdenklichen Einsatzbereich qualifiziert.
+
+Die Datenblätter aller Komponenten und Protokolle sind frei von LEGO erhältlich, was NXT auch für Elektronik-Bastler interessant macht.
+
+\subsubsection{LEGO Mindstorms EV3}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{Bilder/MatsAndMets/ev3}
+\caption{Hauptbestandteile des LEGO Minstorms EV3-Systems}
+\label{fig:ev3}
+\end{figure}
+
+EV3 stellt die Nachfolge-Kollektion von NXT dar. Die Hauptänderung besteht in Ersetzen des ARM7-Prozessor durch einen ARM9-Prozessor, auf dem eine Linuxumgebung ausgeführt wird.
