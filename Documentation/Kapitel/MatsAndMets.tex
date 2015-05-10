@@ -18,7 +18,7 @@ LEGO Mindstorms ist eine Produktreihe des Spielzeugherstellers LEGO, die bereits
 \label{fig:nxt}
 \end{figure}
 
-Der NXT-Bausatz besteht wie alle Mindstorms-Reihen aus einem intelligenten Baustein als Recheneinheit und Kernstück des Roboters. Er beinhaltet einen 32-Bit ARM7-Prozessor und einen 8-Bit Atmega-Mikrocontroller als Koprozessor zur Ausführung der über die USB-Schnittstelle übertragenen Programme.
+Der NXT-Bausatz besteht wie alle Mindstorms-Reihen aus einem intelligenten Baustein als Recheneinheit und Kernstück des Roboters. Er beinhaltet einen 32-Bit ARM7-Prozessor (48 MHz) und einen 8-Bit Atmega-Mikrocontroller als Koprozessor zur Ausführung der über die USB-Schnittstelle übertragenen Programme.
 
 Programmieren kann man den NXT über die von LEGO bereitgestellte graphische Entwicklungsumgebung NXT-G, was für Einsteiger den einfachsten Weg darstellt. Jedoch existieren auch für zahlreiche weitere Programmiersprachen wie C, Java, C\#, Matlab, Lua oder Ruby APIs zum Ansteuern der verschiedenen Funktionen.
 
@@ -52,7 +52,13 @@ Die Datenblätter aller Komponenten und Protokolle sind frei von LEGO erhältlic
 \label{fig:ev3}
 \end{figure}
 
-EV3 stellt die Nachfolge-Kollektion von NXT dar. Die Hauptänderung besteht in Ersetzen des ARM7-Prozessor durch einen ARM9-Prozessor, auf dem eine Linuxumgebung ausgeführt wird.
+EV3 stellt die Nachfolge-Kollektion von NXT dar. Die Hauptänderung besteht in Ersetzen des ARM7-Prozessor durch einen ARM9-Prozessor (300 MHz), auf dem eine Linuxumgebung ausgeführt wird. Eine Schnittstelle für microSD-Karten wurde hinzugefügt, welche als Programm- und Ressourcenspeicher dient.
+
+EV3 ist kompatibel zu allen NXT-Sensoren und -Motoren und besitzt einen weiteren Ausgang am EV3-Stein. Das LCD-Display ist auf 178 mal 128 Pixel gewachsen. Das Design der Module wurde leicht geändert, die Auswahl ist bis auf ein weiteres, kleineres Motormodul identisch zu NXT.
+
+Das Linux-Betriebssystem ermöglicht es im Vergleich zum Mikrocontroller des NXT, weit größere und komplexere Programme auszuführen und so den Aufgabenbereich zu erweitern. EV3 unterstützt offiziell die Verbindung zu Apple-Geräten.
+
+Über einen neuen USB-Host-Anschluss können nun USB-Geräte wie ein optionales WLAN-Dongle angeschlossen werden, was die Erweiterungsmöglichkeiten vervielfacht.
 
 \section{Wahl des Kameramoduls}
 \label{sec:Kamera}
@@ -67,13 +73,13 @@ Jedoch ist der Berechnungsaufwand für das Auswerten zweier Differenzbilder ungl
 Weitere Aspekte sind Auflösung und Öffnungswinkel des Kameramoduls.
 Höhere Auflösung bedeutet bessere Erkennung von Gegenständen auf weitere Entfernungen; Ein größerer Öffnungswinkel heißt, dass mehr Raum in einem Bild erfasst werden kann, somit weniger Drehbewegung des Roboters in Richtung eines Objekts nötig ist, bis es erfasst und detektiert werden kann.
 
-Ein Problem bei der Kamera des Nexus ist, das sich diese nicht zentral auf dem Rücken des Smartphones befindet, sondern nach links oben versetzt. Dies setzt voraus, dass entweder Software- oder Hardwareseitig dieser Versatz aus der Bildverarbeitung kompensiert wird.
-
-Hier wurde der Einfachheit halber die Halterung am Roboter verschoben, wodurch aus der Sicht des Roboters die Kamera in der Mitte liegt.
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\textwidth]{Bilder/Robot/nexus_backside}
 \caption{Kameramodul des Nexus 5}
 \label{fig:camera}
 \end{figure}
+
+Ein Problem bei der Kamera des Nexus ist, das sich diese nicht zentral auf dem Rücken des Smartphones befindet, sondern nach links oben versetzt. Dies setzt voraus, dass entweder Software- oder Hardwareseitig dieser Versatz aus der Bildverarbeitung kompensiert wird.
+
+Hier wurde der Einfachheit halber die Halterung am Roboter verschoben, wodurch aus der Sicht des Roboters die Kamera in der Mitte liegt.
