@@ -180,13 +180,22 @@ In jeder Aufnahme wird die konkrete Farbe des Objekts bestimmt. Anschließend ka
 TODO
 
 \section{Suche des Zielbereichs}
-\subsection{Orientierung im Raum}
 \label{subsec:Orientierung}
-\subsubsection{Kameragestützt}
-\subsubsection{Streckenbasiert}
-Über gefahrene Strecke
+
+Zur Orientierung im Raum wird die im Abschnitt \ref{sec:Ortsbestimmung} beschriebe Methode der streckenbasierten Positionsverfolgung genutzt. Hierbei wird zu Beginn der Startpunkt mit den Koordinaten (0|0) an der Position des Roboters definiert, die Drehung des Roboters mit 0\degree. Ab diesem Zeitpunkt wird jede Ansteuerung der Räder  softwareseitig als Bewegung auf diesen Startpunkt aufaddiert. 
+
+Die Klasse PositionTracker behält Position und Winkel des Roboters im Blick. Da der Roboter nur gerade fahren oder sich auf der Stelle drehen kann, also die Geschwindigkeit der beiden Antriebsmotoren stets gleich ist, ist die Vektorberechnung recht einfach.
+
+Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der angesteuerten prozentualen aktuellen Geschwindigkeit skaliert wird. Mit der Dauer der Bewegung erhält man die zurückgelegte Strecke. Abhängig vom Winkel des Roboters im Vergleich zum Startzeitpunkt werden nun der X- und der Y-Anteil berechnet und auf die Roboterposition aufaddiert.
+
+Bei Drehung um die eigene Achse wird 
+
+\todo{Skizze der Positionsverfolgung}
 
 \section{Ansteuerung des Zielbereichs}
+
+
+
 \section{Ablegen von Objekten}
 Das Ablegen von Objekten erfolgt analog zum in Abschnitt \ref{sec:Aufnehmen} beschriebenen Aufnehmen von Objekten. Sobald die Zielzone erreicht wird, kann das getragene Objekt abgelegt werden. Dies erfolgt über die Ansteuerung des dritten Motors, der den Greifarm steuert. 
 
