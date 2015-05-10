@@ -117,6 +117,10 @@ Bei der Ansteuerung des Greifarmmotors ist zu beachten, dass dieser nicht zu sch
 \section{Steuerung des Roboters}
 \label{sec:RoboterSteuerung}
 
+Da die Kameraeinheit in Form des Smartphones und der NXT-Roboter zwei getrennte Module darstellen, ist ein nichttrivialer Kommunikationskanal notwendig. In den folgenden Abschnitten ist die intermodulare Kommunikation näher beschrieben.
+
+\subsection{Kommunikation zwischen den Modulen}
+
 Die Steuerung des Roboters durch das Smartphone erfolgt via Bluetooth. Der NXT-Roboter stellt hierzu als Bluetooth-Gerät das Serial Port Profile (SPP) bereit, welches das Standardinterface auf Bluetooth-Ebene darstellt und vom Großteil aller Bluetooth-Hostgeräte unterstützt wird. Es ermöglicht das simple serielle Senden und Empfangen von Bytes auf Low-Level-Ebene.
 
 Das Kommunikationsprotokoll auf High-Level-Ebene und damit die nötigen Befehle zum Regeln der Aktoren und Auslesen der Sensoren wurde von LEGO dokumentiert und ist online erhältlich \cite{nxt_comm_protocol}.
@@ -128,17 +132,18 @@ Das Kommunikationsprotokoll auf High-Level-Ebene und damit die nötigen Befehle 
 \label{fig:bluetooth}
 \end{figure}
 
-Um die Logik zentral zu halten wird auf dem NXT selbst kein Programm ausgeführt. Das Smartphone führt zentral alle Berechnungen durch sendet dem Roboter lediglich Befehle zur Ansteuerung der Aktoren.
+Um die Logik zentral zu halten wird auf dem NXT selbst kein Programm ausgeführt. Das Smartphone führt zentral alle Berechnungen durch sendet dem Roboter lediglich Befehle zur Ansteuerung der Aktoren. Sensordaten können ebenfalls durch das Smartphone über die Bluetooth-Verbindung abgerufen werden.
 
-Zunächst muss eine Bluetooth-Verbindung erstellt werden, wozu beide Geräte aktiviertes Bluetooth aufweisen, der Roboter zusätzlich sichtbar für das Smartphone sein müssen.
+\subsection{Kommunikation über die Bluetooth-Schnittstelle}
 
-Bei Erstverbindung muss der gesuchte NXT ausgewählt werden, danach ist die Bluetooth-Adresse bekannt und die App kann ohne Benutzerinteraktion eine Verbindung mit dem NXT-Roboter aufnehmen.
+Zunächst muss eine Bluetooth-Verbindung erstellt werden. Hierfür müssen beide Geräte eine aktive Bluetooth-Schnittstelle aufweisen. Der Roboter muss diese Schnittstelle zusätzlich von außen sichtbar schalten.
 
-Kommt eine Verbindung zustande, können seriell Byte für Byte die Kommandos an den NXT übertragen, eventuelle Antworten empfangen werden.
+Bei Erstverbindung muss der gesuchte NXT ausgewählt werden. Für Folgeverbindungen ist die Bluetooth-Adresse bekannt und die App kann ohne Benutzerinteraktion eine Verbindung mit dem NXT-Roboter aufnehmen.
 
-App-seitig übernimmt ein gesonderter Thread in der Klasse NxtTalker nach Zustandekommen einer Verbindung das Management der Daten.
+Ist eine Verbindung geglückt, kann damit begonnen werden seriell byteweise Befehle an den NXT zu übertragen. Eventuelle Antworten, wie beispielsweise angeforderte Sensordaten werden über die selbe Schnittstelle empfangen.
 
-Zum Bewegen der Motoren muss zunächst per Befehl pro Aktor eine Geschwindigkeit im Bereich von -100\% bis 100\% (und Parameter wie Regulierung) übergeben, zum Stoppen können alle Motoren mit einem Befehl auf Geschwindigkeit '0' gesetzt werden.
+\subsection{Programmatische Umsetzung}
 
-Zwei Motoren können synchronisiert werden, sodass diese gleichzeitig starten. Ansonsten würde der Zeitversatz zwischen dem Absetzen der zwei 'setze Geschwindigkeit'-Befehle bewirken, dass der Roboter vor dem geradeaus fahren kurz nur das erste Rad ansteuert und in eine Richtung abdriftet.
+Auf dem Smartphone übernimmt ein gesonderter Thread die Kommunikation mit dem NXT. Die Klasse \glqq NxtTalker\grqq\ bietet Funktionen zum Versenden von Daten an den Roboter, sowie alle nötigen Daten um eine Verbindung aufzubauen und aufrecht zu erhalten.
 
+Um die Motoren zu bewegen, muss zunächst ein Befehl an jeden Aktor geschickt werden, der eine Geschwindigkeit im Bereich von -100\% bis 100\% definiert. Hierdurch können die Motoren mit dem selben Befehl vorwärts und rückwärts fahren. Das stoppen der Motoren, und damit das Anhalten des Systems werden realisiert, indem allen Motoren eine Geschwindigkeit von null kommuniziert wird. Problematisch ist hierbei, dass die Motoren sequenziell gestartet werden. Dies hat zur Folge, dass ein Motor vor dem anderen startet und somit die Blickrichtung des Roboters beeinflusst. Um dem vorzubeugen sieht die Schnittstelle einen Befehl vor, der die Motoren synchron starten lässt. Hierdurch wird verhindert, dass der Roboter in eine undefinierte Richtung abdriftet.
