@@ -1,8 +1,10 @@
 \chapter{Hardwareumsetzung}
 \label{cha:robot}
-\section{Entwurf des NXT-Roboters}
+\section{Anforderungen an den NXT-Roboter}
 
-Der Roboter hat einige hardwareseitigen Voraussetzungen. Das System muss sich frei im Raum bewegen können, sowie eine Möglichkeit bieten mit Gegenständen zu interagieren. Diese müssen aufgehoben, transportiert und zielgerichtet abgelegt werden können. Es ist zusätzlich wichtig, dass die Gegenstände beim Ablegen sicher an ihrer Position verharren, damit sie sich nicht aus einer möglichen Zielzone heraus bewegen. Wichtiges Kriterium ist zusätzlich eine sichere Halterung für das Kameramodul, welches in Kapitel \ref{sec:Kamera} näher beschrieben ist.
+Der Roboter hat einige hardwareseitige Anforderungen. Das System muss sich frei im Raum bewegen können, sowie eine Möglichkeit bieten mit Gegenständen zu interagieren. Diese müssen aufgehoben, transportiert und zielgerichtet abgelegt werden können. Es ist zusätzlich wichtig, dass die Gegenstände beim Ablegen sicher an ihrer Position verharren, damit sie sich nicht aus einer möglichen Zielzone heraus bewegen. Wichtiges Kriterium ist zusätzlich eine sichere Halterung für das Kameramodul, welches in Kapitel \ref{sec:Kamera} näher beschrieben ist.
+
+\section{Entwurf des Roboters}
 
 Da das LEGO Mindstorm NXT Kit häufig zur Realisierung kleinerer Roboterprojekte verwendet wird, hat LEGO eine Datenbank an möglichen Bauplänen bereitgestellt \cite{building_instructions}. Nach einiger Recherche und Durchsicht diverser Bauanleitungen für verschiedenste Anwendungsbereiche wurde sich für einen von LEGO bereitgestellten Aufbau den entschieden. Abbildung \ref{fig:standardRoboter} zeigt den Roboter, wie LEGO ihn bereitstellt.
 
@@ -14,16 +16,17 @@ Da das LEGO Mindstorm NXT Kit häufig zur Realisierung kleinerer Roboterprojekte
 \end{figure}
 
 
-Da der Aufbau jedoch nicht allen Anforderungen genüge tut, wurde dieser abgeändert.
+Da der Aufbau jedoch nicht allen Anforderungen genüge tut, wurde dieser abgeändert. Der von LEGO bereitgestellte Bauplan benutzt einen Schall- und einen Farbsensor. Diese wurden nicht benötigt und daher entfernt. An ihrer Stelle wurde stattdessen eine Halterung für das in Kapitel \ref{sec:Kamera} beschriebene Kameramodul in Form eines Smartphones eingebaut. Um dem Gewicht des Smartphones entgegenzuwirken musste der in Abschnitt \ref{subsec:Brick} beschriebene NXT-Stein etwas nach hinten verlagert werden. Abbildung \ref{fig:unserRoboter} zeigt den fertig modifizierten Roboter.
 
-Sie wurde lediglich um den Schall- und den Abstandssensor erleichtert; eine Halterung für das Smartphone wurde hinzugefügt.
-
-\todo{hier Bild des Roboters einfügen}
-
-\pagebreak
+\begin{figure}[h]
+\centering
+\todo{Bild des fertig modifizierten Roboters}
+\caption{Bild des fertig modifizierten Roboters}
+\label{fig:unserRoboter}
+\end{figure}
 
 \subsection{NXT-Stein}
-
+\label{subsec:Brick}
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\textwidth]{Bilder/Robot/nxt_brick}
@@ -31,15 +34,17 @@ Sie wurde lediglich um den Schall- und den Abstandssensor erleichtert; eine Halt
 \label{fig:nxtBrick}
 \end{figure}
 
-Der NXT-Stein bildet die Recheneinheit und damit die Hauptkomponente des NXT-Robotersystems. Er besitzt oben drei Ausgänge für Motoren über die gleichzeitig die Rotationssensoren in den Servo-Motoren ausgelesen werden.
+Der NXT-Stein bildet die Recheneinheit und damit die Hauptkomponente des Robotersystems \cite{ranganathan2008use}. Er besitzt drei Ausgänge für Motoren an der Oberseite, über die gleichzeitig die Rotationssensoren in den Servo-Motoren ausgelesen werden.
 
-Unten befinden sich vier Eingänge für verschiedene Sensoren, die je nach Anwendungszweck über Flachbandkabel bestückt werden können, etwa ein Licht-, Schall-, Tastsensor oder beliebige Kombinationen daraus. Dies macht das NXT-System zu einem sehr flexiblem da einfach konfigurierbaren Robotersystem.
+Auf der Unterseite befinden sich vier Eingänge für verschiedene Sensoren, die je nach Anwendungszweck über Flachbandkabel bestückt werden können, etwa ein Licht-, Schall-, Tastsensor oder beliebige Kombinationen daraus. Dies macht das NXT-System zu einem sehr flexiblem da einfach konfigurierbaren Robotersystem.
 
-Über einen USB-Anschluss oben wird der NXT mit dem PC verbunden um ihn mit Programmen zu versorgen. Hierfür wird von LEGO eine graphische Entwicklungsumgebung bereitgestellt um auch Neulingen den Einstieg in die Roboter-Programmierung zu vereinfachen und ihnen die Möglichkeit zu bieten schon innerhalb weniger Minuten einen funktionierenden Prototypen auf die Beine stellen zu können. Im Fall des CLEEN-R-Aufbaus wird jedoch lediglich die interne Bluetooth-Verbindung genutzt.
+Über einen USB-Anschluss oben wird der NXT mit dem PC verbunden um ihn mit Programmen zu versorgen. Hierfür wird von LEGO eine graphische Entwicklungsumgebung bereitgestellt um auch Neulingen den Einstieg in die Roboter-Programmierung zu vereinfachen und ihnen die Möglichkeit zu bieten schon innerhalb weniger Minuten einen funktionierenden Prototypen zu konstruieren. Im Fall des CLEEN-R-Aufbaus wird jedoch, wie in Abschnitt \ref{sec:RoboterSteuerung} geschildert, lediglich die interne Bluetooth-Verbindung genutzt.
 
-Vorne befindet sich ein 100 mal 64 Pixel auflösendes binäres LCD-Display über das Einstellungen getätigt oder Statusmeldungen ausgegeben werden können. Auch Sound-Ausgabe über einen integrierten 8-Bit-Lautsprecher ist möglich.
+Auf der Vorderseite befindet sich ein $100\times 64$ Pixel auflösendes binäres LCD-Display über das Einstellungen getätigt oder Statusmeldungen ausgegeben werden können. Auch Sound-Ausgabe über einen integrierten 8-Bit-Lautsprecher ist möglich.
 
 \subsection{Sensoren}
+
+LEGO stellt unterschiedliche Sensoren für den Betrieb an einem NXT-Robotersystem bereit. Die wichtigsten Sensortypen sind in den nachfolgenden Abschnitten beschrieben.
 
 \subsubsection{Tastsensor}
 
@@ -50,11 +55,11 @@ Vorne befindet sich ein 100 mal 64 Pixel auflösendes binäres LCD-Display über
 \label{fig:buttonSensor}
 \end{figure}
 
-Der berührungsempfindliche Sensor vorne diente zum Detektieren von Gegenständen im Bereich des Greifarms, woraufhin dieser geschlossen werden kann. Er wurde durch den Ultraschallsensor ersetzt, der nicht nur die unmittelbare Berührung bemerkt sondern auch ein herannahendes Objekt während der Fahrt detektiert.
+Der berührungsempfindliche Tastsensor dient in der ursprünglichen Vorlage zur Detektion von Gegenständen im Bereich des Greifarms. Wird er betätigt, so kann der Greifarm geschlossen werden. Im CLEEN-R-Projekt wurde dieser jedoch durch einen Ultraschallsensor ersetzt, der nicht nur die unmittelbare Berührung bemerkt sondern auch ein herannahendes Objekt während der Fahrt detektiert. Der Ultraschallsensor ist in einem nachfolgenden Abschnitt beschrieben.
 
 \subsubsection{Rotationssensoren}
 
-Die Rotationssensoren in den Servomotoren erlauben es dem NXT-Roboter, die Geschwindigkeit der Motoren abhängig des Widerstands (des Untergrunds) zu regulieren. So werden unter anderem präzises Abbremsen und Fehlerminimierung bei der Positionsbestimmung ermöglicht.
+Die Servomotoren des Roboters sind mit Rotationssensoren ausgestattet. Diese Sensoren erlauben es dem NXT-Roboter, die Geschwindigkeit der Motoren abhängig des Widerstands des Untergrunds zu regulieren. So werden unter anderem präzises Abbremsen und Fehlerminimierung bei der Positionsbestimmung ermöglicht.
 
 \subsubsection{Farbsensor}
 
@@ -65,10 +70,10 @@ Die Rotationssensoren in den Servomotoren erlauben es dem NXT-Roboter, die Gesch
 \label{fig:colorSensor}
 \end{figure}
 
-Der RGB-Sensor am Boden des NXT dient dazu, die Farbe des Bodens herauszufinden. Diese kann sowohl dazu genutzt werden, bei der Bildverarbeitung die Hintergrundfarbe herauszurechnen und so die Qualität der Objekterkennung zu erhöhen, als auch eine farblich markierte Zielzone im Raum finden zu können, auf der ein getragenes Objekt abgelegt werden kann.
+Dem ursprünglichen Entwurf des Roboters liegt ein RGB-Farbsensor bei. Seine Aufgabe war es die Farbe des Untergrunds festzustellen. Im CLEEN-R-Projekt wurde dieser Sensor zwar entfernt, könnte jedoch bei Erweiterung des Roboters dazu genutzt werden um die Farbe des Untergrunds aus Aufnahmen des Kameramoduls zu entfernen. Dies würde die Qualität der Objekterkennung auf farbigen Untergrund deutlich erhöhen. Zusätzlich ist es denkbar die Erkennung von Zielzonen über farbige Markierungen auf dem Untergrund zu realisieren.
 
 \subsubsection{Ultraschallsensor}
-\label{subsec:Ultraschall}
+\label{subsec:Ultraschallsensor}
 
 \begin{figure}[h]
 \centering
@@ -77,9 +82,13 @@ Der RGB-Sensor am Boden des NXT dient dazu, die Farbe des Bodens herauszufinden.
 \label{fig:distanceSensor}
 \end{figure}
 
-Der Ultraschallsensor dient zur Messung der Distanz vom Roboter zum nächsten soliden Objekt. Hier wird er genutzt um zu detektieren, wie weit ein Objekt vom Greifarm entfernt ist, um diesen im geeigneten Moment zu schließen und so das Objekt mitnehmen zu können. Auch ermöglicht er ein geregeltes Heranfahren an ein Objekt. Die Präzision des Distanzsensors beträgt $\pm$3cm.
+Der Ultraschallsensor dient zur Messung der Distanz vom Roboter zum nächsten soliden Objekt. Der Sensor hat eine Reichweite von $255cm$ und kann mit einer Präzision von $\pm 3cm$ Entfernungen angeben. Der Sensor wird in diesem Projekt benutzt um zu detektieren, wie weit ein Objekt vom Greifarm entfernt ist. Hat es einen gewissen Abstand erreicht, so kann der Greifarm geschlossen werden um das Objekt aufzunehmen. 
+
+In Kapitel \ref{subsec:Entfernungsschätzung} werden alternative Möglichkeiten zur Entfernungsmessung geschildert. Der Ultraschallsensor stellt sich jedoch als geeignetstes Mittel heraus und wird daher im folgenden verwendet.
 
 \subsection{Aktoren}
+
+Die Aktoren des Robotersystems beschränken sich beim CLEEN-R-Projekt auf Servomotoren. Im Folgenden werden die unterschiedlichen Anwendungen der Motoren beschrieben.
 
 \subsubsection{Antriebsmotoren}
 
@@ -90,17 +99,27 @@ Der Ultraschallsensor dient zur Messung der Distanz vom Roboter zum nächsten so
 \label{fig:motor}
 \end{figure}
 
-Die beiden Servomotoren links und rechts des NXT-Roboters bilden den differentialen Antrieb und ermöglichen freie Fortbewegung.
+Der NXT-Roboter verwendet zwei Servomotoren an den Seiten als Differentialantrieb. Dieser ermöglicht eine freie Fortbewegung und das Rotieren des Roboters. 
 
-\subsubsection{Greifarmmotor}
+\subsubsection{Greifarm}
 \label{greifarm}
-Der dritte Motor im vorderen Teil des Roboters dient zum Öffnen und Schließen des Greifarms und so zur Mitführung von Gegenständen.
+Der Greifarm des Roboters wird über einen dritten Motor auf der Vorderseite bewegt. Der Motor erlaubt das freier öffnen und schließen des Greifarms und somit das mitführen von Gegenständen. 
+
+Bei der Ansteuerung des Greifarmmotors ist zu beachten, dass dieser nicht zu schnell geschlossen werden sollte, da dies zu tragende Objekte wegstoßen könnte. Abbildung \ref{fig:Greifarm} zeigt den Greifarm in offenem und geschlossenem Zustand .
+
+\begin{figure}[h]
+\centering
+\todo{Bild des Greifarms einfügen}
+\caption[Greifarm des Robotersystems]{Greifarm des Robotersystems in offenem Zustand (links) und geschlossenem Zustand (rechts)}
+\label{fig:Greifarm}
+\end{figure}
 
 \section{Steuerung des Roboters}
+\label{sec:RoboterSteuerung}
 
-Die Steuerung des Roboters durch das Smartphone erfolgt via Bluetooth. Der NXT-Roboter stellt hierzu als Bluetooth-Gerät das Serial Port Profile (SPP) bereit, welches quasi das Standardinterface auf Bluetooth-Ebene darstellt und vom Großteil aller Bluetooth-Hostgeräte unterstützt wird. Es ermöglicht das simple serielle Senden und Empfangen von Bytes auf Low-Level-Ebene.
+Die Steuerung des Roboters durch das Smartphone erfolgt via Bluetooth. Der NXT-Roboter stellt hierzu als Bluetooth-Gerät das Serial Port Profile (SPP) bereit, welches das Standardinterface auf Bluetooth-Ebene darstellt und vom Großteil aller Bluetooth-Hostgeräte unterstützt wird. Es ermöglicht das simple serielle Senden und Empfangen von Bytes auf Low-Level-Ebene.
 
-Das Kommunikationsprotokoll auf High-Level-Ebene und damit die nötigen Befehle zum Regeln der Aktoren und Auslesen der Sensoren wurde von LEGO dokumentiert und ist online erhältlich\cite{nxt_comm_protocol}.
+Das Kommunikationsprotokoll auf High-Level-Ebene und damit die nötigen Befehle zum Regeln der Aktoren und Auslesen der Sensoren wurde von LEGO dokumentiert und ist online erhältlich \cite{nxt_comm_protocol}.
 
 \begin{figure}[h]
 \centering
@@ -109,7 +128,7 @@ Das Kommunikationsprotokoll auf High-Level-Ebene und damit die nötigen Befehle 
 \label{fig:bluetooth}
 \end{figure}
 
-Auf dem NXT selbst wird hierbei kein Programm ausgeführt, um alle Logik zentral in der NXT-App auf dem Smartphone zu halten.
+Um die Logik zentral zu halten wird auf dem NXT selbst kein Programm ausgeführt. Das Smartphone führt zentral alle Berechnungen durch sendet dem Roboter lediglich Befehle zur Ansteuerung der Aktoren.
 
 Zunächst muss eine Bluetooth-Verbindung erstellt werden, wozu beide Geräte aktiviertes Bluetooth aufweisen, der Roboter zusätzlich sichtbar für das Smartphone sein müssen.
 
