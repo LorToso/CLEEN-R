@@ -1,19 +1,10 @@
 \chapter{Arbeitsablauf und Problematiken}
 \label{cha:Workloop}
 
-Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind als in Abbildung als Petrinetz beschrieben.
+Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden. Diese Phasen sind in den nachfolgenden Abschnitten beschrieben und zusätzlich in Abbildung \ref{fig:Ablauf} als Flussdiagramm dargestellt.
 
-\begin{figure}[h]
-\centering
-\caption{Petrinetz des Arbeitsablaufs}
-\label{fig:Petrinetz}
-\end{figure}
-
-Die Arbeitsweise sowie auftretende Probleme sind in den folgenden Abschnitten beschrieben.
 
 \section{Objektsuche}
-
-%\section{Objektverfolgung}
 
 Sobald mehrere Objekte durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurden, muss eines als geeignetes Fokusziel gewählt werden. Wie diese Wahl erfolgt, ist im nachfolgenden Abschnitt beschrieben. Ist ein Fokusobjekt gefunden, so muss es in der nachfolgenden Aufnahme wiedererkannt werden um einen Wechsel zu verhindern. 
 
@@ -21,12 +12,25 @@ Ein zufälliges Umspringen auf andere erkannte Objekte wäre für den Prozess se
 
 Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefundene Objekte durch ein rotes markiert. Dieses Vorgehen ist in Abbildung \ref{fig:Markierung} dargestellt.
 
+\pagebreak
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=\textheight]{Bilder/Workloop/Ablaufdiagramm}
+\caption{Flussdiagramm des Arbeitsablaufs}
+\label{fig:Ablauf}
+\end{figure}
+
+\pagebreak
+
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{Bilder/Workloop/Markierung}
 \caption{Auffindung eines Fokusobjekts}
 \label{fig:Markierung}
 \end{figure}
+
 
 \subsection{Auffinden eines Fokusobjekts}
 Die Wahl eines ersten Fokusobjekts erfolgt nach Positions- und Größenkriterien. Es wird versucht ein Objekt zu wählen, welches möglichst zentral in der Aufnahme liegt. 

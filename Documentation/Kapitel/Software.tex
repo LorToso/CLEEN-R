@@ -56,24 +56,28 @@ Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der S
 
 Die Aufgabe des Roboters ist es, Gegenstände in vordefinierte Bereiche zu befördern. Hierzu muss ihm jederzeit bekannt sein wo diese sich befinden, bzw. wo er sich relativ zu diesen aufhält, um sie anfahren zu können.
 
-\subsection{Arten der Positionsbestimmung}
+\subsection{Mitteilung von Beobachterkomponente}
 
-\subsubsection{Mitteilung von Beobachterkomponente}
-Ist im Raum ein weiteres System vorhanden, dessen Position konstant ist und welche den Roboter stets im Blick behält (über Kameras, Ultraschall, o. Ä.), ist eine simple und doch genaue Positionsbestimmung möglich. Der Roboter muss hierbei keine Berechnungen anstellen und verlässt sich für die korrekte Positionsbestimmung ganz auf den Beobachter, von welcher jederzeit die Lage des Roboters im Raum abrufbar ist.
+Ist im Raum ein weiteres System vorhanden, dessen Position konstant und dem Roboter zu jedem Zeitpunkt bekannt ist, kann eine simple, und genaue Positionsbestimmung erfolgen. Eine solche Beobachterkomponente kann über Sensordaten, wie beispielsweise einer Kamera oder einem Ultraschallsensor, zu jedem Zeitpunkt Kontakt zu Roboter haben.
+Der Roboter muss hierbei keine Berechnungen durchführen und verlässt sich für die korrekte Positionsbestimmung auf den Beobachter, von welchem zu jedem Zeitpunkt Position und Orientierung des Roboters im Raum abrufbar ist.
 
-\subsubsection{Raumanalyse}
+Die Beobachterkomponente stellt eine sehr effiziente Art von Ortsbestimmung dar, hat jedoch den beträchtlichen Nachteil, dass zusätzliche Hardware erforderlich ist.
 
-Hierbei werden die Kamerabilder analysiert und aus ihnen Fixpunkte/-geraden des Raumes extrahiert, mit welchen sich der Roboter bei Bewegung im Raum zu orientieren versucht. Dies setzt jedoch relativ viel Rechenzeit bei der Bildverarbeitung und Implementierungsarbeit voraus.
+\subsection{Raumanalyse}
 
-Auch müssen im Raum genügend Orientierungspunkte vorhanden sein. Verliert der Roboter die Orientierung, ist es nicht ohne weiteres möglich diese wiederzuerlangen.
+Bei der Raumanalyse werden Kamerabilder analysiert und aus ihnen Fixpunkte oder Geraden extrahiert, mit denen sich der Roboter bei Bewegung im Raum zu orientieren versucht. Dies ist ein sehr rechenaufwändiges Verfahren, welches zusätzlich mit einer großen Implementierungsarbeit verbunden ist.
 
-\subsubsection{Positionsverfolgung}
+Zusätzlich stellt dieses Verfahren Anforderungen an den Raum in dem es verwendet wird. Im Raum müssen genügend charakteristische Orientierungspunkte vorhanden sein. Verliert der Roboter die Orientierung, ist es nicht ohne weiteres möglich diese wiederzuerlangen.
 
-Besitzt der Roboter einen möglichst exakten Sensor zur Beobachtung der eigens zurückgelegten Strecken in jede Richtung, kann er seine Position bestimmen, indem er jede Bewegung aufzeichnet und diesen Bewegungsvektor auf die letzte Position aufaddiert.
+Vorteil des Verfahrens der Raumanalyse ist, dass die benötigte Hardware in Form eines Kameramoduls und eines leistungsstarken Prozessors bereits vorhanden ist.
 
-Bei Rotationssensoren in den Rädern wird die Genauigkeit diese Verfahrens durch das Spiel der Räder und der Auflösung der Sensoren beeinträchtigt.
+\subsection{Positionsverfolgung}
 
-Da bei diesem Projekt keine Beobachterkomponente vorhanden ist und die zusätzliche Auswertung der Bilder zu aufwändig wäre, wurde sich für die Variante der Positionsverfolgung entschieden. Die Auflösung der Rotationssensoren ist mit 1\degree ausreichend genau. Die automatische Geschwindigkeitsanpassung der NXT-Motoren abhängig des Untergrunds fördern zusätzlich eine exakte Ortsbestimmung über die Positionsverfolgung.
+Die Positionsverfolgung als Mittel der Ortsbestimmung bietet sich bei Robotern an, welche einen sehr exakten Sensor zur Beobachtung der zurückgelegten Strecke besitzen. Über die zurückgelegte Strecke und die Orientierung des Roboters kann zu jedem Zeitpunkt ein Bewegungsvektor erzeugt werden, der die genaue Position des Roboters bestimmt.
+
+Problematisch bei diesem Verfahren ist jedoch, dass eine sehr genaue Bestimmung der zurückgelegten Strecke benötigt wird. Fehler bei der Bestimmung wirken sich additiv aus. Die hat zur Folge, dass die Positionsverfolgung bei längeren Fahrten immer ungenauer wird. Eine Art der Streckenbestimmung stellen beispielsweise Rotationssensoren in Rädern dar. Hierbei wird die Genauigkeit des Verfahrens durch das Spiel der Räder und der Auflösung der Sensoren beeinträchtigt.
+
+Da das CLEEN-R-Projekt nicht über die zusätzliche Hardware einer Beobachterkomponenten verfügt und der zusätzliche Aufwand der Auswertung der Kamerabilder zur Merkmalsextraktion zu aufwändig wäre, wurde sich für die Variante der Positionsverfolgung entschieden. Die Auflösung der Rotationssensoren ist mit 1\degree\ ausreichend genau. Die automatische Geschwindigkeitsanpassung der NXT-Motoren abhängig des Untergrunds fördern zusätzlich eine exakte Ortsbestimmung über die Positionsverfolgung.
 
 \section{Struktur der Android-App}
 \subsection{Activities}
