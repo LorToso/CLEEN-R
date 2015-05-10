@@ -144,8 +144,10 @@ Da der Boden als planar angenommen wird, ist davon auszugehen, dass die Position
 \label{fig:MonokameraEntfernung2}
 \end{figure}
 
-Abbildung \ref{fig:MonokameraEntfernung3} zeigt hierbei die entstehende Aufnahme des Verfahrens, sowie eine  Positionsschätzung des Objekts. Die Parameter wurden realitätsgetreu folgendermaßen gewählt: 
+Abbildung \ref{fig:MonokameraEntfernung3} zeigt hierbei die entstehende Aufnahme des Verfahrens, sowie eine  Positionsschätzung des Objekts. Die Parameter wurden realitätsgetreu angenommen und sind aus Tabelle \ref{tab:Parameters} ersichtlich.
+
 \begin{table}
+\centering
 \begin{tabular}{lcr}
 \toprule
 Parameter & Wert & Erklärung\\
@@ -153,11 +155,13 @@ Parameter & Wert & Erklärung\\
 $y_1$ & $5cm$ & Kamera \glqq schwebt\grqq\ $5cm$ in der Luft\\
 $\alpha$ & $45\degree$ & Kamera ist im 45\degree\ Winkel zum Boden geneigt\\
 $\beta$ & $40\degree$ & Kamera hat 40\degree\ Öffnungswinkel\\
-
 \bottomrule
 \end{tabular}
+\caption{Parameter der Positionsschätzung}
+\label{tab:Parameters}
 \end{table}
 
+Entfernungen lassen sich über einfache trigonometrische Verfahren berechnen.
 
 \begin{figure}[h]
 \centering
@@ -166,14 +170,14 @@ $\beta$ & $40\degree$ & Kamera hat 40\degree\ Öffnungswinkel\\
 \label{fig:MonokameraEntfernung3}
 \end{figure}
 
-Anhand der Position des detektierten Objektes im Kamerabild lässt sich daraufhin eine ungefähre Entfernungsschätzung liefern. Problematisch ist hierbei die Ungenauigkeit des Systems. Sowohl Fehler bei der Aufnahme, als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen. 
+Problematisch bei diesem Ansatz ist hierbei die Ungenauigkeit des Systems. Mit steigender Entfernung des Objekts steigt auch die Fehlerrate. Sowohl Fehler bei der Aufnahme, als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen. 
 
-In den von uns durchgeführten Tests, konnte lediglich eine Genauigkeit von $\pm 5cm$ erreicht werden. Dies ist für die gegebene Anwendung unzureichend.
+In den durchgeführten Tests, konnte lediglich eine Genauigkeit von $\pm 5cm$ erreicht werden. Dies ist für die gegebene Anwendung unzureichend, da die fehlerhafte Benutzung des Greifarms gegebenenfalls Objekte verschieben und aus dem Blickfeld bewegen könnte.
 
 \subsubsection{Ultraschallbasiert}
 \label{subsec:Ultraschall}
 
-Die ultraschallbasierte Entfernungsschätzung kann auch über große Distanzen von bis zu zwei Metern zentimetergenaue Entfernungen messen. Die Messung wird durch einen Echo-Mechanismus mit, für den Menschen unhörbaren, Schallwellen im Ultraschallbereich durchgeführt \cite{hertzberg2012mobile}. Zunächst wird jedoch, ähnlich dem in \ref{subsec:StereoKameraDist} beschriebenen Verfahren, zusätzliche Hardware in Form eines Ultraschallsensors benötigt. Ein solcher kann jedoch direkt von LEGO\texttrademark\ erworben und problemlos am Roboter angebracht werden. 
+Die ultraschallbasierte Entfernungsschätzung kann auch über große Distanzen von bis zu zwei Metern zentimetergenaue Entfernungen messen. Die Messung wird durch einen Echo-Mechanismus mit, für den Menschen unhörbaren, Schallwellen im Ultraschallbereich durchgeführt \cite{hertzberg2012mobile}. Zunächst wird jedoch, ähnlich dem in \ref{subsec:StereoKameraDist} beschriebenen Verfahren, zusätzliche Hardware in Form eines Ultraschallsensors benötigt. Ein solcher kann jedoch direkt von LEGO\texttrademark\ erworben und problemlos am Roboter angebracht werden. Der Sensor ist im Kapitel \ref{subsec:Ultraschall} näher beschrieben.
 
 Das ultraschallbasierte Verfahren kann durch eine kleine Änderung des Roboters realisiert werden und liefert sehr genaue Ergebnisse. Die Koppelung mit dem Smartphone ist bereits gegeben und genügt Echtzeitanforderungen.
 
