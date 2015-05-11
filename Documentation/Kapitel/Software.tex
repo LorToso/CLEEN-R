@@ -79,12 +79,72 @@ Problematisch bei diesem Verfahren ist jedoch, dass eine sehr genaue Bestimmung 
 
 Da das CLEEN-R-Projekt nicht über die zusätzliche Hardware einer Beobachterkomponenten verfügt und der zusätzliche Aufwand der Auswertung der Kamerabilder zur Merkmalsextraktion zu aufwändig wäre, wurde sich für die Variante der Positionsverfolgung entschieden. Die Auflösung der Rotationssensoren ist mit 1\degree\ ausreichend genau. Die automatische Geschwindigkeitsanpassung der NXT-Motoren abhängig des Untergrunds fördern zusätzlich eine exakte Ortsbestimmung über die Positionsverfolgung.
 
-\section{Struktur der Android-App}
-\subsection{Activities}
-Aktivitätsdiagramm
+\section{Struktur der Applikation}
+Da es sich um eine große Applikation mit mehr als 3000 Zeilen Code und 33 Klassen handelt, sind in den folgenden Abschnitten lediglich Kernelemente herausgegriffen und im Detail erklärt.
 
+\subsection{Grundstruktur}
+Eine Android Applikation muss mindestens eine Klasse haben, die von der abstrakten Klasse \textit{Activity} erbt. Diese Activity, oftmals \textit{MainActivity} genannt, wird beim Starten der Applikation aufgerufen. Sie verwaltet grafische Oberflächen, sowie das Verhalten der Applikation beim Starten, Schließen oder Pausieren. Im CLEEN-R-Projekt stellt die \textit{MainActivity} zusätzlich eine Schnittstelle zur OpenCV-Bibliothek dar. Die Activity wird über eingehende Kamerabilder informiert und vermittelt diese weiter an den Controller der Applikation; die Klasse \textit{CleenrBrain}.
 
+Zusätzlich hält die \textit{MainActivity} eine Referenz zur Klasse der Hardwareansteuerung \textit{NxtTalker}. Abbildung \ref{fig:UMLActivity} zeigt die Grundstruktur der \textit{MainActivity}
 
+\begin{figure}[h]
+\centering
+%\includegraphics[width=0.25\textwidth]{Bilder/Software/UMLActivity}
+\todo{Diagram von MainActicity, Activity, CleenrBrain, NxtTalker}
+\caption{UML-Klassendiagramm der Grundstruktur der Applikation}
+\label{fig:UMLActivity}
+\end{figure}
 
+ 
+\subsection{Fokusobjektfindung}
 
+Die Controllerklasse \textit{CleenrBrain} hat die Aufgabe den Roboter zu koordinieren. \textit{CleenrBrain} hält eine Referenz zu einem \textit{FocusObject}-Objekt, welches den aktuell fokussierten Gegenstand repräsentiert. Hierbei wird auch das Fehlen eines Fokusobjekts aus Gründen der Polymorphie als Objekt beschrieben. \textit{CleenrBrain} wird beim vorliegen einer neuen Kameraaufnahme benachrichtigt und ermittelt daraufhin mit Hilfe einer \textit{FocusObjectFinder}-Klasse ein neues \textit{FocusObject}. Hierbei wird, wie in Kapitel \ref{subsec:Auffindung} beschrieben versucht einen Gegenstand über mehrere Aufnahmen hinweg im Fokus zu behalten. Abbildung \ref{fig:UMLFocus} beschreibt das Zusammenspiel der beschriebenen Klassen anschaulich.
+
+\begin{figure}[h]
+\centering
+%\includegraphics[width=0.25\textwidth]{Bilder/Software/UMLActivity}
+\todo{Diagram von FocusObject, ValidFocus, NoFocus und FocusObjectFinder}
+\caption{UML-Klassendiagramm der für die Auffindung eines Fokusobjekts verantwortlichen Klassen}
+\label{fig:UMLFocus}
+\end{figure}
+
+\subsection{Objektkategorisierung}
+
+Wie auch aus Abbildung \ref{fig:UMLFocus} ersichtlich, beinhaltet die \textit{FocusObject}-Klasse eine Methode zur Kategorisierung des Gegenstands. Hierbei wird eine Kategorie der Klasse \textit{Category} erzeugt, welche sich aus den beiden Feldern \textit{Color} und \textit{Shape} zusammensetzt.
+
+\begin{figure}[h]
+\centering
+%\includegraphics[width=0.25\textwidth]{Bilder/Software/UMLActivity}
+\todo{Diagram von FocusObject, Catregory, Color, Shape}
+\caption{UML-Klassendiagramm der Kategorisierung von FokusObjekten}
+\label{fig:UMLFocus}
+\end{figure}
+
+\subsection{Positionsdetektion}
+
+\subsection{Bluetooth-Verbindung}
+
+\subsection{Arbeitsphasen}
+
+Die Controllerklasse \textit{CleenrBrain} verwaltet mit Hilfe eines zusätzlichen Threads den Arbeitszyklus des Roboters. Durch die Verwendung eines zweiten Threads kann die Suche nach neuen FokusObjekten in folgenden Aufnahmen parallel zur Abarbeitung der in Kapitel \ref{cha:Workloop} beschriebenen Arbeitsphasen geschehen. 
+
+Die Arbeitsphasen sind separat als eigene Klassen modelliert, die sich von einer abstrakten Klasse \textit{WorkPhase} ableiten. Jede Arbeitsphase verfügt über eine virtuelle \textit{executeWork}-Methode, welche Zugriff auf alle für die Arbeitsphase relevanten Operationen besitzt. Darunter zählen Steuerwerk des Roboters, eine Referenz auf das aktuelle Fokusobjekt und einer Möglichkeit die Arbeitsphase zu wechseln. Die Implementierung der \textit{PickingUpObject}-Klasse ist in Listing \ref{lst:Pickup} erkennbar. Es ist deutlich zu sehen, dass der Code durch die hinzugefügte Abstraktiosnebene sehr einfach gehalten werden kann.
+
+\begin{lstlisting}[caption={Implementierung der Arbeitsphase \glqq Gegenstand aufnehmen\grqq }, label=lst:Pickup]
+public class PickingUpObject extends WorkPhase {
+    public PickingUpObject(RobotWorker worker) {
+        super(worker);
+    }
+    @Override
+    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
+        controlUnit.closeClaw();
+        if (!controlUnit.hasObjectInClaw()) {
+            controlUnit.openClaw();
+            mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
+            return;
+        }
+        mRobotWorker.switchWorkphase(new CategorisingObject(mRobotWorker));
+    }
+}
+\end{lstlisting}
 
