@@ -4,10 +4,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>180</x>
+      <x>144</x>
       <y>486</y>
       <w>450</w>
-      <h>225</h>
+      <h>198</h>
     </coordinates>
     <panel_attributes>com.cleenr.cleen_r::MainActivity
 --
@@ -23,17 +23,16 @@
 -isBluetoothAvailable(): boolean
 -enableBluetooth(): boolean
 +onCameraFrame(Mat inputFrame): Mat
---
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>774</x>
+      <x>738</x>
       <y>225</y>
       <w>477</w>
-      <h>252</h>
+      <h>225</h>
     </coordinates>
     <panel_attributes>com.cleenr.cleen_r::CleenrBrain
 --
@@ -51,19 +50,19 @@
 -printFocus(): void
 -focusObject(FocusObject focusedObject): void
 +getFocusedObject(): FocusObject
---
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>207</x>
+      <x>171</x>
       <y>270</y>
       <w>396</w>
-      <h>144</h>
+      <h>126</h>
     </coordinates>
     <panel_attributes>android.app::Activity
+--
 --
 #onStart(): void
 #onRestart(): void
@@ -71,25 +70,24 @@
 #onPause(): void
 +startActivityForResult(Intent intent, int requestCode): void
 +startActivity(Intent intent): void
---
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>387</x>
-      <y>405</y>
+      <x>351</x>
+      <y>387</y>
       <w>27</w>
-      <h>99</h>
+      <h>117</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>621</x>
+      <x>585</x>
       <y>342</y>
       <w>171</w>
       <h>225</h>
@@ -100,10 +98,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>747</x>
+      <x>711</x>
       <y>522</y>
       <w>540</w>
-      <h>261</h>
+      <h>243</h>
     </coordinates>
     <panel_attributes>com.cleenr.cleen_r.nxt::NxtTalker
 --
@@ -121,15 +119,13 @@
 +setMotorSpeed(byte port, byte power, byte regulation): void
 +setSensorType(byte port, byte type, byte mode): void
 +readSensor(byte port): NxtSensorReturnPackage
--sendPacket(byte[] out): void
---
-</panel_attributes>
+-sendPacket(byte[] out): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>693</x>
+      <x>657</x>
       <y>540</y>
       <w>72</w>
       <h>135</h>
@@ -140,12 +136,12 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>990</x>
-      <y>468</y>
+      <x>954</x>
+      <y>441</y>
       <w>27</w>
-      <h>72</h>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

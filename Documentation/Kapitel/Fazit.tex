@@ -28,4 +28,11 @@ Wie Kapitel \ref{cha:Tests} zeigt, funktioniert die Koppelung des Smartphones al
 Über das Verhalten des Roboters lässt sich sagen, dass es noch sehr abgehackt wirkt. Bewegungen sind nicht flüssig, Drehungen oft langsam und das Positionstracking manchmal ungenau. All diese Einflüsse erwecken den Eindruck der Roboter sei unfertig. In nachfolgenden Abschnitt wird ein Ausblick über weitere Vorgehensweisen bei der Bearbeitung dieser Themen gewährt.
 
 \section{Ausblick}
+
+Ein Hauptproblem des aktuellen Robotersystems stellt das \glqq abgehackte\grqq\ Fahren dar. Der Roboter fährt nie eine Kurve, sondern hält an und dreht sich auf der Stelle. Dies erleichtert das Positionstracking und das Zentrieren von Objekten ohne das Risiko sie zu Überfahren, ist jedoch zeitlich ineffizient und wird von Beobachtern als \glqq unschön\grqq\ empfunden. Ein flüssigeres Verhalten kann durch den ausgefeilteren Einsatz des Ultraschallsensors erreicht werden. Hierbei kann die Geschwindigkeit des Heranfahrens an ein Objekt an die gemessene Entfernung angepasst werden.
+
+Eine weitere Möglichkeit der Erweiterung des Systems stellt die Verwendung einer zweiten Kamera dar. Diese zweite Kamera kann zwei mögliche Anwendungen haben. Sie könnte als zusätzliches Kameramodul auf dem Roboter Tiefeninformationen aus Bildern erzeugen und so eine Kartografierung der Umgebung beginnen. Der Roboter könnte so als lernendes System Räume einstudieren und zu transportierende Gegenstände als \glqq Fremdkörper\grqq\ im Raum identifizieren. Alternativ könnte eine zweite Kamera als externer Beobachter des Systems verwendet werden. Dies würde wie in Kapitel \ref{subsec:Beobachter} beschrieben zu einer genaueren Positionserkennung beitragen und das System somit stabiler gegen Ungenauigkeiten der Rotationssensoren machen.
+
+Insgesamt lässt sich sagen, dass noch einige offene Nahtstellen im Projekt vorhanden sind, an denen zukünftige Entwickler Erweiterungen und Verfeinerungen anbringen können. Durch die modulare Struktur der Applikation lässt sich nahezu der gesamte Code ohne große Änderungen für weitere Projekte benutzen.
+
 \section{Reflexion des Gelernten}
