@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>248</x>
+      <y>376</y>
+      <w>528</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>/com.cleenr.cleen_r.focusObject::FocusObject/
+--
+--
+_+createFromContour(MatOfPoint contour): FocusObject_
+_+createFromContours(ArrayList&lt;MatOfPoint&gt; boundingContours): ArrayList&lt;FocusObject&gt;_
++isHorizontallyCentered(): boolean
++isVerticallyCentered(): boolean
++haveSimilarPosition(FocusObject otherObject): boolean
++haveSimilarSize(FocusObject otherObject): boolean
++haveSimilarColor(FocusObject otherObject): boolean
++getCategory(): Category
++getShapeCategorisation(): Shape
++getColorCategorisation(): Color
+getRect();
+/+getCenter(): Point/
+/+getMeanColorRGBA(): Scalar/
+/+getMeanColorHSV(): Scalar/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>832</x>
+      <y>520</y>
+      <w>296</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+com.cleenr.cleen_r.objectCategorisation::Color
+--
+NONE
+RED
+BROWN
+YELLOW
+OLIVE
+LIME
+GREEN
+AQUA
+TEAL
+BLUE
+NAYY
+FUCHISA
+PURPLE
+ORANGE
+--
+_+getObjectColor(Scalar colorHSV): Color_
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>384</y>
+      <w>296</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r.objectCategorisation::Category
+--
+~shape = Shape.NONE: Shape
+~color = Color.NONE: Color
+--
++Category(Shape shape, Color color)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1144</x>
+      <y>520</y>
+      <w>400</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+com.cleenr.cleen_r.objectCategorisation::Shape
+--
+NONE
+SPHERE
+CUBE
+_rectangularAngle = 30: double_
+--
+_+getObjectShape(MatOfPoint contour): Shape_
+_-calcAngles(MatOfPoint contour): double[]_
+_-calcAngle(double[] point1, double[] point2, double[] point3): double_
+_-getDistance(double[] point1, double[] point2): double_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>976</x>
+      <y>448</y>
+      <w>184</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>210.0;10.0;210.0;50.0;10.0;50.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1136</x>
+      <y>480</y>
+      <w>216</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;250.0;10.0;250.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>768</x>
+      <y>408</y>
+      <w>248</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>290.0;10.0;150.0;10.0;150.0;90.0;10.0;90.0</additional_attributes>
+  </element>
+</diagram>

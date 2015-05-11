@@ -89,8 +89,7 @@ Zusätzlich hält die \textit{MainActivity} eine Referenz zur Klasse der Hardwar
 
 \begin{figure}[h]
 \centering
-%\includegraphics[width=0.25\textwidth]{Bilder/Software/UMLActivity}
-\todo{Diagram von MainActicity, Activity, CleenrBrain, NxtTalker}
+\includegraphics[width=\textwidth]{Bilder/Software/UML/MainActivity}
 \caption{UML-Klassendiagramm der Grundstruktur der Applikation}
 \label{fig:UMLActivity}
 \end{figure}
@@ -98,12 +97,11 @@ Zusätzlich hält die \textit{MainActivity} eine Referenz zur Klasse der Hardwar
  
 \subsection{Fokusobjektfindung}
 
-Die Controllerklasse \textit{CleenrBrain} hat die Aufgabe den Roboter zu koordinieren. \textit{CleenrBrain} hält eine Referenz zu einem \textit{FocusObject}-Objekt, welches den aktuell fokussierten Gegenstand repräsentiert. Hierbei wird auch das Fehlen eines Fokusobjekts aus Gründen der Polymorphie als Objekt beschrieben. \textit{CleenrBrain} wird beim vorliegen einer neuen Kameraaufnahme benachrichtigt und ermittelt daraufhin mit Hilfe einer \textit{FocusObjectFinder}-Klasse ein neues \textit{FocusObject}. Hierbei wird, wie in Kapitel \ref{subsec:Auffindung} beschrieben versucht einen Gegenstand über mehrere Aufnahmen hinweg im Fokus zu behalten. Abbildung \ref{fig:UMLFocus} beschreibt das Zusammenspiel der beschriebenen Klassen anschaulich.
+Die Controllerklasse \textit{CleenrBrain} hat die Aufgabe den Roboter zu koordinieren. \textit{CleenrBrain} hält eine Referenz zu einem \textit{FocusObject}-Objekt, welches den aktuell fokussierten Gegenstand repräsentiert. Hierbei wird auch das Fehlen eines Fokusobjekts aus Gründen der Polymorphie als Objekt beschrieben. \textit{CleenrBrain} wird beim vorliegen einer neuen Kameraaufnahme benachrichtigt und ermittelt daraufhin mit Hilfe einer \textit{FocusObjectDetector}-Klasse ein neues \textit{FocusObject}. Hierbei wird, wie in Kapitel \ref{subsec:Auffindung} beschrieben versucht einen Gegenstand über mehrere Aufnahmen hinweg im Fokus zu behalten. Abbildung \ref{fig:UMLFocus} beschreibt das Zusammenspiel der beschriebenen Klassen anschaulich.
 
 \begin{figure}[h]
 \centering
-%\includegraphics[width=0.25\textwidth]{Bilder/Software/UMLActivity}
-\todo{Diagram von FocusObject, ValidFocus, NoFocus und FocusObjectFinder}
+\includegraphics[width=\textwidth]{Bilder/Software/UML/FocusObjects}
 \caption{UML-Klassendiagramm der für die Auffindung eines Fokusobjekts verantwortlichen Klassen}
 \label{fig:UMLFocus}
 \end{figure}
@@ -114,8 +112,7 @@ Wie auch aus Abbildung \ref{fig:UMLFocus} ersichtlich, beinhaltet die \textit{Fo
 
 \begin{figure}[h]
 \centering
-%\includegraphics[width=0.25\textwidth]{Bilder/Software/UMLActivity}
-\todo{Diagram von FocusObject, Catregory, Color, Shape}
+\includegraphics[width=\textwidth]{Bilder/Software/UML/Categories}
 \caption{UML-Klassendiagramm der Kategorisierung von Fokus Objekten}
 \label{fig:UMLCategorisation}
 \end{figure}

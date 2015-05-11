@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>728</x>
+      <y>712</y>
+      <w>344</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r.focusObject::ValidFocus
+--
+-mRect: Rect
+-mContour: MatOfPoint
+-mCenter: Point
+-mCoreColorRGBA: Scalar
+-mCoreColorHSV: Scalar
+--
+#ValidFocus(Mat rgba, Rect rect, MatOfPoint contour)
+-calcCenter(Rect area): Point
++getShapeCategorisation(): Shape
++getColorCategorisation(): Color
++getRect(): Rect
++getCenter(): Point
++getMeanColorRGBA(): Scalar
++getMeanColorHSV(): Scalar
++isValidFocus(): boolean
++getContour(): MatOfPoint
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>776</x>
+      <y>440</y>
+      <w>528</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>/com.cleenr.cleen_r.focusObject::FocusObject/
+--
+--
+_+createFromContour(MatOfPoint contour): FocusObject_
+_+createFromContours(ArrayList&lt;MatOfPoint&gt; boundingContours): ArrayList&lt;FocusObject&gt;_
++isHorizontallyCentered(): boolean
++isVerticallyCentered(): boolean
++haveSimilarPosition(FocusObject otherObject): boolean
++haveSimilarSize(FocusObject otherObject): boolean
++haveSimilarColor(FocusObject otherObject): boolean
++getCategory(): Category
++getShapeCategorisation(): Shape
++getColorCategorisation(): Color
+getRect();
+/+getCenter(): Point/
+/+getMeanColorRGBA(): Scalar/
+/+getMeanColorHSV(): Scalar/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>112</x>
+      <y>496</y>
+      <w>576</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r.focusObject::FocusObjectDetector
+--
+-mObjectDetector = new ObjectDetector(): ObjectDetector
+--
++findFocusTarget(FocusObject previousFocus): FocusObject
+-findBestBigSquare(ArrayList&lt;FocusObject&gt; detectedObjects): FocusObject
+-SortDetectedObjects(ArrayList&lt;FocusObject&gt; detectedObjects): void
+-findBestMatch(FocusObject previousFocus, ArrayList&lt;FocusObject&gt; detectedObjects): FocusObject
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1088</x>
+      <y>712</y>
+      <w>248</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r.focusObject::NoFocus
+--
+--
++getShapeCategorisation(): Shape
++getColorCategorisation(): Color
++getRect(): Rect
++getCenter(): Point
++getMeanColorRGBA(): Scalar
++getMeanColorHSV(): Scalar
++isValidFocus(): boolean
++getForm(): Shape</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>904</x>
+      <y>640</y>
+      <w>168</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>190.0;10.0;190.0;50.0;10.0;50.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1048</x>
+      <y>672</y>
+      <w>168</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;10.0;190.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>536</y>
+      <w>112</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
