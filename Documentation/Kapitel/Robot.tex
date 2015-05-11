@@ -117,7 +117,7 @@ Bei der Ansteuerung des Greifarmmotors ist zu beachten, dass dieser nicht zu sch
 \section{Steuerung des Roboters}
 \label{sec:RoboterSteuerung}
 
-Da die Kameraeinheit in Form des Smartphones und der NXT-Roboter zwei getrennte Module darstellen, ist ein nichttrivialer Kommunikationskanal notwendig. In den folgenden Abschnitten ist die intermodulare Kommunikation näher beschrieben.
+Da die Kameraeinheit in Form des Smartphones und der NXT-Roboter zwei getrennte Module darstellen, ist ein nicht trivialer Kommunikationskanal notwendig. In den folgenden Abschnitten ist die intermodulare Kommunikation näher beschrieben.
 
 \subsection{Kommunikation zwischen den Modulen}
 
@@ -144,6 +144,6 @@ Ist eine Verbindung geglückt, kann damit begonnen werden seriell byteweise Befe
 
 \subsection{Programmatische Umsetzung}
 
-Auf dem Smartphone übernimmt ein gesonderter Thread die Kommunikation mit dem NXT. Die Klasse \glqq NxtTalker\grqq\ bietet Funktionen zum Versenden von Daten an den Roboter, sowie alle nötigen Daten um eine Verbindung aufzubauen und aufrecht zu erhalten.
+Auf dem Smartphone übernimmt ein gesonderter Thread die Kommunikation mit dem NXT. Die Klasse \enquote{NxtTalker} bietet Funktionen zum Versenden von Daten an den Roboter, sowie alle nötigen Daten um eine Verbindung aufzubauen und aufrecht zu erhalten.
 
 Um die Motoren zu bewegen, muss zunächst ein Befehl an jeden Aktor geschickt werden, der eine Geschwindigkeit im Bereich von -100\% bis 100\% definiert. Hierdurch können die Motoren mit demselben Befehl vorwärts und rückwärts fahren. Das Stoppen der Motoren, und damit das Anhalten des Systems werden realisiert, indem allen Motoren eine Geschwindigkeit von null kommuniziert wird. Problematisch ist hierbei, dass die Motoren sequenziell gestartet werden. Dies hat zur Folge, dass ein Motor vor dem anderen startet und somit die Blickrichtung des Roboters beeinflusst. Um dem vorzubeugen, sieht die Schnittstelle einen Befehl vor, der die Motoren synchron starten lässt. Hierdurch wird verhindert, dass der Roboter in eine undefinierte Richtung abdriftet.
