@@ -230,7 +230,7 @@ In jeder Aufnahme wird die konkrete Farbe des Objekts bestimmt. Anschließend ka
 TODO
 
 \section{Suche des Zielbereichs}
-\label{subsec:Orientierung}
+\label{sec:Orientierung}
 
 Zur Orientierung im Raum wird die im Abschnitt \ref{sec:Ortsbestimmung} beschriebe Methode der streckenbasierten Positionsverfolgung genutzt. Hierbei wird zu Beginn der Startpunkt mit den Koordinaten (0|0) an der Position des Roboters definiert, die Drehung des Roboters mit 0\degree. Ab diesem Zeitpunkt wird jede Ansteuerung der Räder  softwareseitig als Bewegung auf diesen Startpunkt aufaddiert. 
 
@@ -241,7 +241,9 @@ Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der ang
 Bei Drehung um die eigene Achse wird die kalibrierte maximale Drehgeschwindigkeit skaliert, mit der Dauer multipliziert und der resultierende Winkel auf den des Roboters aufaddiert.
 
 \section{Ansteuerung des Zielbereichs}
+\label{sec:Zielbereichsansteuerung}
 
+Durch das in Kapitel \ref{sec:Orientierung} beschriebene Verfahren besitzt der Roboter stets aktuelle Koordinaten des eigenen Standpunkts im Raum relativ zum Startpunkt. Somit kann er jederzeit die nötigen Strecken als Differenzvektor von sich zu den definierten Punkten der Zielbereiche berechnen. Ist dies erledigt, dreht sich der NXT zunächst um die eigene Achse, bis die Richtung des Streckenvektors mit dem Roboterwinkel übereinstimmt, er also dem Zielpunkt zugerichtet ist und fährt anschließend gerade darauf zu bis er die Zielzone erreicht hat.
 
 
 \section{Ablegen von Objekten}
@@ -252,12 +254,6 @@ Sobald das Objekt an der Zielzone abgelegt wurde, kann der Roboter zurück an se
 
 \section{Rückkehr zur Ausgangsposition}
 
-Mit Hilfe der in Kapitel \ref{subsec:Orientierung} beschrieben Verfahren kann sich der Roboter im Raum orientieren und den Startpunkt ausfindig machen und ansteuern. Abbildung \ref{fig:Startpoint} zeigt einen Screenshot der Applikation sobald der Roboter in die Ausgangsposition zurückzukehren versucht. 
+Analog zur in \ref{sec:Zielbereichsansteuerung} beschriebenen Methode für die Ansteuerung von Zielbereichen, wird diese nun angewandt um den Roboter zum Startpunkt mit den Koordinaten (0|0) zu manövrieren.
 
 Sobald der Roboter die Ausgangsposition erreicht hat, ist ein Zyklus seines Arbeitsablaufs abgeschlossen. Durch Wiederholen der in diesem Kapitel beschriebenen Schritte kann ein weiteres Objekt detektiert, kategorisiert und in eine Zielzone transportiert werden. 
-
-\begin{figure}[h]
-\centering
-\caption{Screenshot der Applikation bei Rückkehr zur Ausgangsposition}
-\label{fig:Startpoint}
-\end{figure}
