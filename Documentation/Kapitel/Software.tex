@@ -120,9 +120,9 @@ Wie auch aus Abbildung \ref{fig:UMLFocus} ersichtlich, beinhaltet die \textit{Fo
 
 \subsection{Bewegungssteuerung und Positionsverfolgung}
 
-Die Bluetooth-Verbindung wird mittels einer \textbf{NxtTalker}-Instanz durch einen Aufruf von \textit{MainActivity} aus initiiert. Ein Thread überwacht den Stream auf eingehende Sensordaten und setzt Befehle an den NXT ab.
+Die Bluetooth-Verbindung wird mittels einer \textit{NxtTalker}-Instanz durch einen Aufruf von \textit{MainActivity} aus initiiert. Ein Thread überwacht den Stream auf eingehende Sensordaten und setzt Befehle an den NXT ab.
 
-Bewegungsbefehle der Workloop gehen in die Klasse \textit{NxtControlUnit} ein, von wo aus sie von \textbf{NxtTalker} in Bluetooth-Befehle übersetzt werden. Die Verfolgung der Roboterposition wird hauptsächlich in der Klasse \textit{PositionTracker} abgewickelt. Jeder Bewegungsbefehl setzt eine Mitteilung an \textbf{PositionTracker} ab, welcher dann anhand Dauer und Geschwindigkeit der Bewegung die neuen Koordinaten berechnet.
+Bewegungsbefehle der Workloop gehen in die Klasse \textit{NxtControlUnit} ein, von wo aus sie von \textit{NxtTalker} in Bluetooth-Befehle übersetzt werden. Die Verfolgung der Roboterposition wird hauptsächlich in der Klasse \textit{PositionTracker} abgewickelt. Jeder Bewegungsbefehl setzt eine Mitteilung an \textit{PositionTracker} ab, welcher dann anhand Dauer und Geschwindigkeit der Bewegung die neuen Koordinaten berechnet.
 
 \begin{figure}[h]
 \centering
