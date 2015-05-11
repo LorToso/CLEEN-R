@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>496</x>
+      <y>464</y>
+      <w>496</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r.robotcontrolunits::PositionTracker
+--
+-MAX_METERS_PER_SECOND = 1.0 / 3.0: double
+-MAX_DEGREES_PER_SECOND = Math.PI: double
+-mPosX, mPosY: double
+-mAngle: double
+{innerclass
+&lt;&lt;enumeration&gt;&gt;
+MovementDirection
+--
+FORWARD, BACKWARD, LEFT, RIGHT
+--
+innerclass}
+--
++PositionTracker()
++addMovement(MovementDirection direction, byte motorSpeed, long duration): void
+-addStraightMovement(boolean backward, byte motorSpeed, long duration): void
+-addCircularMovement(boolean anticlockwise, byte motorSpeed, long duration): void
++addVector(double x, double y, double rotation): void
++resetPosition(): void
++getX(): double
++getY(): double
++getAngle(): double
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>224</y>
+      <w>416</w>
+      <h>384</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r.robotcontrolunits::NxtControlUnit
+--
+-mNxtTalker: NxtTalker
+-mPosTracker: PositionTracker
+-lastAction = null: RobotAction
+-CLAW_MOTOR = NxtTalker.MOTOR_PORT_A: byte
+-LEFT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_C: byte
+-RIGHT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_B: byte
+-MOTOR_SPEED = 50: byte
+-MOTOR_SPEED_SLOW = 20: byte
+--
++NxtControlUnit(NxtTalker nxtTalker, PositionTracker posTracker)
++isClawClosed(): boolean
++turnRight(long sleepTime): void
++turnRight(): void
++closeClaw(): void
++driveForward(long sleepTime): void
++driveForward(): void
++driveBackward(long sleepTime): void
++driveBackward(): void
++hasObjectInClaw(): boolean
++openClaw(): void
++turnLeft(long sleepTime): void
++turnLeft(): void
++centerObject(FocusObject focusObject): void
++repeatLastAction(): void
++objectInRange(): boolean
+-turnRightSlowly(): void
+-turnLeftSlowly(): void
++returnToStartingPoint(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>496</x>
+      <y>224</y>
+      <w>480</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r.nxt::NxtTalker
+--
+-mAdapter: BluetoothAdapter
+-mBtSocket: BluetoothSocket
+-mBtInputStream: InputStream
+-mBtOutputStream: OutputStream
+-mConnectThread: ConnectThread
+--
++connect(BluetoothDevice device): void
+-closeBtSocket(): void
+-connectionFailed(): void
+-connectionLost(): void
++setMotorSpeed(byte port, byte power): void
++setMotorSpeed(byte port, byte power, byte regulation): void
++setSensorType(byte port, byte type, byte mode): void
++readSensor(byte port): NxtSensorReturnPackage
+-sendPacket(byte[] out): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>328</y>
+      <w>104</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>110.0;10.0;60.0;10.0;60.0;100.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>448</x>
+      <y>400</y>
+      <w>64</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>60.0;210.0;10.0;210.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1032</x>
+      <y>240</y>
+      <w>400</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>com.cleenr.cleen_r::MainActivity
+--
++AUTO_CONNECT: boolean
+-mOpenCvCameraView: CameraBridgeViewBase
+-mCleenrBrain: CleenrBrain
+-mBluetoothAdapter: BluetoothAdapter
+-mNXTTalker: NxtTalker
+--
+-findBrick(): void
+-startManualControlActivity(): void
+-startBrickFindingActivity(): void
+-isBluetoothAvailable(): boolean
+-enableBluetooth(): boolean
++onCameraFrame(Mat inputFrame): Mat
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>968</x>
+      <y>328</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+</diagram>
