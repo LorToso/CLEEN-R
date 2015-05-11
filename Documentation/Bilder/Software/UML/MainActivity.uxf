@@ -4,9 +4,9 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>144</x>
-      <y>486</y>
-      <w>450</w>
+      <x>261</x>
+      <y>495</y>
+      <w>342</w>
       <h>198</h>
     </coordinates>
     <panel_attributes>com.cleenr.cleen_r::MainActivity
@@ -29,9 +29,9 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>738</x>
-      <y>225</y>
-      <w>477</w>
+      <x>747</x>
+      <y>234</y>
+      <w>324</w>
       <h>225</h>
     </coordinates>
     <panel_attributes>com.cleenr.cleen_r::CleenrBrain
@@ -39,7 +39,7 @@
 +mNxtTalker: NxtTalker
 +mPositionTracker: PositionTracker
 -mFocusedObject = new NoFocus(): FocusObject
--mFocusObjectFinder = new FocusObjectDetector(): FocusObjectDetector
+-mFocusObjectFinder: FocusObjectDetector
 -mRobotWorkerThread: Thread
 -mWorkLoop: RobotWorker
 --
@@ -56,8 +56,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>270</y>
+      <x>234</x>
+      <y>279</y>
       <w>396</w>
       <h>126</h>
     </coordinates>
@@ -76,8 +76,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>351</x>
-      <y>387</y>
+      <x>414</x>
+      <y>396</y>
       <w>27</w>
       <h>117</h>
     </coordinates>
@@ -87,20 +87,20 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>585</x>
-      <y>342</y>
+      <x>594</x>
+      <y>351</y>
       <w>171</w>
       <h>225</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>170.0;10.0;90.0;10.0;90.0;230.0;10.0;230.0</additional_attributes>
+    <additional_attributes>170.0;10.0;100.0;10.0;100.0;230.0;10.0;230.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>711</x>
-      <y>522</y>
-      <w>540</w>
+      <y>531</y>
+      <w>405</w>
       <h>243</h>
     </coordinates>
     <panel_attributes>com.cleenr.cleen_r.nxt::NxtTalker
@@ -125,19 +125,19 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>657</x>
-      <y>540</y>
-      <w>72</w>
+      <x>675</x>
+      <y>549</y>
+      <w>54</w>
       <h>135</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>60.0;130.0;10.0;130.0;10.0;10.0</additional_attributes>
+    <additional_attributes>40.0;130.0;10.0;130.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>954</x>
-      <y>441</y>
+      <x>900</x>
+      <y>450</y>
       <w>27</w>
       <h>99</h>
     </coordinates>

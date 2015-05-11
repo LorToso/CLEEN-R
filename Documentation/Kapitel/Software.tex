@@ -88,9 +88,11 @@ Eine Android Applikation muss mindestens eine Klasse haben, die von der abstrakt
 
 Zusätzlich hält die \textit{MainActivity} eine Referenz zur Klasse der Hardwareansteuerung \textit{NxtTalker}. Abbildung \ref{fig:UMLActivity} zeigt die Grundstruktur der \textit{MainActivity}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{Bilder/Software/UML/MainActivity}
+\scalebox{.4}{
+\includegraphics{Bilder/Software/UML/MainActivity}
+}
 \caption{UML-Klassendiagramm der Grundstruktur der Applikation}
 \label{fig:UMLActivity}
 \end{figure}
@@ -100,9 +102,11 @@ Zusätzlich hält die \textit{MainActivity} eine Referenz zur Klasse der Hardwar
 
 Die Controllerklasse \textit{CleenrBrain} hat die Aufgabe den Roboter zu koordinieren. \textit{CleenrBrain} hält eine Referenz zu einem \textit{FocusObject}-Objekt, welches den aktuell fokussierten Gegenstand repräsentiert. Hierbei wird auch das Fehlen eines Fokusobjekts aus Gründen der Polymorphie als Objekt beschrieben. \textit{CleenrBrain} wird beim vorliegen einer neuen Kameraaufnahme benachrichtigt und ermittelt daraufhin mit Hilfe einer \textit{FocusObjectDetector}-Klasse ein neues \textit{FocusObject}. Hierbei wird, wie in Kapitel \ref{subsec:Auffindung} beschrieben versucht einen Gegenstand über mehrere Aufnahmen hinweg im Fokus zu behalten. Abbildung \ref{fig:UMLFocus} beschreibt das Zusammenspiel der beschriebenen Klassen anschaulich.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{Bilder/Software/UML/FocusObjects}
+\scalebox{.4}{
+\includegraphics{Bilder/Software/UML/FocusObjects}
+}
 \caption{UML-Klassendiagramm der für die Auffindung eines Fokusobjekts verantwortlichen Klassen}
 \label{fig:UMLFocus}
 \end{figure}
@@ -111,9 +115,11 @@ Die Controllerklasse \textit{CleenrBrain} hat die Aufgabe den Roboter zu koordin
 
 Wie auch aus Abbildung \ref{fig:UMLFocus} ersichtlich, beinhaltet die \textit{FocusObject}-Klasse eine Methode zur Kategorisierung des Gegenstands. Hierbei wird eine Kategorie der Klasse \textit{Category} erzeugt, welche sich aus den beiden Feldern \textit{Color} und \textit{Shape} zusammensetzt.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{Bilder/Software/UML/Categories}
+\scalebox{.4}{
+\includegraphics{Bilder/Software/UML/Categories}
+}
 \caption{UML-Klassendiagramm der Kategorisierung von Fokus Objekten}
 \label{fig:UMLCategorisation}
 \end{figure}
@@ -124,9 +130,11 @@ Die Bluetooth-Verbindung wird mittels einer \textit{NxtTalker}-Instanz durch ein
 
 Bewegungsbefehle der Workloop gehen in die Klasse \textit{NxtControlUnit} ein, von wo aus sie von \textit{NxtTalker} in Bluetooth-Befehle übersetzt werden. Die Verfolgung der Roboterposition wird hauptsächlich in der Klasse \textit{PositionTracker} abgewickelt. Jeder Bewegungsbefehl setzt eine Mitteilung an \textit{PositionTracker} ab, welcher dann anhand Dauer und Geschwindigkeit der Bewegung die neuen Koordinaten berechnet.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{Bilder/Software/UML/Movement}
+\scalebox{.4}{
+\includegraphics{Bilder/Software/UML/Movement}
+}
 \caption{UML-Klassendiagramm der Bewegungssteuerung und Positionsverfolgung}
 \label{fig:UMLMovement}
 \end{figure}
