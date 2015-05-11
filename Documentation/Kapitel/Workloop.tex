@@ -97,12 +97,12 @@ Durch Bewegung des Roboters während der Bildaufnahme, kann es zu verzerrten Bil
 \label{fig:Verzerrung}
 \end{figure}
 
-Durch die Verzerrung können unterschiedliche Phänomene auftreten. Die Verfolgung von Objekten, die in Abschnitt \ref{subsec:Similarity} beschrieben wurde kann versagen. In diesem Fall muss die Aufnahme ignoriert und verworfen werden. Es können jedoch auch Objekte fälschlicherweise erkannt und kategorisiert. Durch die Verzerrung wird die Form und Position der Objekte verfälscht. Eine solche verfälschte Aufnahme kann einen plötzlichen Wechsel des fokussierten Objektes zur Folge haben.
+Durch die Verzerrung können unterschiedliche Phänomene auftreten. Die Verfolgung von Objekten, die in Abschnitt \ref{subsec:Similarity} beschrieben wurde, kann versagen. In diesem Fall muss die Aufnahme ignoriert und verworfen werden. Es können jedoch auch Objekte fälschlicherweise erkannt und kategorisiert werden. Durch die Verzerrung wird die Form und Position der Objekte verfälscht. Eine solche verfälschte Aufnahme kann einen plötzlichen Wechsel des fokussierten Objektes zur Folge haben.
 
 \section{Anfahren von Objekten}
 \label{sec:Ansteuerung}
 
-Sobald ein Objekt gefunden wurde, kann der Roboter beginnen dies anzufahren. Hierfür versucht er zunächst das Objekt horizontal zu zentrieren. Dafür dreht sich der Roboter auf der Stelle, bis das Objekt ganz zu sehen ist und das möglichst zentral in der Aufnahme liegt. Abbildung \ref{fig:Zentrierung} zeigt, wie ein Objekt durch die Drehung des Roboters zentriert werden konnte.
+Sobald ein Objekt gefunden wurde, kann der Roboter beginnen, dies anzufahren. Hierfür versucht er zunächst, das Objekt horizontal zu zentrieren. Dafür dreht sich der Roboter auf der Stelle, bis das Objekt ganz zu sehen ist und es möglichst zentral in der Aufnahme liegt. Abbildung \ref{fig:Zentrierung} zeigt, wie ein Objekt durch die Drehung des Roboters zentriert werden konnte.
 
 \begin{figure}[h]
 \centering
@@ -111,18 +111,18 @@ Sobald ein Objekt gefunden wurde, kann der Roboter beginnen dies anzufahren. Hie
 \label{fig:Zentrierung}
 \end{figure}
 
-Ist das Objekt zentral gelegen, so muss der Roboter lediglich geradeaus fahren, bis er es erreicht. Da eine perfekte Zentrierung jedoch nicht garantiert werden kann, ist es möglich, dass der Roboter abdriftet. Um dem vorzubeugen muss ständig die Position des Objekts in der Aufnahme überprüft und gegebenenfalls zentriert werden.
+Ist das Objekt zentral gelegen, so muss der Roboter lediglich geradeaus fahren, bis er es erreicht. Da eine perfekte Zentrierung jedoch nicht garantiert werden kann, ist es möglich, dass der Roboter abdriftet. Um dem vorzubeugen, muss ständig die Position des Objekts in der Aufnahme überprüft und gegebenenfalls zentriert werden.
 
-Weiterhin wichtig, ist es jedoch zu wissen, wann in den Zustand des Objekt Aufhebens übergegangen werden kann. Hierfür darf der Roboter nur eine geringe Entfernung zum Objekt aufweisen. Die folgenden Abschnitte gehen auf verschiedene Methoden der Entfernungsmessung ein.
+Weiterhin wichtig ist es jedoch zu wissen, wann in den Zustand des Objekt Aufhebens übergegangen werden kann. Hierfür darf der Roboter nur eine geringe Entfernung zum Objekt aufweisen. Die folgenden Abschnitte gehen auf verschiedene Methoden der Entfernungsmessung ein.
 
 \subsection{Entfernungsschätzung}
 \label{subsec:Entfernungsschätzung}
-Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen bevor er kollidiert und unter Umständen seine Fracht verliert.
+Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen, ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen, bevor er kollidiert und unter Umständen seine Fracht verliert.
 
 \subsubsection{Stereokamerabasiert}
 \label{subsec:StereoKameraDist}
 
-Ein häufiger Ansatz für die Entfernungsschätzung stellt die Stereokamerabasierte Methode dar. Hierbei nimmt der Roboter seien Umgebung nicht mit nur einer Kamera, sondern mit mehreren, mindestens zwei, wahr. Durch einen bekannten Versatz zwischen den Aufnahmequellen der Bilder, lässt sich mittels Registrierung auch ein Versatz in den erzeugten Bildern ermitteln. Wie die beiden menschlichen Augen, erlaubt dies das Wahrnehmen der Umgebung in dritter Dimension. Abbildung \ref{fig:StereokameraEntfernung} zeigt schematisch eine solche Entfernungsschätzung \cite{bathge20123d}.
+Ein häufiger Ansatz für die Entfernungsschätzung stellt die Stereokamerabasierte Methode dar. Hierbei nimmt der Roboter seien Umgebung nicht mit nur einer Kamera, sondern mit mehreren, mindestens zwei, wahr. Durch einen bekannten Versatz zwischen den Aufnahmequellen der Bilder lässt sich mittels Registrierung auch ein Versatz in den erzeugten Bildern ermitteln. Wie die beiden menschlichen Augen erlaubt dies das Wahrnehmen der Umgebung in dritter Dimension. Abbildung \ref{fig:StereokameraEntfernung} zeigt schematisch eine solche Entfernungsschätzung \cite{bathge20123d}.
 
 \begin{figure}[h]
 \centering
@@ -181,9 +181,9 @@ Entfernungen lassen sich über einfache trigonometrische Verfahren berechnen.
 \label{fig:MonokameraEntfernung3}
 \end{figure}
 
-Problematisch bei diesem Ansatz ist hierbei die Ungenauigkeit des Systems. Mit steigender Entfernung des Objekts steigt auch die Fehlerrate. Sowohl Fehler bei der Aufnahme, als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen. 
+Problematisch bei diesem Ansatz ist hierbei die Ungenauigkeit des Systems. Mit steigender Entfernung des Objekts steigt auch die Fehlerrate. Sowohl Fehler bei der Aufnahme als auch Probleme durch eine maximale Größenbeschränkung des detektierten Objektes können in der Praxis zu Fehleinschätzungen und damit fehlerhafter Benutzung des Greifarms führen. 
 
-In den durchgeführten Tests, konnte lediglich eine Genauigkeit von $\pm 5cm$ erreicht werden. Dies ist für die gegebene Anwendung unzureichend, da die fehlerhafte Benutzung des Greifarms gegebenenfalls Objekte verschieben und aus dem Blickfeld bewegen könnte.
+In den durchgeführten Tests konnte lediglich eine Genauigkeit von $\pm 5cm$ erreicht werden. Dies ist für die gegebene Anwendung unzureichend, da die fehlerhafte Benutzung des Greifarms gegebenenfalls Objekte verschieben und aus dem Blickfeld bewegen könnte.
 
 \subsubsection{Ultraschallbasiert}
 \label{subsec:Ultraschall}
@@ -197,7 +197,7 @@ Das ultraschallbasierte Verfahren kann durch eine kleine Änderung des Roboters 
 
 Das Aufnehmen von Objekten kann erfolgen sobald der Roboter, wie in Abschnitt \ref{sec:Ansteuerung} beschrieben, nah genug an das Objekt herangefahren ist. Zum Aufnehmen wird der Greifarm durch das Betreiben des dritten Motors geschlossen. Näheres hierzu findet sich im Kapitel \ref{sec:Greifarm}. 
 
-Mit Hilfe des in Abschnitt \ref{subsec:Ultraschall} beschriebenen Ultraschallsensors kann ebenfalls überprüft werden ob das Objekt während des Tragens verloren geht. In diesem Fall kehrt der Roboter zurück in den Zustand der Objektsuche.
+Mit Hilfe des in Abschnitt \ref{subsec:Ultraschall} beschriebenen Ultraschallsensors kann ebenfalls überprüft werden, ob das Objekt während des Tragens verloren geht. In diesem Fall kehrt der Roboter zurück in den Zustand der Objektsuche.
 
 \section{Kategorisierung von Objekten}
 
@@ -225,11 +225,11 @@ Die Farbe des Objekts stellt ein Kriterium dar. Diese wird über die gesamte Obj
 	\label{tab:Farbtabelle}
 \end{table}
 
-In jeder Aufnahme wird die konkrete Farbe des Objekts bestimmt. Anschließend kann bei der Kategorisierung die am häufigsten bestimmte Farbe gewählt werden um Fehler durch Beleuchtung oder andere äußere Einflüsse zu korrigieren.
+In jeder Aufnahme wird die konkrete Farbe des Objekts bestimmt. Anschließend kann bei der Kategorisierung die am häufigsten bestimmte Farbe gewählt werden, um Fehler durch Beleuchtung oder andere äußere Einflüsse zu korrigieren.
 
 \subsection{Kategorisierung nach Form}
 
-Die Kategorisierung nach Form erfolgt über extrahierte Randpunkte des Objekts. Der in Kapitel \ref{sec:Objekterkennung} beschriebene Algorithmus liefert eine Liste von Punkten aus denen sich die Kante des segmentierten Gegenstands ergibt. Abbildung \ref{fig:KreisQuadrat} zeigt wie ein Kreis und ein Quadrat über Kantenpunkte beschrieben werden.
+Die Kategorisierung nach Form erfolgt über extrahierte Randpunkte des Objekts. Der in Kapitel \ref{sec:Objekterkennung} beschriebene Algorithmus liefert eine Liste von Punkten, aus denen sich die Kante des segmentierten Gegenstands ergibt. Abbildung \ref{fig:KreisQuadrat} zeigt wie ein Kreis und ein Quadrat über Kantenpunkte beschrieben werden.
 
 \begin{figure}[h]
 \centering
@@ -238,7 +238,7 @@ Die Kategorisierung nach Form erfolgt über extrahierte Randpunkte des Objekts. 
 \label{fig:KreisQuadrat}
 \end{figure}
 
-Berechnet man aus der geordneten Liste von Kantenpunkten Winkel zwischen aufeinanderfolgenden Punkten, so lässt sie mit hoher Präzision die Form des Objektes schätzen. Abbildung \ref{fig:KreisQuadratWinkel} zeigt wie ein Kreis und ein Quadrat von einander unterschieden werden können. Der Kreis zeigt hierbei charakteristisch, dass der Winkel zwischen zwei Kantenpunkten immer konstant bleibt, während die Winkel bei Rechtecken sich nur an Ecken von null unterscheiden.
+Berechnet man aus der geordneten Liste von Kantenpunkten Winkel zwischen aufeinander folgenden Punkten, so lässt sie mit hoher Präzision die Form des Objektes schätzen. Abbildung \ref{fig:KreisQuadratWinkel} zeigt wie ein Kreis und ein Quadrat voneinander unterschieden werden können. Der Kreis zeigt hierbei charakteristisch, dass der Winkel zwischen zwei Kantenpunkten immer konstant bleibt, während die Winkel bei Rechtecken sich nur an Ecken von null unterscheiden.
 
 
 \begin{figure}[h]
@@ -253,7 +253,7 @@ Während ein Objekt angefahren wird, wird eine solche Kategorisierung wiederholt
 \section{Suche des Zielbereichs}
 \label{sec:Orientierung}
 
-Zur Orientierung im Raum wird die im Abschnitt \ref{sec:Ortsbestimmung} beschriebe Methode der streckenbasierten Positionsverfolgung genutzt. Hierbei wird zu Beginn der Startpunkt mit den Koordinaten (0|0) an der Position des Roboters definiert, die Drehung des Roboters mit 0\degree. Ab diesem Zeitpunkt wird jede Ansteuerung der Räder  softwareseitig als Bewegung auf diesen Startpunkt aufaddiert. 
+Zur Orientierung im Raum wird die im Abschnitt \ref{sec:Ortsbestimmung} beschriebene Methode der streckenbasierten Positionsverfolgung genutzt. Hierbei wird zu Beginn der Startpunkt mit den Koordinaten (0|0) an der Position des Roboters definiert, die Drehung des Roboters mit 0\degree. Ab diesem Zeitpunkt wird jede Ansteuerung der Räder  softwareseitig als Bewegung auf diesen Startpunkt aufaddiert. 
 
 Die Klasse \textit{PositionTracker} behält Position und Winkel des Roboters im Blick. Da der Roboter nur gerade fahren oder sich auf der Stelle drehen kann, also die Geschwindigkeit der beiden Antriebsmotoren stets gleich ist, ist die Vektorberechnung recht einfach.
 
@@ -271,7 +271,7 @@ Bei Drehung um die eigene Achse wird die kalibrierte maximale Drehgeschwindigkei
 \section{Ansteuerung des Zielbereichs}
 \label{sec:Zielbereichsansteuerung}
 
-Durch das in Kapitel \ref{sec:Orientierung} beschriebene Verfahren besitzt der Roboter stets aktuelle Koordinaten des eigenen Standpunkts im Raum relativ zum Startpunkt. Somit kann er jederzeit die nötigen Strecken als Differenzvektor von sich zu den definierten Punkten der Zielbereiche berechnen. Ist dies erledigt, dreht sich der NXT zunächst um die eigene Achse, bis die Richtung des Streckenvektors mit dem Roboterwinkel übereinstimmt, er also dem Zielpunkt zugerichtet ist und fährt anschließend gerade darauf zu bis er die Zielzone erreicht hat.
+Durch das in Kapitel \ref{sec:Orientierung} beschriebene Verfahren besitzt der Roboter stets aktuelle Koordinaten des eigenen Standpunkts im Raum relativ zum Startpunkt. Somit kann er jederzeit die nötigen Strecken als Differenzvektor von sich zu den definierten Punkten der Zielbereiche berechnen. Ist dies erledigt, dreht sich der NXT zunächst um die eigene Achse, bis die Richtung des Streckenvektors mit dem Roboterwinkel übereinstimmt, er also dem Zielpunkt zugerichtet ist und fährt anschließend gerade darauf zu, bis er die Zielzone erreicht hat.
 
 
 \section{Ablegen von Objekten}
@@ -283,6 +283,6 @@ Sobald das Objekt an der Zielzone abgelegt wurde, kann der Roboter zurück an se
 \section{Rückkehr zur Ausgangsposition}
 \label{sec:Rückkehr}
 
-Analog zur in \ref{sec:Zielbereichsansteuerung} beschriebenen Methode für die Ansteuerung von Zielbereichen, wird diese nun angewandt um den Roboter zum Startpunkt mit den Koordinaten (0|0) zu manövrieren.
+Analog zur in \ref{sec:Zielbereichsansteuerung} beschriebenen Methode für die Ansteuerung von Zielbereichen wird diese nun angewandt um den Roboter zum Startpunkt mit den Koordinaten (0|0) zu manövrieren.
 
 Sobald der Roboter die Ausgangsposition erreicht hat, ist ein Zyklus seines Arbeitsablaufs abgeschlossen. Durch Wiederholen der in diesem Kapitel beschriebenen Schritte kann ein weiteres Objekt detektiert, kategorisiert und in eine Zielzone transportiert werden. 
