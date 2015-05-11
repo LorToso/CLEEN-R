@@ -1,13 +1,13 @@
 \chapter{Zusammenfassung und Ausblick}
 \label{cha:Fazit}
 
-Im Rahmen dieser Studienarbeit wurde das Robotersystem CLEEN-R entwickelt. Ziel war es, mit Hilfe eines LEGO\textregistered\ Mindstorm NXT-Robotersets und eines Google Nexus 5 Android Smartphone ein Robotersystem zu entwickeln, welches kameragestützt Objekte erkennen, kategorisieren und transportieren sollte. 
+Im Rahmen dieser Studienarbeit wurde das Robotersystem CLEEN-R entwickelt. Ziel war es, mit Hilfe eines LEGO Mindstorm NXT-Robotersets und eines Google Nexus 5 Android Smartphone ein Robotersystem zu entwickeln, welches kameragestützt Objekte erkennen, kategorisieren und transportieren sollte. 
 
-In den vorhergehenden Kapiteln wurde zunächst die \hyperref[cha:Materials]{konkrete Anwendung der Hardware}  beschrieben. Daraufhin ist die \hyperref[cha:robot]{Konstruktion des Roboters} geschildert. In den darauf folgenden Kapiteln sind \hyperref[cha:Software]{genaue Algorithmen zur Bildverarbeitung}, sowie der \hyperref[cha:Workloop]{allgemeine Arbeitszyklus} des Systems beschrieben. Zuletzt folgen \hyperref[cha:Tests]{Tests im geschützten Raum, sowie Realtests}.
+In den vorhergehenden Kapiteln wurde zunächst die \hyperref[cha:Materials]{konkrete Anwendung der Hardware}  beschrieben. Daraufhin ist die \hyperref[cha:robot]{Konstruktion des Roboters} geschildert. In den darauf folgenden Kapiteln sind \hyperref[cha:Software]{genaue Algorithmen zur Bildverarbeitung}, sowie der \hyperref[cha:Workloop]{allgemeine Arbeitszyklus} des Systems beschrieben. Zuletzt folgen \hyperref[cha:Tests]{Komponententests, sowie Realtests}.
 
 \section{Zusammenfassung}
 
-Wie aus Kapitel \ref{cha:Tests} ersichtlich, konnte ein Robotersystem konstruiert werden, welches erfolgreich Gegenstände \glqq aufräumen\grqq\ kann. Das System besteht aus zwei getrennten Modulen: Ein LEGO Mindstorm NXT-Roboter und ein Google Nexus 5 Android-Smartphone kommunizieren über eine Bluetooth-Schnittstelle miteinander und steuern so die Aktoren des Roboters. 
+Wie aus Kapitel \ref{cha:Tests} ersichtlich, konnte ein Robotersystem konstruiert werden, welches erfolgreich Gegenstände aufräumen kann. Das System besteht aus zwei getrennten Modulen: Ein LEGO Mindstorm NXT-Roboter und ein Google Nexus 5 Android-Smartphone kommunizieren über eine Bluetooth-Schnittstelle miteinander und steuern so die Aktoren des Roboters. 
 
 Es konnte ein Großteil der Komplexität des Systems dadurch reduziert werden, dass das Smartphone als zentrale Steuereinheit benutzt wird und das NXT-System lediglich als Vermittler zu Sensoren und Aktoren genutzt wird. Der Roboter basiert auf einem modifizierten Bauplan, der von LEGO zur Verfügung gestellt wurde. Dieser Bauplan wurde dahingehend angepasst, dass einige Sensoren entfernt und durch eine Halterung für das Smartphone ersetzt wurden.
 
@@ -15,11 +15,11 @@ Die Implementierung erfolgte mit der OpenCV-Bibliothek in einer Android-Applikat
 
 Ist ein Objekt erkannt, so fährt der Roboter es an und nimmt es mit einem Greifarm auf. Das Ansteuern des Objekts geschieht hierbei mit einer Kombination aus Sensordaten aus einem Ultraschallsensor und der Kamera des Smartphones. Wenn das Objekt erfolgreich aufgenommen wurde, wird es auf Grund seiner Farbe und Form kategorisiert. Je nach Kategorie wird eine andere Zielzone ausgesucht und lokalisiert.
 
-Ist eine Zielzone bestimmt worden, transportiert der Roboter den aufgenommenen Gegenstand dort hin und legt ihn ab. Anschließend begibt er sich zurück in die Startposition und beginnt die Suche von vorne. Die Orientierung im Raum wurde dabei über einen Positionsverfolgungsansatz gelöst, welcher die gefahrene Strecke berechnet um die aktuelle Position zu bestimmen.
+Ist eine Zielzone bestimmt worden, transportiert der Roboter den aufgenommenen Gegenstand dorthin und legt ihn ab. Anschließend begibt er sich zurück in die Startposition und beginnt die Suche von vorne. Die Orientierung im Raum wurde dabei über einen Positionsverfolgungsansatz gelöst, welcher die gefahrene Strecke berechnet um die aktuelle Position zu bestimmen.
 
 \section{Bewertung der Ergebnisse}
 
-Die Hauptaufgabe wurde erfolgreich gelöst. Es wurde ein Robotersystem entwickelt, welches alle in der \hyperref[cha:Problemstellung]{Problemstellung} beschriebenen Aufgaben erfolgreich Lösen kann. 
+Die Hauptaufgabe wurde erfolgreich gelöst. Es wurde ein Robotersystem entwickelt, welches alle in der \hyperref[cha:Problemstellung]{Problemstellung} beschriebenen Aufgaben erfolgreich lösen kann. 
 
 Bei der Entwicklung traten an vielen Stellen, wie beispielsweise der in Kapitel \ref{subsec:Entfernungsschätzung} beschriebenen Entfernungsschätzung, schwierige Probleme auf, welche durch zum Teil sehr elegante Lösungswege gelöst werden konnten. Es wurden stets mehrere Möglichkeiten abgewägt, wobei sich an einigen Stellen gezeigt hat, dass zusätzliche Hardware eine elegantere Lösung darstellt. Es ist jedoch auch zu beachten, dass diese immer einen zusätzlichen Entwicklungsaufwand mit sich führt und zusätzliche Mittel in Anspruch nimmt, die bei einem kleineren Roboterprojekt oft nicht vorhanden sind. 
 
@@ -39,6 +39,6 @@ Insgesamt lässt sich sagen, dass noch einige offene Nahtstellen im Projekt vorh
 
 In dieser Arbeit war es uns möglich Gelerntes aus sechs Semestern erstmals praktisch anzuwenden. Vor allem die Anwendung von Algorithmen aus der Prozessautomatisierung und der Bildverarbeitung erlaubten tiefe Einblicke in die Materie und ein großes Verständnis über in der Praxis auftretende Probleme.
 
-Besonders bei der Positionserkennung zeigte sich, dass in der Praxis eine \enquote{optimale} Lösung nicht ohne weiteres realisierbar ist. Oft müssen Kompromisse getroffen oder kompliziertere Ansätze gewählt werden um Ungenauigkeiten zu beseitigen. Doch es hat sich ebenfalls gezeigt, dass sich in vielen Fällen der einfachste Weg als der gewinnbringendste herausstellt. Ein Beispiel hierfür war beispielsweise die in Kapitel \ref{sub:Farbkategorisierung} beschriebene Farbkategorisierung, die durch einen einfachen Parameter zuverlässig erfolgen kann.
+Besonders bei der Positionserkennung zeigte sich, dass in der Praxis eine \enquote{optimale} Lösung nicht ohne weiteres realisierbar ist. Oft müssen Kompromisse getroffen oder kompliziertere Ansätze gewählt werden um Ungenauigkeiten zu beseitigen. Doch es hat sich ebenfalls gezeigt, dass sich in vielen Fällen der einfachste Weg als der gewinnbringendste herausstellt. Ein Beispiel hierfür war die in Kapitel \ref{sub:Farbkategorisierung} beschriebene Farbkategorisierung, die durch einen einfachen Parameter zuverlässig erfolgen kann.
 
-Ein weiterer wichtiger Punkt der sich während dieser Arbeit gezeigt hat ist, dass die Koordination in einem Team äußerst wichtig ist. Kommunikation und klare Aufteilung der Aufgaben müssen zu jeden Zeitpunkt gegeben sein. Hierfür ist die Anwendung von speziell entwickelter Software, wie beispielsweise Git, Microsoft Project und JIRA unabdinglich.
+Ein weiterer wichtiger Punkt der sich während dieser Arbeit gezeigt hat, ist, dass die Koordination in einem Team äußerst wichtig ist. Kommunikation und klare Aufteilung der Aufgaben müssen zu jeden Zeitpunkt gegeben sein. Hierfür ist die Anwendung von speziell entwickelter Software, wie beispielsweise Git, Microsoft Project und JIRA unabdinglich.

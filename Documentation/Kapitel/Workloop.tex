@@ -7,7 +7,7 @@ Der Arbeitsablauf des Roboters kann in unterschiedliche Phasen unterteilt werden
 
 Sobald mehrere Objekte durch die in Kapitel \ref{sec:Objekterkennung} dargestellten Algorithmen erkannt wurden, muss eines als geeignetes Fokusziel gewählt werden. Wie diese Wahl erfolgt, ist im nachfolgenden Abschnitt beschrieben. Ist ein Fokusobjekt gefunden, so muss es in der nachfolgenden Aufnahme wiedererkannt werden um einen Wechsel zu verhindern. 
 
-Ein zufälliges Umspringen auf andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, an Hand derer ein erkanntes Objekt in folgenden Aufnahmen erkannt werden kann.
+Ein zufälliges Umspringen auf andere erkannte Objekte wäre für den Prozess sehr hinderlich. In den folgenden Abschnitten sind Kriterien und Probleme beschrieben, anhand derer ein erkanntes Objekt in folgenden Aufnahmen erkannt werden kann.
 
 Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefundene Objekte durch ein rotes markiert. Dieses Vorgehen ist in Abbildung \ref{fig:Markierung} dargestellt.
 
@@ -33,7 +33,7 @@ Das Fokusobjekt wird von der Applikation durch ein grünes Rechteck, andere gefu
 \label{subsec:Auffindung}
 Die Wahl eines ersten Fokusobjekts erfolgt nach Positions- und Größenkriterien. Es wird versucht ein Objekt zu wählen, welches möglichst zentral in der Aufnahme liegt. 
 
-Eine weitere Bedingung ist, dass das begrenzende Rechteck des Fokusobjekts möglichst quadratisch sein soll. Dies ist der Annahme zu Grunde zu führen, dass die zu suchenden Objekte nur Würfel und Kugeln sein sollen. Beide Formen zeichnen sich dadurch aus, dass sie ein quadratisches Begrenzendes Rechteck haben.
+Eine weitere Bedingung ist, dass das begrenzende Rechteck des Fokusobjekts möglichst quadratisch sein soll. Dies ist der Annahme zu Grunde zu führen, dass die zu suchenden Objekte nur Würfel und Kugeln sein sollen. Beide Formen zeichnen sich dadurch aus, dass sie ein quadratisches begrenzendes Rechteck haben.
 
 \begin{figure}[h]
 \centering
@@ -44,7 +44,7 @@ Eine weitere Bedingung ist, dass das begrenzende Rechteck des Fokusobjekts mögl
 
 \subsection{Ähnlichkeitskriterien}
 \label{subsec:Similarity}
-Um den Fokus auf ein Objekt zu behalten lassen sich verschiedene Ähnlichkeitskriterien formulieren, durch die das erkannte Objekt in der Menge der im nachfolgenden Bild erkannten Objekte wiedergefunden werden kann.
+Um den Fokus auf ein Objekt zu behalten, lassen sich verschiedene Ähnlichkeitskriterien formulieren, durch die das erkannte Objekt in der Menge der im nachfolgenden Bild erkannten Objekte wiedergefunden werden kann.
 
 
 
@@ -70,7 +70,7 @@ Das Größenkriterium ähnelt zunächst dem Kriterium der lokalen Nähe, bezieht
 
 
 \subsubsection{Farbliche Ähnlichkeit}
-Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist Abhängig vom Farbraum in dem die Aufnahme getätigt oder konvertiert wurde. Wie in Abschnitt \ref{sec:Objekterkennung} beschrieben, wird die Aufnahme bei der Objekterkennung in das HSV-Format konvertiert. Daher kann das Ähnlichkeitsmaß sich auf den Farbkanal, den Sättigungskanal oder den Intensitätskanal beziehen. Durch Ausschließen des Intensitätskanals kann eine weitgehend helligkeitsunabhängige Bestimmung erreicht werden. Daher ist das Filtern nach Objekten ähnlicher Farbe und Sättigung durchaus sinnvoll. Auch hier lässt sich eine Toleranz formulieren, wie etwa 10\% Abweichung von der durchschnittlichen Farbe des zuvor ermittelten Objektes. Abbildung \ref{fig:FarbKriterium} zeigt die farbliche Ähnlichkeit zweier Objekte und die dadurch resultierende Wiederfindung des Objektes in der Folgeaufnahme.
+Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist abhängig vom Farbraum in dem die Aufnahme getätigt oder konvertiert wurde. Wie in Abschnitt \ref{sec:Objekterkennung} beschrieben, wird die Aufnahme bei der Objekterkennung in das HSV-Format konvertiert. Daher kann sich das Ähnlichkeitsmaß auf den Farbkanal, den Sättigungskanal oder den Intensitätskanal beziehen. Durch Ausschließen des Intensitätskanals kann eine weitgehend helligkeitsunabhängige Bestimmung erreicht werden. Daher ist das Filtern nach Objekten ähnlicher Farbe und Sättigung durchaus sinnvoll. Auch hier lässt sich eine Toleranz formulieren, wie etwa 10\% Abweichung von der durchschnittlichen Farbe des zuvor ermittelten Objektes. Abbildung \ref{fig:FarbKriterium} zeigt die farbliche Ähnlichkeit zweier Objekte und die dadurch resultierende Wiederfindung des Objektes in der Folgeaufnahme.
 
 \begin{figure}[h]
 \centering
@@ -83,12 +83,12 @@ Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist A
 
 Tendenziell muss bei der Objektverfolgung immer von einem Verlust des verfolgten Objektes ausgegangen werden. Dies kann permanent sein, wie beispielsweise bei abrupter starker Veränderung der Lichtbedingungen, oder lediglich temporär durch Fehler bei der Bildaufnahme geschehen. In diesem Abschnitt wird auf letzteres eingegangen. Bei längerfristigem Verlust des Objekts, begibt sich der Roboter zurück in die Phase der anfänglichen Objektsuche.
 
-Es hat sich gezeigt, dass kleine Fehler oder Ungenauigkeiten bei der Bildaufnahme bereits dazu führen können, dass ein Objekt nicht in der darauf folgenden Aufnahme wiedergefunden werden kann. Ist dies nur von kurzer Dauer, muss dies gesondert behandelt werden um zu vermeiden, dass der Roboter einen plötzlichen Wechsel des Verfolgungsziels durchführt. Ähnlich der in Abschnitt \ref{subsec:Similarity} beschriebenen Ähnlichkeitskriterien muss auch hier eine Toleranz für eine maximale Anzahl Aufnahmen gelegt werden, in denen das verfolgte Ziel nicht gefunden werden muss ohne, dass das Objekt als \glqq verloren\grqq\ angesehen wird. Die Wahl einer zu hohen Toleranz hat die Folge, dass der Roboter lange Zeit in einem undefinierten Zustand ein Objekt verfolgt, welches er nicht sieht. Ist die Schwelle zu niedrig gewählt, so kann dies ein häufiges Springen zwischen verschiedenen Objekten zur Folge haben, was sich sehr negativ auf die Laufzeit auswirken könnte. Empirisch hat sich gezeigt, dass eine solche Schwelle bereits bei etwa drei Aufnahmen ohne das verfolgte Objekt liegen kann. Wird ein Objekt verloren, so begibt sich der Roboter zurück in den Zustand der Objektsuche.
+Es hat sich gezeigt, dass kleine Fehler oder Ungenauigkeiten bei der Bildaufnahme bereits dazu führen können, dass ein Objekt nicht in der darauf folgenden Aufnahme wiedergefunden werden kann. Ist dies nur von kurzer Dauer, muss dies gesondert behandelt werden um zu vermeiden, dass der Roboter einen plötzlichen Wechsel des Verfolgungsziels durchführt. Ähnlich der in Abschnitt \ref{subsec:Similarity} beschriebenen Ähnlichkeitskriterien muss auch hier eine Toleranz für eine maximale Anzahl Aufnahmen gelegt werden, in denen das verfolgte Ziel nicht gefunden werden muss, ohne dass das Objekt als \enquote{verloren} angesehen wird. Die Wahl einer zu hohen Toleranz hat die Folge, dass der Roboter lange Zeit in einem undefinierten Zustand ein Objekt verfolgt, welches er nicht sieht. Ist die Schwelle zu niedrig gewählt, so kann dies ein häufiges Springen zwischen verschiedenen Objekten zur Folge haben, was sich sehr negativ auf die Laufzeit auswirken könnte. Empirisch hat sich gezeigt, dass eine solche Schwelle bereits bei etwa drei Aufnahmen ohne das verfolgte Objekt liegen kann. Wird ein Objekt verloren, so begibt sich der Roboter zurück in den Zustand der Objektsuche.
 
 
 \subsection{Verzerrte Aufnahmen durch Bewegung des Roboters}
 
-Durch Bewegung des Roboters während der Bildaufnahme, kann es zu verzerrten Bildern kommen. Dies kann unterschiedliche Folgen haben. Abbildung \ref{fig:Verzerrung} zeigt eine solche verzerrte Aufnahme. 
+Durch Bewegung des Roboters während der Bildaufnahme kann es zu verzerrten Bildern kommen. Dies kann unterschiedliche Folgen haben. Abbildung \ref{fig:Verzerrung} zeigt eine solche verzerrte Aufnahme. 
 
 \begin{figure}[h]
 \centering
@@ -113,16 +113,16 @@ Sobald ein Objekt gefunden wurde, kann der Roboter beginnen, dies anzufahren. Hi
 
 Ist das Objekt zentral gelegen, so muss der Roboter lediglich geradeaus fahren, bis er es erreicht. Da eine perfekte Zentrierung jedoch nicht garantiert werden kann, ist es möglich, dass der Roboter abdriftet. Um dem vorzubeugen, muss ständig die Position des Objekts in der Aufnahme überprüft und gegebenenfalls zentriert werden.
 
-Weiterhin wichtig ist es jedoch zu wissen, wann in den Zustand des Objekt Aufhebens übergegangen werden kann. Hierfür darf der Roboter nur eine geringe Entfernung zum Objekt aufweisen. Die folgenden Abschnitte gehen auf verschiedene Methoden der Entfernungsmessung ein.
+Weiterhin wichtig ist es jedoch zu wissen, wann in den Zustand des Aufhebens übergegangen werden kann. Hierfür darf der Roboter nur eine geringe Entfernung zum Objekt aufweisen. Die folgenden Abschnitte gehen auf verschiedene Methoden der Entfernungsmessung ein.
 
-\subsection{Entfernungsschätzung}
+\subsection*{Entfernungsschätzung}
 \label{subsec:Entfernungsschätzung}
-Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat anfahren und aufheben. Hierfür muss er wissen, ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen, bevor er kollidiert und unter Umständen seine Fracht verliert.
+Die Entfernungsschätzung ist für mehrere Teile der Roboterroutine wichtig. Zunächst muss der Roboter, der ein Objekt per Kamera erkannt hat, dieses anfahren und aufheben. Hierfür muss er wissen, ob der aufzuhebende Gegenstand in Reichweite des Greifarms ist. Weiterhin benötigt der Roboter die Entfernungsschätzung bei der Navigation. Er muss Hindernisse, wie beispielsweise Wände eines Raumes, erkennen, bevor er kollidiert und unter Umständen seine Fracht verliert.
 
 \subsubsection{Stereokamerabasiert}
 \label{subsec:StereoKameraDist}
 
-Ein häufiger Ansatz für die Entfernungsschätzung stellt die Stereokamerabasierte Methode dar. Hierbei nimmt der Roboter seien Umgebung nicht mit nur einer Kamera, sondern mit mehreren, mindestens zwei, wahr. Durch einen bekannten Versatz zwischen den Aufnahmequellen der Bilder lässt sich mittels Registrierung auch ein Versatz in den erzeugten Bildern ermitteln. Wie die beiden menschlichen Augen erlaubt dies das Wahrnehmen der Umgebung in dritter Dimension. Abbildung \ref{fig:StereokameraEntfernung} zeigt schematisch eine solche Entfernungsschätzung \cite{bathge20123d}.
+Ein häufiger Ansatz für die Entfernungsschätzung stellt die stereokamerabasierte Methode dar. Hierbei nimmt der Roboter seine Umgebung nicht mit nur einer Kamera, sondern mit mehreren wahr. Durch einen bekannten Versatz zwischen den Aufnahmequellen der Bilder lässt sich mittels Registrierung auch ein Versatz in den erzeugten Bildern ermitteln. Wie die beiden menschlichen Augen erlaubt dies das Wahrnehmen der Umgebung in dritter Dimension. Abbildung \ref{fig:StereokameraEntfernung} zeigt schematisch eine solche Entfernungsschätzung \cite{bathge20123d}.
 
 \begin{figure}[h]
 \centering
@@ -131,7 +131,7 @@ Ein häufiger Ansatz für die Entfernungsschätzung stellt die Stereokamerabasie
 \label{fig:StereokameraEntfernung}
 \end{figure}
 
-Der Stereokamerabasierte Ansatz ist von der Ausführung sehr elegant, da er sich an der Natur und dem menschlichen räumlichen Sehen orientiert. 
+Der stereokamerabasierte Ansatz ist von der Ausführung sehr elegant, da er sich an der Natur und dem menschlichen räumlichen Sehen orientiert. 
 
 Problematisch ist jedoch, dass zusätzliche Hardware benötigt wird. Eine weitere Kamera als bildgebendes Mittel birgt einen neuen Grad der Komplexität, da diese mit dem vorhandenen Smartphone synchronisiert werden muss. Zusätzlich müssen zeitintensive Berechnungen durchgeführt werden, wodurch die Echtzeitfähigkeit des Systems beeinträchtigt werden könnte.
 
@@ -188,14 +188,14 @@ In den durchgeführten Tests konnte lediglich eine Genauigkeit von $\pm 5cm$ err
 \subsubsection{Ultraschallbasiert}
 \label{subsec:Ultraschall}
 
-Die ultraschallbasierte Entfernungsschätzung kann auch über große Distanzen von bis zu zwei Metern zentimetergenaue Entfernungen messen. Die Messung wird durch einen Echo-Mechanismus mit, für den Menschen unhörbaren, Schallwellen im Ultraschallbereich durchgeführt \cite{hertzberg2012mobile}. Zunächst wird jedoch, ähnlich dem in \ref{subsec:StereoKameraDist} beschriebenen Verfahren, zusätzliche Hardware in Form eines Ultraschallsensors benötigt. Ein solcher kann jedoch direkt von LEGO\texttrademark\ erworben und problemlos am Roboter angebracht werden. Der Sensor ist im Kapitel \ref{subsec:Ultraschall} näher beschrieben.
+Die ultraschallbasierte Entfernungsschätzung kann auch über große Distanzen von bis zu zwei Metern zentimetergenaue Entfernungen messen. Die Messung wird durch einen Echo-Mechanismus mit für den Menschen unhörbaren Schallwellen im Ultraschallbereich durchgeführt \cite{hertzberg2012mobile}. Zunächst wird jedoch, ähnlich dem in \ref{subsec:StereoKameraDist} beschriebenen Verfahren, zusätzliche Hardware in Form eines Ultraschallsensors benötigt. Ein solcher kann jedoch direkt von LEGO erworben und problemlos am Roboter angebracht werden. Der Sensor ist im Kapitel \ref{subsec:Ultraschall} näher beschrieben.
 
 Das ultraschallbasierte Verfahren kann durch eine kleine Änderung des Roboters realisiert werden und liefert sehr genaue Ergebnisse. Die Koppelung mit dem Smartphone ist bereits gegeben und genügt Echtzeitanforderungen.
 
 \section{Aufnehmen von Objekten}
 \label{sec:Aufnehmen}
 
-Das Aufnehmen von Objekten kann erfolgen sobald der Roboter, wie in Abschnitt \ref{sec:Ansteuerung} beschrieben, nah genug an das Objekt herangefahren ist. Zum Aufnehmen wird der Greifarm durch das Betreiben des dritten Motors geschlossen. Näheres hierzu findet sich im Kapitel \ref{sec:Greifarm}. 
+Das Aufnehmen von Objekten kann erfolgen sobald der Roboter, wie in Abschnitt \ref{sec:Ansteuerung} beschrieben, nah genug an das Objekt herangefahren ist. Zum Aufnehmen wird der Greifarm durch das Antreiben des dritten Motors geschlossen. Näheres hierzu findet sich im Kapitel \ref{sec:Greifarm}. 
 
 Mit Hilfe des in Abschnitt \ref{subsec:Ultraschall} beschriebenen Ultraschallsensors kann ebenfalls überprüft werden, ob das Objekt während des Tragens verloren geht. In diesem Fall kehrt der Roboter zurück in den Zustand der Objektsuche.
 
@@ -239,7 +239,7 @@ Die Kategorisierung nach Form erfolgt über extrahierte Randpunkte des Objekts. 
 \label{fig:KreisQuadrat}
 \end{figure}
 
-Berechnet man aus der geordneten Liste von Kantenpunkten Winkel zwischen aufeinander folgenden Punkten, so lässt sie mit hoher Präzision die Form des Objektes schätzen. Abbildung \ref{fig:KreisQuadratWinkel} zeigt wie ein Kreis und ein Quadrat voneinander unterschieden werden können. Der Kreis zeigt hierbei charakteristisch, dass der Winkel zwischen zwei Kantenpunkten immer konstant bleibt, während die Winkel bei Rechtecken sich nur an Ecken von null unterscheiden.
+Berechnet man aus der geordneten Liste von Kantenpunkten Winkel zwischen aufeinander folgenden Punkten, so lässt sich mit hoher Präzision die Form des Objektes schätzen. Abbildung \ref{fig:KreisQuadratWinkel} zeigt wie ein Kreis und ein Quadrat voneinander unterschieden werden können. Der Kreis zeigt hierbei charakteristisch, dass der Winkel zwischen zwei Kantenpunkten immer konstant bleibt, während die Winkel bei Rechtecken sich nur an Ecken von null unterscheiden.
 
 
 \begin{figure}[h]
@@ -249,7 +249,7 @@ Berechnet man aus der geordneten Liste von Kantenpunkten Winkel zwischen aufeina
 \label{fig:KreisQuadratWinkel}
 \end{figure}
 
-Während ein Objekt angefahren wird, wird eine solche Kategorisierung wiederholt ausgeführt um eine höhere Genauigkeit zu erhalten.
+Während ein Objekt angefahren wird, wird eine solche Kategorisierung wiederholt ausgeführt, um eine höhere Genauigkeit zu erhalten.
 
 \section{Suche des Zielbereichs}
 \label{sec:Orientierung}
@@ -258,7 +258,7 @@ Zur Orientierung im Raum wird die im Abschnitt \ref{sec:Ortsbestimmung} beschrie
 
 Die Klasse \textit{PositionTracker} behält Position und Winkel des Roboters im Blick. Da der Roboter nur gerade fahren oder sich auf der Stelle drehen kann, also die Geschwindigkeit der beiden Antriebsmotoren stets gleich ist, ist die Vektorberechnung recht einfach.
 
-Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der angesteuerten prozentualen aktuellen Geschwindigkeit skaliert wird. Mit der Dauer der Bewegung erhält man die zurückgelegte Strecke. Abhängig vom Winkel des Roboters im Vergleich zum Startzeitpunkt werden nun trigonometrisch der X- und der Y-Anteil ($X=sin(\alpha)$, $Y=cos(\alpha)$) berechnet und auf die Roboterposition aufaddiert.
+Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der angesteuerten prozentualen aktuellen Geschwindigkeit herunterskaliert wird. Mit der Dauer der Bewegung erhält man die zurückgelegte Strecke. Abhängig vom Winkel des Roboters im Vergleich zum Startzeitpunkt werden nun trigonometrisch der X- und der Y-Anteil ($X=sin(\alpha)$, $Y=cos(\alpha)$) berechnet und auf die Roboterposition aufaddiert.
 
 Bei Drehung um die eigene Achse wird die kalibrierte maximale Drehgeschwindigkeit skaliert, mit der Dauer multipliziert und der resultierende Winkel auf den des Roboters aufaddiert.
 

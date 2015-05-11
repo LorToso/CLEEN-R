@@ -24,7 +24,7 @@ Programmieren kann man den NXT über die von LEGO bereitgestellte graphische Ent
 
 An den Hauptstein können bis zu drei Motoren und bis zu vier Sensoren angeschlossen werden. Kommuniziert wird hierbei im I$^2$C-Protokoll. Die Servomotoren besitzen einen eingebauten Rotationssensor, die sich über den Rückkanal beim NXT-Stein melden.
 
-Statusmeldungen werden über ein monochromes 100 mal 64 Pixel LCD-Display ausgegeben, auch bietet der Hauptstein einen eingebauten Lautsprecher und ein Bluetooth-Modul.
+Statusmeldungen werden über ein monochromes 100$\times$64 Pixel LCD-Display ausgegeben, auch bietet der Hauptstein einen eingebauten Lautsprecher und ein Bluetooth-Modul.
 
 Als Sensoren sind eine große Auswahl von LEGO erhältlich:
 \begin{itemize}
@@ -37,11 +37,11 @@ Als Sensoren sind eine große Auswahl von LEGO erhältlich:
 \item Beschleunigungssensor
 \end{itemize}
 
-Darüber hinaus können über Adapterkabel viele weitere Aktoren und Sensoren die das I$^2$-Protokoll beherrschen (unter anderem die des älteren RCX-Systems) angeschlossen werden, was fast keine Bedürfnisse beim Roboterbau offen lässt.
+Darüber hinaus können über Adapterkabel viele weitere Aktoren und Sensoren die das I$^2$C-Protokoll beherrschen (unter anderem die des älteren RCX-Systems) angeschlossen werden, was fast keine Bedürfnisse beim Roboterbau offen lässt.
 
 Das Gerüst bilden wie bei allen LEGO-Systemen die tausende verschiedenen Bauteile von LEGO Technik, was den NXT für fast jeden erdenklichen Einsatzbereich qualifiziert.
 
-Die Datenblätter aller Komponenten und Protokolle sind frei von LEGO erhältlich, was NXT auch für Elektronik-Bastler interessant macht.
+Die Datenblätter aller Komponenten und Protokolle sind frei von LEGO erhältlich, was NXT auch für Elektronik-Bastler interessant erscheinen lässt.
 
 \subsubsection{LEGO Mindstorms EV3}
 
@@ -54,14 +54,14 @@ Die Datenblätter aller Komponenten und Protokolle sind frei von LEGO erhältlic
 
 EV3 stellt die Nachfolge-Kollektion von NXT dar. Die Hauptänderung besteht in Ersetzen des ARM7-Prozessor durch einen ARM9-Prozessor (300 MHz), auf dem eine Linuxumgebung ausgeführt wird. Eine Schnittstelle für microSD-Karten wurde hinzugefügt, welche als Programm- und Ressourcenspeicher dient.
 
-EV3 ist kompatibel zu allen NXT-Sensoren und -Motoren und besitzt einen weiteren Ausgang am EV3-Stein. Das LCD-Display ist auf 178 mal 128 Pixel gewachsen. Das Design der Module wurde leicht geändert, die Auswahl ist bis auf ein weiteres, kleineres Motormodul identisch zu NXT.
+EV3 ist kompatibel zu allen NXT-Sensoren und -Motoren und besitzt einen weiteren Ausgang am EV3-Stein. Das LCD-Display ist auf 178$\times$128 Pixel gewachsen. Das Design der Module wurde leicht geändert, die Auswahl ist bis auf ein weiteres, kleineres Motormodul identisch zu NXT.
 
 Das Linux-Betriebssystem ermöglicht es im Vergleich zum Mikrocontroller des NXT, weit größere und komplexere Programme auszuführen und so den Aufgabenbereich zu erweitern. EV3 unterstützt offiziell die Verbindung zu Apple-Geräten.
 
 Über einen neuen USB-Host-Anschluss können nun USB-Geräte wie ein optionales WLAN-Dongle angeschlossen werden, was die Erweiterungsmöglichkeiten vervielfacht.
 
 
-\subsubsection{Fischertechnik Robotics}
+\subsection{Fischertechnik Robotics}
 
 \begin{figure}[h]
 \centering
@@ -100,6 +100,8 @@ Jedoch ist der Berechnungsaufwand für das Auswerten zweier Differenzbilder ungl
 
 Weitere Aspekte sind Auflösung und Öffnungswinkel des Kameramoduls.
 Höhere Auflösung bedeutet bessere Erkennung von Gegenständen auf weitere Entfernungen; Ein größerer Öffnungswinkel heißt, dass mehr Raum in einem Bild erfasst werden kann, somit weniger Drehbewegung des Roboters in Richtung eines Objekts nötig ist, bis es erfasst und detektiert werden kann.
+
+Letztendlich wurde sich für das Modell Nexus 5 von Google entschieden. Es weist ein Kameramodul mit einer Auflösung von 8 Megapixel, 1920$\times$1080p Pixeln auf. Es bietet im Vergleich mit anderen aktuellen Smartphones (auch bei schlechten Lichtverhältnissen) die beste allgemeine Bildqualität auf (geringes Bildrauschen, optischer Bildstabilisator) und hat mit der f/2.53-Blende einen guten Öffnungswinkel.
 
 \begin{figure}[h]
 \centering

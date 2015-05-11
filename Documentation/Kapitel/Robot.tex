@@ -6,7 +6,7 @@ Der Roboter hat einige hardwareseitige Anforderungen. Das System muss sich frei 
 
 \section{Entwurf des Roboters}
 
-Da das LEGO Mindstorm NXT Kit häufig zur Realisierung kleinerer Roboterprojekte verwendet wird, hat LEGO eine Datenbank an möglichen Bauplänen bereitgestellt \cite{building_instructions}. Nach einiger Recherche und Durchsicht diverser Bauanleitungen für verschiedenste Anwendungsbereiche, wurde sich für einen von LEGO bereitgestellten Aufbau entschieden. Abbildung \ref{fig:standardRoboter} zeigt den Roboter, wie LEGO ihn bereitstellt.
+Da das LEGO Mindstorm NXT Kit häufig zur Realisierung kleinerer Roboterprojekte verwendet wird, hat LEGO eine Datenbank an möglichen Bauplänen bereitgestellt \cite{building_instructions}. Nach einiger Recherche und Durchsicht diverser Bauanleitungen für verschiedenste Anwendungsbereiche fiel die Entscheidung auf einen von LEGO vorgefertigten Bauplan. Abbildung \ref{fig:standardRoboter} zeigt den Roboter, wie LEGO ihn bereitstellt.
 
 \begin{figure}[h]
 \centering
@@ -16,7 +16,7 @@ Da das LEGO Mindstorm NXT Kit häufig zur Realisierung kleinerer Roboterprojekte
 \end{figure}
 
 
-Da der Aufbau jedoch nicht allen Anforderungen genüge tut, wurde dieser abgeändert. Der von LEGO bereitgestellte Bauplan benutzt einen Schall- und einen Farbsensor. Diese wurden nicht benötigt und daher entfernt. An ihrer Stelle wurde stattdessen eine Halterung für das in Kapitel \ref{sec:Kamera} beschriebene Kameramodul in Form eines Smartphones eingebaut. Um dem Gewicht des Smartphones entgegenzuwirken musste der in Abschnitt \ref{subsec:Brick} beschriebene NXT-Stein etwas nach hinten verlagert werden. Abbildung \ref{fig:unserRoboter} zeigt den fertig modifizierten Roboter.
+Da der Aufbau jedoch nicht allen Anforderungen genüge tut, wurde dieser abgeändert. Der von LEGO verfügbare Bauplan benutzt einen Schall- und einen Farbsensor. Diese wurden nicht benötigt und daher entfernt. An ihrer Stelle wurde stattdessen eine Halterung für das in Kapitel \ref{sec:Kamera} beschriebene Kameramodul in Form eines Smartphones eingebaut. Um dem Gewicht des Smartphones entgegenzuwirken musste der in Abschnitt \ref{subsec:Brick} beschriebene NXT-Stein etwas nach hinten verlagert werden. Abbildung \ref{fig:unserRoboter} zeigt den fertig modifizierten Roboter.
 
 \begin{figure}[h]
 \centering
@@ -36,9 +36,9 @@ Da der Aufbau jedoch nicht allen Anforderungen genüge tut, wurde dieser abgeän
 
 Der NXT-Stein bildet die Recheneinheit und damit die Hauptkomponente des Robotersystems \cite{ranganathan2008use}. Er besitzt drei Ausgänge für Motoren an der Oberseite, über die gleichzeitig die Rotationssensoren in den Servo-Motoren ausgelesen werden.
 
-Auf der Unterseite befinden sich vier Eingänge für verschiedene Sensoren, die je nach Anwendungszweck über Flachbandkabel bestückt werden können, etwa ein Licht-, Schall-, Tastsensor oder beliebige Kombinationen daraus. Dies macht das NXT-System zu einem sehr flexiblem da einfach konfigurierbaren Robotersystem.
+Auf der Unterseite befinden sich vier Eingänge für verschiedene Sensoren, die je nach Anwendungszweck über Flachbandkabel bestückt werden können, etwa ein Licht-, Schall-, Tastsensor oder beliebige Kombinationen daraus. Dies macht das NXT-System zu einem sehr flexiblen, da einfach konfigurierbaren Robotersystem.
 
-Über einen USB-Anschluss oben wird der NXT mit dem PC verbunden um ihn mit Programmen zu versorgen. Hierfür wird von LEGO eine graphische Entwicklungsumgebung bereitgestellt um auch Neulingen den Einstieg in die Roboter-Programmierung zu vereinfachen und ihnen die Möglichkeit zu bieten schon innerhalb weniger Minuten einen funktionierenden Prototypen zu konstruieren. Im Fall des CLEEN-R-Aufbaus wird jedoch, wie in Abschnitt \ref{sec:RoboterSteuerung} geschildert, lediglich die interne Bluetooth-Verbindung genutzt.
+Über einen USB-Anschluss oben wird der NXT mit dem PC verbunden um ihn mit Programmen zu versorgen. Hierfür wird von LEGO eine graphische Entwicklungsumgebung bereitgestellt um auch Neulingen den Einstieg in die Roboter-Programmierung zu vereinfachen und ihnen die Möglichkeit zu bieten, schon innerhalb weniger Minuten einen funktionierenden Prototypen zu konstruieren. Im Fall des CLEEN-R-Aufbaus wird jedoch, wie in Abschnitt \ref{sec:RoboterSteuerung} geschildert, lediglich die interne Bluetooth-Verbindung genutzt.
 
 Auf der Vorderseite befindet sich ein $100\times 64$ Pixel auflösendes binäres LCD-Display, über das Einstellungen getätigt oder Statusmeldungen ausgegeben werden können. Auch Sound-Ausgabe über einen integrierten 8-Bit-Lautsprecher ist möglich.
 
@@ -132,7 +132,7 @@ Das Kommunikationsprotokoll auf High-Level-Ebene und damit die nötigen Befehle 
 \label{fig:bluetooth}
 \end{figure}
 
-Um die Logik zentral zu halten wird auf dem NXT selbst kein Programm ausgeführt. Das Smartphone führt zentral alle Berechnungen durch sendet dem Roboter lediglich Befehle zur Ansteuerung der Aktoren. Sensordaten können ebenfalls durch das Smartphone über die Bluetooth-Verbindung abgerufen werden.
+Um die Logik zentral zu halten wird auf dem NXT selbst kein Programm ausgeführt. Das Smartphone führt selbst alle Berechnungen durch und sendet dem Roboter lediglich Befehle zur Ansteuerung der Aktoren. Sensordaten können ebenfalls durch das Smartphone über die Bluetooth-Verbindung abgerufen werden.
 
 \subsection{Kommunikation über die Bluetooth-Schnittstelle}
 
@@ -140,10 +140,10 @@ Zunächst muss eine Bluetooth-Verbindung erstellt werden. Hierfür müssen beide
 
 Bei Erstverbindung muss der gesuchte NXT ausgewählt werden. Für Folgeverbindungen ist die Bluetooth-Adresse bekannt und die App kann ohne Benutzerinteraktion eine Verbindung mit dem NXT-Roboter aufnehmen.
 
-Ist eine Verbindung geglückt, kann damit begonnen werden seriell byteweise Befehle an den NXT zu übertragen. Eventuelle Antworten, wie beispielsweise angeforderte Sensordaten werden über dieselbe Schnittstelle empfangen.
+Ist eine Verbindung geglückt, kann damit begonnen werden, seriell byteweise Befehle an den NXT zu übertragen. Eventuelle Antworten, wie beispielsweise angeforderte Sensordaten werden über dieselbe Schnittstelle empfangen.
 
 \subsection{Programmatische Umsetzung}
 
-Auf dem Smartphone übernimmt ein gesonderter Thread die Kommunikation mit dem NXT. Die Klasse \enquote{NxtTalker} bietet Funktionen zum Versenden von Daten an den Roboter, sowie alle nötigen Daten um eine Verbindung aufzubauen und aufrecht zu erhalten.
+Auf dem Smartphone übernimmt ein gesonderter Thread die Kommunikation mit dem NXT. Die Klasse \textit{NxtTalker} bietet Funktionen zum Versenden von Daten an den Roboter, sowie alle nötigen Daten um eine Verbindung aufzubauen und aufrecht zu erhalten.
 
 Um die Motoren zu bewegen, muss zunächst ein Befehl an jeden Aktor geschickt werden, der eine Geschwindigkeit im Bereich von -100\% bis 100\% definiert. Hierdurch können die Motoren mit demselben Befehl vorwärts und rückwärts fahren. Das Stoppen der Motoren, und damit das Anhalten des Systems werden realisiert, indem allen Motoren eine Geschwindigkeit von null kommuniziert wird. Problematisch ist hierbei, dass die Motoren sequenziell gestartet werden. Dies hat zur Folge, dass ein Motor vor dem anderen startet und somit die Blickrichtung des Roboters beeinflusst. Um dem vorzubeugen, sieht die Schnittstelle einen Befehl vor, der die Motoren synchron starten lässt. Hierdurch wird verhindert, dass der Roboter in eine undefinierte Richtung abdriftet.
