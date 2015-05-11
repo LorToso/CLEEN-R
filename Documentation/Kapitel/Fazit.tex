@@ -7,7 +7,7 @@ In den vorhergehenden Kapiteln wurde zunächst die \hyperref[cha:Materials]{konk
 
 \section{Zusammenfassung}
 
-Die Hauptaufgabe wurde erfolgreich gelöst. Wie aus Kapitel \ref{cha:Tests} ersichtlich, konnte ein Robotersystem konstruiert werden, welches erfolgreich Gegenstände \glqq aufräumen\grqq\ kann. Das System besteht aus zwei getrennten Modulen: Ein LEGO Mindstorm NXT-Roboter und ein Google Nexus 5 Android-Smartphone kommunizieren über eine Bluetooth-Schnittstelle mit einander und steuern so die Aktoren des Roboters. 
+Wie aus Kapitel \ref{cha:Tests} ersichtlich, konnte ein Robotersystem konstruiert werden, welches erfolgreich Gegenstände \glqq aufräumen\grqq\ kann. Das System besteht aus zwei getrennten Modulen: Ein LEGO Mindstorm NXT-Roboter und ein Google Nexus 5 Android-Smartphone kommunizieren über eine Bluetooth-Schnittstelle mit einander und steuern so die Aktoren des Roboters. 
 
 Es konnte ein Großteil der Komplexität des Systems dadurch reduziert werden, dass das Smartphone als zentrale Steuereinheit benutzt wird und das NXT-System lediglich als Vermittler zu Sensoren und Aktoren genutzt wird. Der Roboter basiert auf einem modifizierten Bauplan, der von LEGO zur Verfügung gestellt wurde. Dieser Bauplan wurde dahingehend angepasst, dass einige Sensoren entfernt und durch eine Halterung für das Smartphone ersetzt wurden.
 
@@ -19,4 +19,13 @@ Ist eine Zielzone bestimmt worden, transportiert der Roboter den aufgenommenen G
 
 \section{Bewertung der Ergebnisse}
 
+Die Hauptaufgabe wurde erfolgreich gelöst. Es wurde ein Robotersystem entwickelt, welches alle in der \hyperref[cha:Problemstellung]{Problemstellung} beschriebenen Aufgaben erfolgreich Lösen kann. 
+
+Bei der Entwicklung traten an vielen Stellen, wie beispielsweise der in Kapitel \ref{subsec:Entfernungsschätzung} beschriebenen Entfernungsschätzung, schwierige Probleme auf, welche durch zum Teil sehr elegante Lösungswege gelöst werden konnten. Es wurden stets mehrere Möglichkeiten abgewägt, wobei sich an einigen Stellen gezeigt hat, dass zusätzliche Hardware eine elegantere Lösung darstellt. Es ist jedoch auch zu beachten, dass diese immer einen zusätzlichen Entwicklungsaufwand mit sich führt und zusätzliche Mittel in Anspruch nimmt, die bei einem kleineren Roboterprojekt oft nicht vorhanden sind. 
+
+Wie Kapitel \ref{cha:Tests} zeigt, funktioniert die Koppelung des Smartphones als Kameramodul mit dem NXT-Roboter. Die zentrale Designentscheidung das Smartphone als Steuereinheit zu benutzen und den Roboter lediglich ausführende Tätigkeiten verrichten zu lassen hat sich als sehr gewinnbringend herausgestellt. Durch die geringe Rechenleistung des NXT-Steins wäre eine effiziente Berechnung von Algorithmen der Bildverarbeitung nicht möglich gewesen.
+
+Über das Verhalten des Roboters lässt sich sagen, dass es noch sehr abgehackt wirkt. Bewegungen sind nicht flüssig, Drehungen oft langsam und das Positionstracking manchmal ungenau. All diese Einflüsse erwecken den Eindruck der Roboter sei unfertig. In nachfolgenden Abschnitt wird ein Ausblick über weitere Vorgehensweisen bei der Bearbeitung dieser Themen gewährt.
+
 \section{Ausblick}
+\section{Reflexion des Gelernten}
