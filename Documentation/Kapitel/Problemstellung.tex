@@ -3,26 +3,26 @@
 
 Ziel dieser Studienarbeit ist die praktische Anwendung gelernter Kenntnisse in Hard- und Software. Durch die Benutzung zweier getrennter Module, sind sowohl Kenntnisse in der Programmierung, als auch der Prozessautomatisierung und in der Entwicklung verteilter Systeme erforderlich.
 
-Konkrete Aufgabenstellung ist es einen kameragestützten Roboter zu entwickeln, der autonom Gegenstände in einem Raum erkennt und in definierte Zielzonen transportiert. Der Prozess kann hierbei in vier Teilprozesse unterteilt werden, welche in den folgenden Abschnitten näher beschrieben sind. Bewertungskriterien für den Arbeitsablauf des Roboters werden in Abschnitts \ref{sec:Bewertung} näher geschildert.
+Konkrete Aufgabenstellung ist es, einen kameragestützten Roboter zu entwickeln, der autonom Gegenstände in einem Raum erkennt und in definierte Zielzonen transportiert. Der Prozess kann hierbei in vier Teilprozesse unterteilt werden, welche in den folgenden Abschnitten näher beschrieben sind. Bewertungskriterien für den Arbeitsablauf des Roboters werden in Abschnitt \ref{sec:Bewertung} näher geschildert.
 
 \section{Objekterkennung} 
 \label{sec:Erkennung}
-Der Roboter mit Hilfe eines Kameramoduls und Verfahren aus der Bildverarbeitung Objekte auf Grund ihrer physikalischen Beschaffenheit erkennen. Zu den Kriterien gehören beispielsweise Größe, Form und Farbe der Objekte. Unter den erkannten Objekten muss zielgerichtet ein geeignetes als \glqq Fokusobjekt\grqq\ ausgewählt werden, damit dieses im folgenden Schritt angefahren werden kann.
+Der Roboter soll mit Hilfe eines Kameramoduls und Verfahren aus der Bildverarbeitung Objekte auf Grund ihrer physikalischen Beschaffenheit erkennen. Zu den Kriterien gehören beispielsweise Größe, Form und Farbe der Objekte. Unter den erkannten Objekten muss zielgerichtet ein geeignetes als \glqq Fokusobjekt\grqq\ ausgewählt werden, damit dieses im folgenden Schritt angefahren werden kann.
 
 \section{Mechanische Umsetzung des Objekttransports}
 \label{sec:Transport}
 
-Der Roboter hat das Ziel das ausgewählte Fokusobjekt zu transportieren. Hierfür muss sich der Roboter gegenüber des Gegenstands optimal positionieren. Dies geschieht über einen beliebig umgesetzten motorisierten Antrieb. Hat der Roboter eine angemessene Entfernung zum Fokusobjekt erreicht, muss er  dieses mit Hilfe eines mechanischen Greifarms aufnehmen und für den weiteren Transport sicher halten können.
+Der Roboter hat das Ziel, das ausgewählte Fokusobjekt zu transportieren. Hierfür muss sich der Roboter dem Gegenstand gegenüber optimal positionieren. Dies geschieht über einen beliebig umgesetzten motorisierten Antrieb. Hat der Roboter eine angemessene Entfernung zum Fokusobjekt erreicht, muss er  dieses mit Hilfe eines mechanischen Greifarms aufnehmen und für den weiteren Transport sicher halten können.
 
 \section{Kategorisierung und Wahl der Zielzone}
 
-Das aufgenommene Objekt muss unterscheidbar von anderen Objekten kategorisiert werden. Eine solche Kategorisierung kann nach den in Abschnitt \ref{sec:Erkennung} beschriebenen Kriterien der Form, Farbe und Größe erfolgen. Je nach Kategorie des Objektes, soll eine passende Zielzone gewählt werden.
+Das aufgenommene Objekt muss unterscheidbar von anderen Objekten kategorisiert werden. Eine solche Kategorisierung kann nach den in Abschnitt \ref{sec:Erkennung} beschriebenen Kriterien der Form, Farbe und Größe erfolgen. Je nach Kategorie des Objektes soll eine passende Zielzone gewählt werden.
 
 \section{Transport in die Zielzone}
 
-Zuletzt muss der Roboter den aufgenommenen und kategorisierten Gegenstand in die gewählte Zielzone transportieren. Hierfür muss der Zielbereich ermittelt werden. Dies geschieht entweder, ähnlich der Objektsuche, über das Kameramodul, oder über eine vorhergehende Definition der Zielzonen. Der Transport kann hierbei, wie bereits in Abschnitt \ref{sec:Transport} beschrieben, funktionieren. 
+Zuletzt muss der Roboter den aufgenommenen und kategorisierten Gegenstand in die gewählte Zielzone transportieren. Hierfür muss der Zielbereich ermittelt werden. Dies geschieht entweder, ähnlich der Objektsuche, über das Kameramodul, oder über eine vorhergehende Definition der Zielzonen. Der Transport kann hierbei wie bereits in Abschnitt \ref{sec:Transport} beschrieben funktionieren. 
 
 \section{Bewertung des Ablaufs}
 \label{sec:Bewertung}
 
-Als Bewertungskriterien dienen hierbei beispielsweise ob der Roboter alle Gegenstände erfolgreich erkannt und kategorisiert hat. Auch das korrekte Zuordnen zu Zielzonen kann als Kriterium dienen. Weiterhin kann die mechanische Umsetzung des Transports und damit verbundene mögliche Verluste von Objekten bewertet werden. Räumt der Roboter alle Gegenstände korrekt auf sind die dafür benötigte Zeit, die Sorgfalt und die \glqq Flüssigkeit\grqq\ der Bewegungen die zutreffendsten Kriterien.
+Als Bewertungskriterien dienen hierbei beispielsweise, ob der Roboter alle Gegenstände erfolgreich erkannt und kategorisiert hat. Auch das korrekte Zuordnen zu Zielzonen kann als Kriterium dienen. Weiterhin kann die mechanische Umsetzung des Transports und damit verbundene mögliche Verluste von Objekten bewertet werden. Räumt der Roboter alle Gegenstände korrekt auf, sind die dafür benötigte Zeit, die Sorgfalt und die \enquote{Geschmeidigkeit} der Bewegungen die zutreffendsten Kriterien.

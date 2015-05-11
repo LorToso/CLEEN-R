@@ -6,7 +6,7 @@ Der Roboter hat einige hardwareseitige Anforderungen. Das System muss sich frei 
 
 \section{Entwurf des Roboters}
 
-Da das LEGO Mindstorm NXT Kit häufig zur Realisierung kleinerer Roboterprojekte verwendet wird, hat LEGO eine Datenbank an möglichen Bauplänen bereitgestellt \cite{building_instructions}. Nach einiger Recherche und Durchsicht diverser Bauanleitungen für verschiedenste Anwendungsbereiche wurde sich für einen von LEGO bereitgestellten Aufbau den entschieden. Abbildung \ref{fig:standardRoboter} zeigt den Roboter, wie LEGO ihn bereitstellt.
+Da das LEGO Mindstorm NXT Kit häufig zur Realisierung kleinerer Roboterprojekte verwendet wird, hat LEGO eine Datenbank an möglichen Bauplänen bereitgestellt \cite{building_instructions}. Nach einiger Recherche und Durchsicht diverser Bauanleitungen für verschiedenste Anwendungsbereiche, wurde sich für einen von LEGO bereitgestellten Aufbau entschieden. Abbildung \ref{fig:standardRoboter} zeigt den Roboter, wie LEGO ihn bereitstellt.
 
 \begin{figure}[h]
 \centering
@@ -40,7 +40,7 @@ Auf der Unterseite befinden sich vier Eingänge für verschiedene Sensoren, die 
 
 Über einen USB-Anschluss oben wird der NXT mit dem PC verbunden um ihn mit Programmen zu versorgen. Hierfür wird von LEGO eine graphische Entwicklungsumgebung bereitgestellt um auch Neulingen den Einstieg in die Roboter-Programmierung zu vereinfachen und ihnen die Möglichkeit zu bieten schon innerhalb weniger Minuten einen funktionierenden Prototypen zu konstruieren. Im Fall des CLEEN-R-Aufbaus wird jedoch, wie in Abschnitt \ref{sec:RoboterSteuerung} geschildert, lediglich die interne Bluetooth-Verbindung genutzt.
 
-Auf der Vorderseite befindet sich ein $100\times 64$ Pixel auflösendes binäres LCD-Display über das Einstellungen getätigt oder Statusmeldungen ausgegeben werden können. Auch Sound-Ausgabe über einen integrierten 8-Bit-Lautsprecher ist möglich.
+Auf der Vorderseite befindet sich ein $100\times 64$ Pixel auflösendes binäres LCD-Display, über das Einstellungen getätigt oder Statusmeldungen ausgegeben werden können. Auch Sound-Ausgabe über einen integrierten 8-Bit-Lautsprecher ist möglich.
 
 \subsection{Sensoren}
 
@@ -59,7 +59,7 @@ Der berührungsempfindliche Tastsensor dient in der ursprünglichen Vorlage zur 
 
 \subsubsection{Rotationssensoren}
 
-Die Servomotoren des Roboters sind mit Rotationssensoren ausgestattet. Diese Sensoren erlauben es dem NXT-Roboter, die Geschwindigkeit der Motoren abhängig des Widerstands des Untergrunds zu regulieren. So werden unter anderem präzises Abbremsen und Fehlerminimierung bei der Positionsbestimmung ermöglicht.
+Die Servomotoren des Roboters sind mit Rotationssensoren ausgestattet. Diese Sensoren erlauben es dem NXT-Roboter, die Geschwindigkeit der Motoren abhängig des Untergrundwiderstands zu regulieren. So werden unter anderem präzises Abbremsen und Fehlerminimierung bei der Positionsbestimmung ermöglicht.
 
 \subsubsection{Farbsensor}
 
@@ -70,7 +70,7 @@ Die Servomotoren des Roboters sind mit Rotationssensoren ausgestattet. Diese Sen
 \label{fig:colorSensor}
 \end{figure}
 
-Dem ursprünglichen Entwurf des Roboters liegt ein RGB-Farbsensor bei. Seine Aufgabe war es die Farbe des Untergrunds festzustellen. Im CLEEN-R-Projekt wurde dieser Sensor zwar entfernt, könnte jedoch bei Erweiterung des Roboters dazu genutzt werden um die Farbe des Untergrunds aus Aufnahmen des Kameramoduls zu entfernen. Dies würde die Qualität der Objekterkennung auf farbigen Untergrund deutlich erhöhen. Zusätzlich ist es denkbar die Erkennung von Zielzonen über farbige Markierungen auf dem Untergrund zu realisieren.
+Dem ursprünglichen Entwurf des Roboters liegt ein RGB-Farbsensor bei. Seine Aufgabe war es, die Farbe des Untergrunds festzustellen. Im CLEEN-R-Projekt wurde dieser Sensor zwar entfernt, könnte jedoch bei Erweiterung des Roboters dazu genutzt werden um die Farbe des Untergrunds aus Aufnahmen des Kameramoduls zu entfernen. Dies würde die Qualität der Objekterkennung auf farbigen Untergrund deutlich erhöhen. Zusätzlich ist es denkbar, die Erkennung von Zielzonen über farbige Markierungen auf dem Untergrund zu realisieren.
 
 \subsubsection{Ultraschallsensor}
 \label{subsec:Ultraschallsensor}
@@ -103,7 +103,7 @@ Der NXT-Roboter verwendet zwei Servomotoren an den Seiten als Differentialantrie
 
 \subsubsection{Greifarm}
 \label{sec:Greifarm}
-Der Greifarm des Roboters wird über einen dritten Motor auf der Vorderseite bewegt. Der Motor erlaubt das freier öffnen und schließen des Greifarms und somit das mitführen von Gegenständen. 
+Der Greifarm des Roboters wird über einen dritten Motor auf der Vorderseite bewegt. Der Motor erlaubt das freie Öffnen und Schließen des Greifarms und somit das Mitführen von Gegenständen. 
 
 Bei der Ansteuerung des Greifarmmotors ist zu beachten, dass dieser nicht zu schnell geschlossen werden sollte, da dies zu tragende Objekte wegstoßen könnte. Abbildung \ref{fig:Greifarm} zeigt den Greifarm in geschlossenem Zustand mit einem transportierten Objekt.
 
@@ -140,10 +140,10 @@ Zunächst muss eine Bluetooth-Verbindung erstellt werden. Hierfür müssen beide
 
 Bei Erstverbindung muss der gesuchte NXT ausgewählt werden. Für Folgeverbindungen ist die Bluetooth-Adresse bekannt und die App kann ohne Benutzerinteraktion eine Verbindung mit dem NXT-Roboter aufnehmen.
 
-Ist eine Verbindung geglückt, kann damit begonnen werden seriell byteweise Befehle an den NXT zu übertragen. Eventuelle Antworten, wie beispielsweise angeforderte Sensordaten werden über die selbe Schnittstelle empfangen.
+Ist eine Verbindung geglückt, kann damit begonnen werden seriell byteweise Befehle an den NXT zu übertragen. Eventuelle Antworten, wie beispielsweise angeforderte Sensordaten werden über dieselbe Schnittstelle empfangen.
 
 \subsection{Programmatische Umsetzung}
 
 Auf dem Smartphone übernimmt ein gesonderter Thread die Kommunikation mit dem NXT. Die Klasse \glqq NxtTalker\grqq\ bietet Funktionen zum Versenden von Daten an den Roboter, sowie alle nötigen Daten um eine Verbindung aufzubauen und aufrecht zu erhalten.
 
-Um die Motoren zu bewegen, muss zunächst ein Befehl an jeden Aktor geschickt werden, der eine Geschwindigkeit im Bereich von -100\% bis 100\% definiert. Hierdurch können die Motoren mit dem selben Befehl vorwärts und rückwärts fahren. Das stoppen der Motoren, und damit das Anhalten des Systems werden realisiert, indem allen Motoren eine Geschwindigkeit von null kommuniziert wird. Problematisch ist hierbei, dass die Motoren sequenziell gestartet werden. Dies hat zur Folge, dass ein Motor vor dem anderen startet und somit die Blickrichtung des Roboters beeinflusst. Um dem vorzubeugen sieht die Schnittstelle einen Befehl vor, der die Motoren synchron starten lässt. Hierdurch wird verhindert, dass der Roboter in eine undefinierte Richtung abdriftet.
+Um die Motoren zu bewegen, muss zunächst ein Befehl an jeden Aktor geschickt werden, der eine Geschwindigkeit im Bereich von -100\% bis 100\% definiert. Hierdurch können die Motoren mit demselben Befehl vorwärts und rückwärts fahren. Das Stoppen der Motoren, und damit das Anhalten des Systems werden realisiert, indem allen Motoren eine Geschwindigkeit von null kommuniziert wird. Problematisch ist hierbei, dass die Motoren sequenziell gestartet werden. Dies hat zur Folge, dass ein Motor vor dem anderen startet und somit die Blickrichtung des Roboters beeinflusst. Um dem vorzubeugen, sieht die Schnittstelle einen Befehl vor, der die Motoren synchron starten lässt. Hierdurch wird verhindert, dass der Roboter in eine undefinierte Richtung abdriftet.

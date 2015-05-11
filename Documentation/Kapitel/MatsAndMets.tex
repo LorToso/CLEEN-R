@@ -3,11 +3,11 @@
 
 \section{Wahl des Robotersystems}
 
-Als Materialien stehen für das Projekt diverse Hardwaremodule zur Verfügung. Um die Problemstellung zu erfüllen ist zunächst ein mobiler Roboter notwendig. Für schnelle Prototypen-Erstellung bieten sich die Roboter-Baukästen von LEGO an.
+Als Materialien stehen für das Projekt diverse Hardwaremodule zur Verfügung. Um die Problemstellung zu erfüllen, ist zunächst ein mobiler Roboter notwendig. Für schnelle Prototypen-Erstellung bieten sich die Roboter-Baukästen von LEGO an.
 
 \subsection{LEGO Mindstorms}
 
-LEGO Mindstorms ist eine Produktreihe des Spielzeugherstellers LEGO, die bereits in drei Generationen erschienen ist. Sie zeichnen sich durch einen programmierbaren Hauptstein aus, der mit modularen Sensoren und Aktoren erweitert und in LEGO Technik-Aufbauten eingesetzt wird.
+LEGO Mindstorms ist eine Produktreihe des Spielzeugherstellers LEGO, die bereits in drei Generationen erschienen ist. Sie zeichnen sich durch einen programmierbaren Hauptbaustein aus, der mit modularen Sensoren und Aktoren erweitert und in LEGO Technik-Aufbauten eingesetzt wird.
 
 \subsubsection{LEGO Mindstorms NXT}
 
@@ -84,19 +84,19 @@ Programmiert wird wahlweise mithilfe der grafischen Programmieroberfläche ROBO 
 
 \vspace{2em}
 
-Letztendlich wurde sich für den LEGO Mindstorms NXT-Bausatz entschieden. Er bietet für den gedachten Einsatzzweck alle nötigen Module und Schnittstellen; Der Nachfolger EV3 wäre nur dann nötig, wenn auf dem Roboter komplexere Algorithmen abgearbeitet werden müssten, was den ARM7-Prozessor des NXT überfordern und die Linux-Umgebung des EV3 voraussetzen würde. Da hier jedoch sämtliche Berechnungen durch die App erledigt werden, ist dies nicht nötig.
+Letztendlich fiel die Entscheidung auf den LEGO Mindstorms NXT-Bausatz. Er bietet für den gedachten Einsatzzweck alle nötigen Module und Schnittstellen; Der Nachfolger EV3 wäre nur dann nötig, wenn auf dem Roboter komplexere Algorithmen abgearbeitet werden müssten, was den ARM7-Prozessor des NXT überfordern und die Linux-Umgebung des EV3 voraussetzen würde. Da hier jedoch sämtliche Berechnungen durch die App erledigt werden, ist dies nicht nötig.
 
-Die Dokumentation der LEGO Mindstorms-Systeme sind wesentlich ergiebiger, frei erhältliche Anleitungen zahlreicher und der Einstieg wesentlich leichter als die des Sets von Fischertechnik Robotics, was einen Prototypen-Entwurf in Fischertechnik im Vergleich zu NXT verlängert hätte.
+Die Dokumentation der LEGO Mindstorms-Systeme ist wesentlich ergiebiger, frei erhältliche Anleitungen zahlreicher und der Einstieg wesentlich leichter als die des Sets von Fischertechnik Robotics, was einen Prototypen-Entwurf in Fischertechnik im Vergleich zu NXT verlängert hätte.
 
 \section{Wahl des Kameramoduls}
 \label{sec:Kamera}
 
 Die Hauptfrage bezüglich des Kameramoduls bestand in der Wahl zwischen einem Ein- oder einem Zweikamerasystem.
 
-Der Vorteil eines Zweikamerasystems besteht in der Möglichkeit für wesentlich bessere Orientierung im 3D-Raum, da Entfernungen mittels der beiden Differenzbilder präziser berechnet werden können.
+Der Vorteil eines Zweikamerasystems besteht in der Möglichkeit, für wesentlich bessere Orientierung im 3D-Raum, da Entfernungen mittels der beiden Differenzbilder präziser berechnet werden können.
 Im Gegensatz dazu ist beim Einkamerasystem die Entfernungsberechnung auf ein 2D-Bild beschränkt und nicht annähernd so genau.
 
-Jedoch ist der Berechnungsaufwand für das Auswerten zweier Differenzbilder ungleich höher, weshalb sich letztendlich aufgrund dieser Ungleichheit des Implementierungsaufwandes für ein Einkamerasystem entschieden werden.
+Jedoch ist der Berechnungsaufwand für das Auswerten zweier Differenzbilder ungleich höher, weshalb wir uns letztlich aufgrund dieser Ungleichheit des Implementierungsaufwandes für ein Einkamerasystem entschieden haben.
 
 Weitere Aspekte sind Auflösung und Öffnungswinkel des Kameramoduls.
 Höhere Auflösung bedeutet bessere Erkennung von Gegenständen auf weitere Entfernungen; Ein größerer Öffnungswinkel heißt, dass mehr Raum in einem Bild erfasst werden kann, somit weniger Drehbewegung des Roboters in Richtung eines Objekts nötig ist, bis es erfasst und detektiert werden kann.
@@ -108,6 +108,6 @@ Höhere Auflösung bedeutet bessere Erkennung von Gegenständen auf weitere Entf
 \label{fig:camera}
 \end{figure}
 
-Ein Problem bei der Kamera des Nexus ist, das sich diese nicht zentral auf dem Rücken des Smartphones befindet, sondern nach links oben versetzt. Dies setzt voraus, dass entweder Software- oder Hardwareseitig dieser Versatz aus der Bildverarbeitung kompensiert wird.
+Ein Problem bei der Kamera des Nexus ist, das sich diese nicht zentral auf dem Rücken des Smartphones befindet, sondern nach links oben versetzt. Dies setzt voraus, dass entweder software- oder hardwareseitig dieser Versatz bei der Bildverarbeitung kompensiert wird.
 
 Hier wurde der Einfachheit halber die Halterung am Roboter verschoben, wodurch aus der Sicht des Roboters die Kamera in der Mitte liegt.
