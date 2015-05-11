@@ -57,6 +57,7 @@ Wie in Abbildung \ref{fig:ColorModels} zu sehen ist, eignet sich vor allem der S
 Die Aufgabe des Roboters ist es, Gegenstände in vordefinierte Bereiche zu befördern. Hierzu muss ihm jederzeit bekannt sein wo diese sich befinden, bzw. wo er sich relativ zu diesen aufhält, um sie anfahren zu können.
 
 \subsection{Mitteilung von Beobachterkomponente}
+\label{subsec:Beobachter}
 
 Ist im Raum ein weiteres System vorhanden, dessen Position konstant und dem Roboter zu jedem Zeitpunkt bekannt ist, kann eine simple, und genaue Positionsbestimmung erfolgen. Eine solche Beobachterkomponente kann über Sensordaten, wie beispielsweise einer Kamera oder einem Ultraschallsensor, zu jedem Zeitpunkt Kontakt zu Roboter haben.
 Der Roboter muss hierbei keine Berechnungen durchführen und verlässt sich für die korrekte Positionsbestimmung auf den Beobachter, von welchem zu jedem Zeitpunkt Position und Orientierung des Roboters im Raum abrufbar ist.
@@ -128,7 +129,7 @@ Wie auch aus Abbildung \ref{fig:UMLFocus} ersichtlich, beinhaltet die \textit{Fo
 
 Die Controllerklasse \textit{CleenrBrain} verwaltet mit Hilfe eines zusätzlichen Threads den Arbeitszyklus des Roboters. Durch die Verwendung eines zweiten Threads kann die Suche nach neuen Fokus Objekten in folgenden Aufnahmen parallel zur Abarbeitung der in Kapitel \ref{cha:Workloop} beschriebenen Arbeitsphasen geschehen. 
 
-Die Arbeitsphasen sind separat als eigene Klassen modelliert, die sich von einer abstrakten Klasse \textit{WorkPhase} ableiten. Jede Arbeitsphase verfügt über eine virtuelle \textit{executeWork}-Methode, welche Zugriff auf alle für die Arbeitsphase relevanten Operationen besitzt. Darunter zählen Steuerwerk des Roboters, eine Referenz auf das aktuelle Fokusobjekt und einer Möglichkeit die Arbeitsphase zu wechseln. Die Implementierung der \textit{PickingUpObject}-Klasse ist in Listing \ref{lst:Pickup} erkennbar. Es ist deutlich zu sehen, dass der Code durch die hinzugefügte Abstraktionsebene sehr einfach gehalten werden kann.
+Die Arbeitsphasen sind separat als eigene Klassen modelliert, die sich von einer abstrakten Klasse \textit{WorkPhase} ableiten. Jede Arbeitsphase verfügt über eine virtuelle \textit{executeWork}-Methode, welche Zugriff auf alle für die Arbeitsphase relevanten Operationen besitzt. Darunter zählen Steuerwerk des Roboters, eine Referenz auf das aktuelle Fokusobjekt und einer Möglichkeit die Arbeitsphase zu wechseln. Die Implementierung der \textit{PickingUpObject}-Klasse ist in Listing \ref{lst:Pickup} zu sehen. Es ist deutlich zu sehen, dass der Code durch die hinzugefügte Abstraktionsebene sehr einfach gehalten werden kann.
 
 \begin{lstlisting}[caption={Implementierung der Arbeitsphase \glqq Gegenstand aufnehmen\grqq }, label=lst:Pickup]
 public class PickingUpObject extends WorkPhase {
