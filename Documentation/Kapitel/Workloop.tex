@@ -227,7 +227,27 @@ Die Farbe des Objekts stellt ein Kriterium dar. Diese wird über die gesamte Obj
 In jeder Aufnahme wird die konkrete Farbe des Objekts bestimmt. Anschließend kann bei der Kategorisierung die am häufigsten bestimmte Farbe gewählt werden um Fehler durch Beleuchtung oder andere äußere Einflüsse zu korrigieren.
 
 \subsection{Kategorisierung nach Form}
-TODO
+
+Die Kategorisierung nach Form erfolgt über extrahierte Randpunkte des Objekts. Der in Kapitel \ref{sec:Objekterkennung} beschriebene Algorithmus liefert eine Liste von Punkten aus denen sich die Kante des segmentierten Gegenstands ergibt. Abbildung \ref{fig:KreisQuadrat} zeigt wie ein Kreis und ein Quadrat über Kantenpunkte beschrieben werden.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{Bilder/Workloop/KreisQuadrat}
+\caption{Approximation von Objektkanten über Punktlisten}
+\label{fig:KreisQuadrat}
+\end{figure}
+
+Berechnet man aus der geordneten Liste von Kantenpunkten Winkel zwischen aufeinanderfolgenden Punkten, so lässt sie mit hoher Präzision die Form des Objektes schätzen. Abbildung \ref{fig:KreisQuadratWinkel} zeigt wie ein Kreis und ein Quadrat von einander unterschieden werden können. Der Kreis zeigt hierbei charakteristisch, dass der Winkel zwischen zwei Kantenpunkten immer konstant bleibt, während die Winkel bei Rechtecken sich nur an Ecken von null unterscheiden.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{Bilder/Workloop/KreisQuadratWinkel}
+\caption{Bestimmung von Objekten über Winkel zwischen Kantenpunkten}
+\label{fig:KreisQuadratWinkel}
+\end{figure}
+
+Während ein Objekt angefahren wird, wird eine solche Kategorisierung wiederholt ausgeführt um eine höhere Genauigkeit zu erhalten.
 
 \section{Suche des Zielbereichs}
 \label{subsec:Orientierung}
