@@ -60,7 +60,8 @@ Das Linux-Betriebssystem ermöglicht es im Vergleich zum Mikrocontroller des NXT
 
 Über einen neuen USB-Host-Anschluss können nun USB-Geräte wie ein optionales WLAN-Dongle angeschlossen werden, was die Erweiterungsmöglichkeiten vervielfacht.
 
-\subsection{Fischertechnik Robotics}
+
+\subsubsection{Fischertechnik Robotics}
 
 \begin{figure}[h]
 \centering
@@ -73,13 +74,19 @@ Fischertechnik ist ein Konstruktions- und Baukastensystem, welches von den Fisch
 
 Die Computing Bausätze als Grundaufbau eines Roboters sind sind in verschiedenen Varianten erhältlich und enthalten Bauanleitungen für drei bis acht Modelle. Sie sind mit unterschiedlichen Sensoren und Motoren ausgestattet, natürlich können auch hier selbst mit Bauteilen experimentiert und eigene Roboter entwickelt und gebaut werden.
 
-Die Programmausführung übernimmt das ROBO Interface, aufbauend auf einen 16 Bit Mikrocontroller, vergleichbar mit dem intelligenten NXT-Stein. Dieser wertet abhängig der Programmierung die Signale der Sensoren an den Eingängen aus und speist die Motoren an den Ausgängen.
+Die Programmausführung übernimmt das ROBO Interface, aufbauend auf einen 16 Bit Mikrocontroller, vergleichbar mit den intelligenten Mindstorms-Steinen. Dieser wertet abhängig der Programmierung die Signale der Sensoren an den Eingängen aus und speist die Motoren an den Ausgängen.
 
 An den PC angeschlossen wird das ROBO Interface entweder über ein 9-poliges serielles Kabel oder über USB. Funkübertragung zwischen PC und den Robotern wird durch das Erweiterungspack ROBO RF Data Link ermöglicht.
 
 Mit bis zu drei Erweiterungsmodulen ROBO I/O-Extension stehen zusätzlich jeweils 4 weitere Motorenausgänge, 8 digitale und ein analoger Eingang zum Anschluss der Module zur Verfügung. Das IR Control Set erweitert das ROBO Interface um Fernsteuerung via Infrarot.
 
 Programmiert wird wahlweise mithilfe der grafischen Programmieroberfläche ROBO Pro Software oder über freie APIs in den Sprachen C, C++, und Java.
+
+\vspace{2em}
+
+Letztendlich wurde sich für den LEGO Mindstorms NXT-Bausatz entschieden. Er bietet für den gedachten Einsatzzweck alle nötigen Module und Schnittstellen; Der Nachfolger EV3 wäre nur dann nötig, wenn auf dem Roboter komplexere Algorithmen abgearbeitet werden müssten, was den ARM7-Prozessor des NXT überfordern und die Linux-Umgebung des EV3 voraussetzen würde. Da hier jedoch sämtliche Berechnungen durch die App erledigt werden, ist dies nicht nötig.
+
+Die Dokumentation der LEGO Mindstorms-Systeme sind wesentlich ergiebiger, frei erhältliche Anleitungen zahlreicher und der Einstieg wesentlich leichter als die des Sets von Fischertechnik Robotics, was einen Prototypen-Entwurf in Fischertechnik im Vergleich zu NXT verlängert hätte.
 
 \section{Wahl des Kameramoduls}
 \label{sec:Kamera}
