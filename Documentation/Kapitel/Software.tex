@@ -5,11 +5,11 @@ Mit Hilfe des in Kapitel \ref{sec:Kamera} beschriebenen Kameramoduls müssen ver
 
 \section{Wahl der Bildverarbeitungsbibliothek}
 
-Die Umsetzung der zu bewältigenden Aufgaben kann durch die Wahl einer geeigneten Bildverarbeitungsbibliothek deutlich vereinfacht werden. Wichtige Kriterien für die Wahl der Bibliothek sind unter anderem Funktionsumfang, Dokumentation und aktivität der Community.
+Die Umsetzung der zu bewältigenden Aufgaben kann durch die Wahl einer geeigneten Bildverarbeitungsbibliothek deutlich vereinfacht werden. Wichtige Kriterien für die Wahl der Bibliothek sind unter anderem Funktionsumfang, Dokumentation und Aktivität der Community.
 
 \subsection{LibCCV}
 
-LibCCV \cite{libccv} ist eine open-source Bildverarbeitungsbilbiothek, die viele bekannte Algorithmen implementiert. LibCCV steht unter einer BSD-Clause-3-Lizenz und kann somit für eine Studienarbeit problemlos unbegrenzt verwendet werden. Die Bibliothek ist größtenteils in C++ verfasst und somit potenziell auf einem Android-Smartphone verwendet werden. Die Verwendung auf dem Smartphone wird jedoch nicht offiziell unterstützt und kann potenziell weitere Schwierigkeiten mit sich bringen.
+LibCCV \cite{libccv} ist eine open-source Bildverarbeitungsbibliothek, die viele bekannte Algorithmen implementiert. LibCCV steht unter einer BSD-Clause-3-Lizenz und kann somit für eine Studienarbeit problemlos unbegrenzt verwendet werden. Die Bibliothek ist größtenteils in C++ verfasst und somit potenziell auf einem Android-Smartphone verwendet werden. Die Verwendung auf dem Smartphone wird jedoch nicht offiziell unterstützt und kann potenziell weitere Schwierigkeiten mit sich bringen.
 
 \subsection{Imagemagick}
 
@@ -18,7 +18,7 @@ Bei Imagemagick \cite{imagemagick} handelt es sich um eine Bildverarbeitungsbibl
 \subsection{OpenCV}
 \label{subsec:opencv}
 
-OpenCV \cite{opencv_library, bradski2008learning} stellt eine der größten Open-Source-Bibliotheken für Bildverarbeitung da. Die Bibliothek hat einen starken Fokus auf Echtzeitverarbeitung und wird daher auch in vielen Projekten im Bereich der Robotik verwendet. OpenCV hat eine große aktive Community, wodurch eventuelle Fragen und Probleme schnell beantwortet werden können. Zusätzlich bietet OpenCV eine offizielle Verison für Android und eignet sich somit ideal für diese Studienarbeit.
+OpenCV \cite{opencv_library, bradski2008learning} stellt eine der größten Open-Source-Bibliotheken für Bildverarbeitung da. Die Bibliothek hat einen starken Fokus auf Echtzeitverarbeitung und wird daher auch in vielen Projekten im Bereich der Robotik verwendet. OpenCV hat eine große aktive Community, wodurch eventuelle Fragen und Probleme schnell beantwortet werden können. Zusätzlich bietet OpenCV eine offizielle Version für Android und eignet sich somit ideal für diese Studienarbeit.
 
 
 \section{Algorithmen zur Objekterkennung}
@@ -116,7 +116,7 @@ Wie auch aus Abbildung \ref{fig:UMLFocus} ersichtlich, beinhaltet die \textit{Fo
 \centering
 %\includegraphics[width=0.25\textwidth]{Bilder/Software/UMLActivity}
 \todo{Diagram von FocusObject, Catregory, Color, Shape}
-\caption{UML-Klassendiagramm der Kategorisierung von FokusObjekten}
+\caption{UML-Klassendiagramm der Kategorisierung von Fokus Objekten}
 \label{fig:UMLCategorisation}
 \end{figure}
 
@@ -126,9 +126,9 @@ Wie auch aus Abbildung \ref{fig:UMLFocus} ersichtlich, beinhaltet die \textit{Fo
 
 \subsection{Arbeitsphasen}
 
-Die Controllerklasse \textit{CleenrBrain} verwaltet mit Hilfe eines zusätzlichen Threads den Arbeitszyklus des Roboters. Durch die Verwendung eines zweiten Threads kann die Suche nach neuen FokusObjekten in folgenden Aufnahmen parallel zur Abarbeitung der in Kapitel \ref{cha:Workloop} beschriebenen Arbeitsphasen geschehen. 
+Die Controllerklasse \textit{CleenrBrain} verwaltet mit Hilfe eines zusätzlichen Threads den Arbeitszyklus des Roboters. Durch die Verwendung eines zweiten Threads kann die Suche nach neuen Fokus Objekten in folgenden Aufnahmen parallel zur Abarbeitung der in Kapitel \ref{cha:Workloop} beschriebenen Arbeitsphasen geschehen. 
 
-Die Arbeitsphasen sind separat als eigene Klassen modelliert, die sich von einer abstrakten Klasse \textit{WorkPhase} ableiten. Jede Arbeitsphase verfügt über eine virtuelle \textit{executeWork}-Methode, welche Zugriff auf alle für die Arbeitsphase relevanten Operationen besitzt. Darunter zählen Steuerwerk des Roboters, eine Referenz auf das aktuelle Fokusobjekt und einer Möglichkeit die Arbeitsphase zu wechseln. Die Implementierung der \textit{PickingUpObject}-Klasse ist in Listing \ref{lst:Pickup} erkennbar. Es ist deutlich zu sehen, dass der Code durch die hinzugefügte Abstraktiosnebene sehr einfach gehalten werden kann.
+Die Arbeitsphasen sind separat als eigene Klassen modelliert, die sich von einer abstrakten Klasse \textit{WorkPhase} ableiten. Jede Arbeitsphase verfügt über eine virtuelle \textit{executeWork}-Methode, welche Zugriff auf alle für die Arbeitsphase relevanten Operationen besitzt. Darunter zählen Steuerwerk des Roboters, eine Referenz auf das aktuelle Fokusobjekt und einer Möglichkeit die Arbeitsphase zu wechseln. Die Implementierung der \textit{PickingUpObject}-Klasse ist in Listing \ref{lst:Pickup} erkennbar. Es ist deutlich zu sehen, dass der Code durch die hinzugefügte Abstraktionsebene sehr einfach gehalten werden kann.
 
 \begin{lstlisting}[caption={Implementierung der Arbeitsphase \glqq Gegenstand aufnehmen\grqq }, label=lst:Pickup]
 public class PickingUpObject extends WorkPhase {

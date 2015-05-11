@@ -59,7 +59,7 @@ Das trivialste Kriterium stellt die lokale Nähe da. Geht man von einem Stillsta
 \end{figure}
 
 \subsubsection{Größenkriterium}
-Das Größenkriterium ähnelt zunächst dem Kriterium der lokalen Nähe, bezieht sich jedoch nicht auf den Mittelpunkt des Objekts, sondern auf die vom Objekt in der Aufnahme eingenommenen Fläche. Diese bleibt bei einer beliebigen Translation des Objektes in der Aufnahme konstant und eignet sich daher als Ähnlichkeitsmaß. Bewegt sich das Objekt jedoch auf die Kamera zu, oder von ihr weg, so verändert sich die eingenommene Fläche. Auch hier muss eine Toleranz gewählt werden. Dise kann entweder konstant gegeben sein (beispielsweise 10\%) oder abhängig von der aktuellen Geschwindigkeit des Roboters gewählt werden. Abbildung \ref{fig:GroessenKriterium} zeigt exemplarisch die Verfolgung eines Objektes dessen Größe sich im Verlauf der Aufnahmeserie verändert.
+Das Größenkriterium ähnelt zunächst dem Kriterium der lokalen Nähe, bezieht sich jedoch nicht auf den Mittelpunkt des Objekts, sondern auf die vom Objekt in der Aufnahme eingenommenen Fläche. Diese bleibt bei einer beliebigen Translation des Objektes in der Aufnahme konstant und eignet sich daher als Ähnlichkeitsmaß. Bewegt sich das Objekt jedoch auf die Kamera zu, oder von ihr weg, so verändert sich die eingenommene Fläche. Auch hier muss eine Toleranz gewählt werden. Diese kann entweder konstant gegeben sein (beispielsweise 10\%) oder abhängig von der aktuellen Geschwindigkeit des Roboters gewählt werden. Abbildung \ref{fig:GroessenKriterium} zeigt exemplarisch die Verfolgung eines Objektes dessen Größe sich im Verlauf der Aufnahmeserie verändert.
 
 \begin{figure}[h]
 \centering
@@ -70,7 +70,7 @@ Das Größenkriterium ähnelt zunächst dem Kriterium der lokalen Nähe, bezieht
 
 
 \subsubsection{Farbliche Ähnlichkeit}
-Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist Abhängig vom Farbraum in dem die Aufnahme getätigt oder konvertiert wurde. Wie in Abschnitt \ref{sec:Objekterkennung} beschrieben, wird die Aufnahme bei der Objekterkennung in das HSV-Format konvertiert. Daher kann das Ähnlichkeitsmaß sich auf den Farbkanal, den Sättigungskanal oder den Intensitätskanal beziehen. Durch außschließen des Intensitätskanals kann eine weitgehend helligkeitsunabhängige Bestimmung erreicht werden. Daher ist das Filtern nach Objekten ähnlicher Farbe und Sättigung durchaus sinnvoll. Auch hier lässt sich eine Toleranz formulieren, wie etwa 10\% Abweichung von der durchschnittlichen Farbe des zuvor ermittelten Objektes. Abbildung \ref{fig:FarbKriterium} zeigt die farbliche Ähnlichkeit zweier Objekte und die dadurch resultierende Wiederfindung des Objektes in der Folgeaufnahme.
+Ein drittes Ähnlichkeitsmaß stellt die farbliche Ähnlichkeit dar. Diese ist Abhängig vom Farbraum in dem die Aufnahme getätigt oder konvertiert wurde. Wie in Abschnitt \ref{sec:Objekterkennung} beschrieben, wird die Aufnahme bei der Objekterkennung in das HSV-Format konvertiert. Daher kann das Ähnlichkeitsmaß sich auf den Farbkanal, den Sättigungskanal oder den Intensitätskanal beziehen. Durch ausschließen des Intensitätskanals kann eine weitgehend helligkeitsunabhängige Bestimmung erreicht werden. Daher ist das Filtern nach Objekten ähnlicher Farbe und Sättigung durchaus sinnvoll. Auch hier lässt sich eine Toleranz formulieren, wie etwa 10\% Abweichung von der durchschnittlichen Farbe des zuvor ermittelten Objektes. Abbildung \ref{fig:FarbKriterium} zeigt die farbliche Ähnlichkeit zweier Objekte und die dadurch resultierende Wiederfindung des Objektes in der Folgeaufnahme.
 
 \begin{figure}[h]
 \centering
@@ -255,9 +255,9 @@ Während ein Objekt angefahren wird, wird eine solche Kategorisierung wiederholt
 
 Zur Orientierung im Raum wird die im Abschnitt \ref{sec:Ortsbestimmung} beschriebe Methode der streckenbasierten Positionsverfolgung genutzt. Hierbei wird zu Beginn der Startpunkt mit den Koordinaten (0|0) an der Position des Roboters definiert, die Drehung des Roboters mit 0\degree. Ab diesem Zeitpunkt wird jede Ansteuerung der Räder  softwareseitig als Bewegung auf diesen Startpunkt aufaddiert. 
 
-Die Klasse PositionTracker behält Position und Winkel des Roboters im Blick. Da der Roboter nur gerade fahren oder sich auf der Stelle drehen kann, also die Geschwindigkeit der beiden Antriebsmotoren stets gleich ist, ist die Vektorberechnung recht einfach.
+Die Klasse \textit{PositionTracker} behält Position und Winkel des Roboters im Blick. Da der Roboter nur gerade fahren oder sich auf der Stelle drehen kann, also die Geschwindigkeit der beiden Antriebsmotoren stets gleich ist, ist die Vektorberechnung recht einfach.
 
-Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der angesteuerten prozentualen aktuellen Geschwindigkeit skaliert wird. Mit der Dauer der Bewegung erhält man die zurückgelegte Strecke. Abhängig vom Winkel des Roboters im Vergleich zum Startzeitpunkt werden nun trigonomisch der X- und der Y-Anteil ($X=sin(\alpha)$, $Y=cos(\alpha)$) berechnet und auf die Roboterposition aufaddiert.
+Ausgegangen wird von der Maximalgeschwindigkeit des Roboters, welche mit der angesteuerten prozentualen aktuellen Geschwindigkeit skaliert wird. Mit der Dauer der Bewegung erhält man die zurückgelegte Strecke. Abhängig vom Winkel des Roboters im Vergleich zum Startzeitpunkt werden nun trigonometrisch der X- und der Y-Anteil ($X=sin(\alpha)$, $Y=cos(\alpha)$) berechnet und auf die Roboterposition aufaddiert.
 
 Bei Drehung um die eigene Achse wird die kalibrierte maximale Drehgeschwindigkeit skaliert, mit der Dauer multipliziert und der resultierende Winkel auf den des Roboters aufaddiert.
 
