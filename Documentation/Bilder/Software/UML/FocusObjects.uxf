@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>728</x>
-      <y>712</y>
+      <x>456</x>
+      <y>608</y>
       <w>344</w>
       <h>224</h>
     </coordinates>
@@ -33,8 +33,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>776</x>
-      <y>440</y>
+      <x>504</x>
+      <y>336</y>
       <w>528</w>
       <h>208</h>
     </coordinates>
@@ -61,8 +61,8 @@ getRect();
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>112</x>
-      <y>496</y>
+      <x>480</x>
+      <y>176</y>
       <w>576</w>
       <h>96</h>
     </coordinates>
@@ -80,8 +80,8 @@ getRect();
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1088</x>
-      <y>712</y>
+      <x>816</x>
+      <y>608</y>
       <w>248</w>
       <h>136</h>
     </coordinates>
@@ -101,8 +101,8 @@ getRect();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>904</x>
-      <y>640</y>
+      <x>632</x>
+      <y>536</y>
       <w>168</w>
       <h>88</h>
     </coordinates>
@@ -112,8 +112,8 @@ getRect();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1048</x>
-      <y>672</y>
+      <x>776</x>
+      <y>568</y>
       <w>168</w>
       <h>56</h>
     </coordinates>
@@ -123,12 +123,12 @@ getRect();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>680</x>
-      <y>536</y>
-      <w>112</w>
-      <h>24</h>
+      <x>752</x>
+      <y>264</y>
+      <w>24</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

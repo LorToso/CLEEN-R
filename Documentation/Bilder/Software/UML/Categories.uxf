@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>400</y>
+      <x>552</x>
+      <y>56</y>
       <w>528</w>
       <h>208</h>
     </coordinates>
@@ -32,8 +32,8 @@ getRect();
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>664</x>
-      <y>544</y>
+      <x>496</x>
+      <y>456</y>
       <w>296</w>
       <h>240</h>
     </coordinates>
@@ -62,8 +62,8 @@ _+getObjectColor(Scalar colorHSV): Color_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>832</x>
-      <y>408</y>
+      <x>664</x>
+      <y>320</y>
       <w>296</w>
       <h>72</h>
     </coordinates>
@@ -79,8 +79,8 @@ _+getObjectColor(Scalar colorHSV): Color_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>976</x>
-      <y>544</y>
+      <x>808</x>
+      <y>456</y>
       <w>400</w>
       <h>152</h>
     </coordinates>
@@ -101,8 +101,8 @@ _-getDistance(double[] point1, double[] point2): double_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>808</x>
-      <y>472</y>
+      <x>640</x>
+      <y>384</y>
       <w>184</w>
       <h>88</h>
     </coordinates>
@@ -112,8 +112,8 @@ _-getDistance(double[] point1, double[] point2): double_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>968</x>
-      <y>504</y>
+      <x>800</x>
+      <y>416</y>
       <w>216</w>
       <h>56</h>
     </coordinates>
@@ -123,12 +123,12 @@ _-getDistance(double[] point1, double[] point2): double_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
-      <y>432</y>
-      <w>248</w>
-      <h>88</h>
+      <x>800</x>
+      <y>256</y>
+      <w>24</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>290.0;10.0;150.0;10.0;150.0;90.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
