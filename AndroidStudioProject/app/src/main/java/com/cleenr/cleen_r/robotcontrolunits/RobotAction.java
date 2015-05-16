@@ -13,5 +13,6 @@ public enum RobotAction {
     TURN_RIGHT_SLOWLY,
     CLOSE_CLAW,
     OPEN_CLAW,
-    RETURN_TO_STARTING_POINT
+    RETURN_TO_STARTING_POINT,
+    STOP
 }
