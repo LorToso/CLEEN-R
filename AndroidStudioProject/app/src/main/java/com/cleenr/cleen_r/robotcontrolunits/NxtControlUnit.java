@@ -16,7 +16,7 @@ public class NxtControlUnit implements RobotControlUnit
     private final NxtTalker       mNxtTalker;
     private final PositionTracker mPosTracker;
 
-    private RobotAction lastAction = null;
+    private RobotAction prevAction = RobotAction.STOP;
 
     private final byte CLAW_MOTOR        = NxtTalker.MOTOR_PORT_A;
     private final byte LEFT_WHEEL_MOTOR  = NxtTalker.MOTOR_PORT_C;
@@ -65,7 +65,7 @@ public class NxtControlUnit implements RobotControlUnit
             e.printStackTrace();
         }
 
-        lastAction = RobotAction.TURN_RIGHT;
+        prevAction = RobotAction.TURN_RIGHT;
     }
 
     public void turnRight()
@@ -87,7 +87,7 @@ public class NxtControlUnit implements RobotControlUnit
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        lastAction = RobotAction.CLOSE_CLAW;
+        prevAction = RobotAction.CLOSE_CLAW;
     }
 
     public void driveForward(long sleepTime)
@@ -108,7 +108,7 @@ public class NxtControlUnit implements RobotControlUnit
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        lastAction = RobotAction.DRIVE_FORWARD;
+        prevAction = RobotAction.DRIVE_FORWARD;
     }
 
     public void driveForward()
@@ -134,7 +134,7 @@ public class NxtControlUnit implements RobotControlUnit
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        lastAction = RobotAction.DRIVE_FORWARD;
+        prevAction = RobotAction.DRIVE_FORWARD;
     }
 
     public void driveBackward()
@@ -162,7 +162,7 @@ public class NxtControlUnit implements RobotControlUnit
         {
             e.printStackTrace();
         }
-        lastAction = RobotAction.OPEN_CLAW;
+        prevAction = RobotAction.OPEN_CLAW;
     }
 
     public void turnLeft(long sleepTime)
@@ -183,7 +183,7 @@ public class NxtControlUnit implements RobotControlUnit
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        lastAction = RobotAction.TURN_LEFT;
+        prevAction = RobotAction.TURN_LEFT;
     }
 
     public void turnLeft()
@@ -209,7 +209,7 @@ public class NxtControlUnit implements RobotControlUnit
     @Override
     public void repeatLastAction()
     {
-        switch (lastAction)
+        switch (prevAction)
         {
             case TURN_LEFT:
                 turnLeft();
@@ -253,7 +253,7 @@ public class NxtControlUnit implements RobotControlUnit
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        lastAction = RobotAction.TURN_RIGHT_SLOWLY;
+        prevAction = RobotAction.TURN_RIGHT_SLOWLY;
     }
 
 
@@ -276,7 +276,7 @@ public class NxtControlUnit implements RobotControlUnit
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        lastAction = RobotAction.TURN_LEFT_SLOWLY;
+        prevAction = RobotAction.TURN_LEFT_SLOWLY;
 
     }
 
