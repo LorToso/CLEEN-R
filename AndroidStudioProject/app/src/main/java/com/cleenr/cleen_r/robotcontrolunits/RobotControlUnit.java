@@ -5,25 +5,23 @@ import com.cleenr.cleen_r.focusObject.FocusObject;
 
 public interface RobotControlUnit
 {
-    public boolean isClawClosed();
+    void turnRight();
 
-    public void turnRight();
+    void closeClaw();
 
-    public void closeClaw();
+    void driveForward();
 
-    public void driveForward();
+    void driveBackward();
 
-    public void driveBackward();
+    boolean hasObjectInClaw();
 
-    public boolean hasObjectInClaw();
+    void openClaw();
 
-    public void openClaw();
+    void turnLeft();
 
-    public void turnLeft();
+    void centerObject(FocusObject focusObject);
 
-    public void centerObject(FocusObject focusObject);
+    void returnToStartingPoint();
 
-    public void repeatLastAction();
-
-    public void returnToStartingPoint();
+    void stopMoving();
 }
