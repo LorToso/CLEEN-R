@@ -25,6 +25,7 @@ public class NxtControlUnit implements RobotControlUnit
 
     private final byte MOTOR_SPEED      = 50; // -100 to 100
     private final byte MOTOR_SPEED_SLOW = 20; // -100 to 100
+    private final byte MOTOR_SPEED_CLAW = 30; // -100 to 100
 
     private final double STARTING_POINT_POSITION_TOLERANCE = 0.1; // in meters
     private final double STARTING_POINT_ANGLE_TOLERANCE    = Math.PI / 180.0; // 1 degree
@@ -36,12 +37,6 @@ public class NxtControlUnit implements RobotControlUnit
     {
         mNxtTalker = nxtTalker;
         mPosTracker = posTracker;
-    }
-
-    public boolean isClawClosed()
-    {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     public void turnRight()
@@ -59,7 +54,7 @@ public class NxtControlUnit implements RobotControlUnit
             Log.d("ControlUnit", "Closing claw");
             if (isMoving())
                 stopMoving();
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED);
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED_CLAW);
             Thread.sleep(250);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
         }
@@ -105,7 +100,7 @@ public class NxtControlUnit implements RobotControlUnit
             Log.d("ControlUnit", "Opening claw");
             if (isMoving())
                 stopMoving();
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED));
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED_CLAW));
             Thread.sleep(250);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
         }
