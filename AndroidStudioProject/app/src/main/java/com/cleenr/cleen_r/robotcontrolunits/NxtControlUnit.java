@@ -52,8 +52,6 @@ public class NxtControlUnit implements RobotControlUnit
         try
         {
             Log.d("ControlUnit", "Closing claw");
-            if (isMoving())
-                stopMoving();
             mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED_CLAW);
             Thread.sleep(250);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
@@ -98,8 +96,6 @@ public class NxtControlUnit implements RobotControlUnit
         try
         {
             Log.d("ControlUnit", "Opening claw");
-            if (isMoving())
-                stopMoving();
             mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED_CLAW));
             Thread.sleep(250);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
