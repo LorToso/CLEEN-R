@@ -15,4 +15,20 @@ public class Category {
     {
         return shape.toString() + " " + color.toString();
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o.getClass().equals(Category.class))
+        {
+            return hashCode() == o.hashCode();
+        }
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return shape.ordinal() + 3 * color.ordinal();
+    }
 }

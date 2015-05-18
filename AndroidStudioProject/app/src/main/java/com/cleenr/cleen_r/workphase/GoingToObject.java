@@ -2,6 +2,7 @@ package com.cleenr.cleen_r.workphase;
 
 import android.util.Log;
 
+import com.cleenr.cleen_r.CleenrBrain;
 import com.cleenr.cleen_r.RobotWorker;
 import com.cleenr.cleen_r.focusObject.FocusObject;
 import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
@@ -13,7 +14,7 @@ public class GoingToObject extends WorkPhase {
     }
 
     @Override
-    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
+    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit, CleenrBrain brain) {
         if (!focusObject.isValidFocus()) {
             // keep moving
             //mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));

@@ -1,5 +1,6 @@
 package com.cleenr.cleen_r.focusObject;
 
+import com.cleenr.cleen_r.CleenrBrain;
 import com.cleenr.cleen_r.objectCategorisation.Color;
 import com.cleenr.cleen_r.objectCategorisation.Shape;
 
@@ -38,12 +39,23 @@ public class NoFocus extends FocusObject {
         return new Scalar(0, 0, 0);
     }
 
+    @Override
+    public boolean isInRange() {
+        return false;
+    }
+
     public String toString() {
         return "No Focus found.";
     }
 
     @Override
     public boolean isValidFocus() {
+        return false;
+    }
+
+    @Override
+    public boolean isSearchedObject(CleenrBrain brain)
+    {
         return false;
     }
 

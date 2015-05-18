@@ -1,5 +1,6 @@
 package com.cleenr.cleen_r.workphase;
 
+import com.cleenr.cleen_r.CleenrBrain;
 import com.cleenr.cleen_r.RobotWorker;
 import com.cleenr.cleen_r.focusObject.FocusObject;
 import com.cleenr.cleen_r.objectCategorisation.Category;
@@ -13,7 +14,7 @@ public class CategorisingObject extends WorkPhase {
     }
 
     @Override
-    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
+    public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit, CleenrBrain brain) {
 
         Category category = focusObject.getCategory();
 

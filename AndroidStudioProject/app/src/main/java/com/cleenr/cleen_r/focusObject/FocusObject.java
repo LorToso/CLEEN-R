@@ -9,6 +9,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import com.cleenr.cleen_r.CleenrBrain;
 import com.cleenr.cleen_r.CleenrImage;
 import com.cleenr.cleen_r.CleenrUtils;
 import com.cleenr.cleen_r.objectCategorisation.Category;
@@ -111,7 +112,11 @@ public abstract class FocusObject {
 
     public abstract Scalar getMeanColorHSV();
 
+    public abstract boolean isInRange();
+
     public abstract String toString();
 
     public abstract boolean isValidFocus();
+
+    public abstract boolean isSearchedObject(CleenrBrain brain);
 }

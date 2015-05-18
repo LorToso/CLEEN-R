@@ -1,5 +1,9 @@
 package com.cleenr.cleen_r.focusObject;
 
+import android.util.Log;
+
+import com.cleenr.cleen_r.CleenrBrain;
+import com.cleenr.cleen_r.CleenrImage;
 import com.cleenr.cleen_r.objectCategorisation.Color;
 import com.cleenr.cleen_r.objectCategorisation.Shape;
 
@@ -61,6 +65,36 @@ public class ValidFocus extends FocusObject {
         return mCoreColorHSV;
     }
 
+    public boolean isInRange() {
+        int maximumDistance = 6; // TODO
+        return getDistanceInCentimeter() < maximumDistance;
+    }
+
+    private double getDistanceInCentimeter() {
+
+
+        double alpha = Math.toRadians(30);
+        double streuung = Math.toRadians(20);
+
+        int cameraWidth = 3; //cm
+        int modelHeight = 10; //cm
+
+        double cameraX = cameraWidth * Math.sin(alpha);
+        double cameraY = cameraWidth * Math.cos(alpha) + modelHeight;
+
+        double frameHeight = CleenrImage.getInstance().getFrameSize().height;
+        double objectPositionRatio = mRect.br().y / frameHeight;
+
+        double distance = Math.tan(alpha+(2*streuung*objectPositionRatio-streuung))*cameraY + cameraX;
+
+
+        Log.d("Distance", "" + distance);
+
+        // Not totally correct yet.
+
+        return distance;
+    }
+
     public String toString() {
         return "FocusObject at " + getCenter() + ". Width = " + getRect().width + ". Height = " + getRect().height + ". Category: " + getCategory() + ". HSVColor: " + mCoreColorHSV;
     }
@@ -68,6 +102,17 @@ public class ValidFocus extends FocusObject {
     @Override
     public boolean isValidFocus() {
         return true;
+    }
+
+    @Override
+    public boolean isSearchedObject(CleenrBrain brain)
+    {
+        if (brain.getSearchCategories().containsKey(getCategory()))
+        {
+            Log.d("searched object", "Found searched object!");
+            return true;
+        }
+        return false;
     }
 
     public MatOfPoint getContour() {

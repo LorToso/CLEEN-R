@@ -6,9 +6,19 @@ import com.cleenr.cleen_r.focusObject.FocusObject;
 import com.cleenr.cleen_r.focusObject.FocusObjectDetector;
 import com.cleenr.cleen_r.focusObject.NoFocus;
 import com.cleenr.cleen_r.nxt.NxtTalker;
+import com.cleenr.cleen_r.objectCategorisation.Category;
+import com.cleenr.cleen_r.objectCategorisation.Color;
+import com.cleenr.cleen_r.objectCategorisation.Shape;
 import com.cleenr.cleen_r.robotcontrolunits.PositionTracker;
 
+import android.graphics.Point;
+import android.location.Location;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CleenrBrain {
     public       boolean         isCamerainitialized;
@@ -19,6 +29,7 @@ public class CleenrBrain {
     private FocusObjectDetector mFocusObjectFinder = new FocusObjectDetector();
     private Thread      mRobotWorkerThread;
     private RobotWorker mWorkLoop;
+    private Map<Category, Point> searchCategories = new HashMap<>();
 
     public CleenrBrain(NxtTalker nxtTalker)
     {
@@ -26,6 +37,14 @@ public class CleenrBrain {
         mPositionTracker = new PositionTracker();
         mWorkLoop = new RobotWorker(this);
         mRobotWorkerThread = new Thread(mWorkLoop);
+
+        // testing values
+        searchCategories.put(new Category(Shape.SPHERE, Color.YELLOW), new Point(0, 0));
+    }
+
+    public Map<Category, Point> getSearchCategories()
+    {
+        return searchCategories;
     }
 
     public Mat onCameraFrame(Mat inputFrame)

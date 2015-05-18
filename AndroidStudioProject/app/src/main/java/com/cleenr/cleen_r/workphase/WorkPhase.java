@@ -1,5 +1,6 @@
 package com.cleenr.cleen_r.workphase;
 
+import com.cleenr.cleen_r.CleenrBrain;
 import com.cleenr.cleen_r.RobotWorker;
 import com.cleenr.cleen_r.focusObject.FocusObject;
 import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
@@ -11,5 +12,5 @@ public abstract class WorkPhase {
         mRobotWorker = worker;
     }
 
-    public abstract void executeWork(FocusObject focusObject, RobotControlUnit controlUnit);
+    public abstract void executeWork(FocusObject focusObject, RobotControlUnit controlUnit, CleenrBrain brain);
 }
