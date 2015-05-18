@@ -15,6 +15,7 @@ public class RobotWorker implements Runnable {
     private final RobotControlUnit mRobotControlUnit;
     private final CleenrBrain mBrain;
     private boolean mStopOnNextTurn = false;
+    private long workStepTime = 500;
 
 
     public RobotWorker(CleenrBrain brain) {
@@ -39,7 +40,16 @@ public class RobotWorker implements Runnable {
 
         while (!mStopOnNextTurn) {
             mWorkPhase.executeWork(mBrain.getFocusedObject(), mRobotControlUnit);
+            try
+            {
+                Thread.sleep(workStepTime);
+            }
+            catch (InterruptedException e)
+            {
+                stopOnNextTurn();
+            }
         }
+        mRobotControlUnit.stopMoving();
         mStopOnNextTurn = false;
         Log.d("RobotWorker", "Stopping now");
     }

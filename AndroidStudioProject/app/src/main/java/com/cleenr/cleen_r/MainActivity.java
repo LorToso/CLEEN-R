@@ -25,7 +25,7 @@ import org.opencv.core.Mat;
 
 public class MainActivity extends Activity implements CvCameraViewListener {
 
-    public static final boolean AUTO_CONNECT = false;
+    public static final boolean AUTO_CONNECT = true;
     private static final String TAG = "MainActivity";
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -75,6 +75,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         mNXTTalker = new NxtTalker();
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.main_activity_surface_view);
+        mOpenCvCameraView.setMaxFrameSize(640, 480);
         mOpenCvCameraView.setCvCameraViewListener(this);
         /*
         mOpenCvCameraView.setOnClickListener(new View.OnClickListener() {

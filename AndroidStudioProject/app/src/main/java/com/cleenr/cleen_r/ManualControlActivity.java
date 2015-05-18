@@ -38,7 +38,7 @@ public class ManualControlActivity extends ActionBarActivity
     private NxtTalker        mNXTTalker        = null;
     private RobotControlUnit mRobotControlUnit = null;
     private PositionTracker  mPosTracker       = null;
-    private RobotAction      mRobotTask        = null;
+    private RobotAction      mRobotTask        = RobotAction.STOP;
 
     private Timer   mPositionDisplayTimer = null;
     private Thread  mTaskSenderThread     = null;
@@ -160,7 +160,7 @@ public class ManualControlActivity extends ActionBarActivity
                         break;
                     case MotionEvent.ACTION_UP:
                         // button released
-                        mRobotTask = null;
+                        mRobotTask = RobotAction.STOP;
                         v.setPressed(false);
                         break;
                     default:
@@ -216,7 +216,7 @@ public class ManualControlActivity extends ActionBarActivity
         {
             while (!mStopSendingTasks)
             {
-                if (mRobotTask == null)
+                if (mRobotTask == RobotAction.STOP)
                 {
                     Thread.yield();
                     continue;
@@ -237,6 +237,12 @@ public class ManualControlActivity extends ActionBarActivity
                         break;
                     case RETURN_TO_STARTING_POINT:
                         mRobotControlUnit.returnToStartingPoint();
+                        break;
+                    case OPEN_CLAW:
+                        mRobotControlUnit.openClaw();
+                        break;
+                    case CLOSE_CLAW:
+                        mRobotControlUnit.closeClaw();
                         break;
                     default:
                         break;

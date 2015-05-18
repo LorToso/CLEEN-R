@@ -15,16 +15,13 @@ public class GoingToObject extends WorkPhase {
     @Override
     public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit) {
         if (!focusObject.isValidFocus()) {
-            controlUnit.repeatLastAction();
-            Log.e("FOCUS LOST", "FOCUS LOST");
-            Log.e("FOCUS LOST", "FOCUS LOST");
-            Log.e("FOCUS LOST", "FOCUS LOST");
-
+            // keep moving
             //mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
             return;
         }
 
-        if (controlUnit.objectInRange()) {
+        if (focusObject.isInRange()) {
+            controlUnit.stopMoving();
             mRobotWorker.switchWorkphase(new PickingUpObject(mRobotWorker));
             controlUnit.openClaw();
             return;
