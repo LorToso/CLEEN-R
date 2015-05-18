@@ -76,6 +76,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         mNXTTalker = new NxtTalker();
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.main_activity_surface_view);
+        mOpenCvCameraView.setMaxFrameSize(640, 480);
         mOpenCvCameraView.setCvCameraViewListener(this);
         /*
         mOpenCvCameraView.setOnClickListener(new View.OnClickListener() {
