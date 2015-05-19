@@ -20,6 +20,7 @@ public class SearchingObject extends WorkPhase {
             controlUnit.turnRight();
             return;
         }
+        controlUnit.centerObject(focusObject);
         mRobotWorker.switchWorkphase(new GoingToObject(mRobotWorker));
     }
 

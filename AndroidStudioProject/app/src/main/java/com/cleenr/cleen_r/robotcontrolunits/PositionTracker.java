@@ -9,8 +9,8 @@ public class PositionTracker
         FORWARD, BACKWARD, LEFT, RIGHT
     }
 
-    private static final double MAX_METERS_PER_SECOND = 1.0/3.0;
-    private static final double MAX_DEGREES_PER_SECOND = Math.PI;
+    public static final double MAX_METERS_PER_SECOND = 1.0/3.0;
+    public static final double MAX_DEGREES_PER_SECOND = Math.PI;
 
     private double mPosX, mPosY;
     private double mAngle; // mathematically negative radians, clockwise

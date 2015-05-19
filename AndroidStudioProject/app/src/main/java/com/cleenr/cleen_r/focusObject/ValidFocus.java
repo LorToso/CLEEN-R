@@ -112,7 +112,7 @@ public class ValidFocus extends FocusObject {
     {
         if (Globals.searchCategories.containsKey(getCategory()))
         {
-            Log.d("searched object", "Found searched object!");
+            Log.i("searched object", String.format("Found searched object with category %s!", getCategory()));
             return true;
         }
         return false;

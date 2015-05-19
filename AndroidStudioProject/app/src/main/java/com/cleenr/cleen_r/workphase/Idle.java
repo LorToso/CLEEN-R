@@ -13,7 +13,7 @@ public class Idle extends WorkPhase {
 
     @Override
     public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit, CleenrBrain brain) {
-        // Nothing to do
+        controlUnit.stopMoving();
     }
 
 

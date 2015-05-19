@@ -1,5 +1,7 @@
 package com.cleenr.cleen_r.robotcontrolunits;
 
+import android.graphics.PointF;
+
 import com.cleenr.cleen_r.focusObject.FocusObject;
 
 
@@ -13,7 +15,7 @@ public interface RobotControlUnit
 
     void driveBackward();
 
-    boolean hasObjectInClaw();
+    boolean isMoving();
 
     void openClaw();
 
@@ -21,7 +23,9 @@ public interface RobotControlUnit
 
     void centerObject(FocusObject focusObject);
 
-    void returnToStartingPoint();
+    void facePoint(PointF targetPoint);
+
+    void driveToPoint(PointF targetPoint);
 
     void stopMoving();
 }

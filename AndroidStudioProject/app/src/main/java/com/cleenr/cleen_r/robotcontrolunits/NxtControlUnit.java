@@ -1,5 +1,6 @@
 package com.cleenr.cleen_r.robotcontrolunits;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.cleenr.cleen_r.CleenrImage;
@@ -11,8 +12,6 @@ import org.opencv.core.Point;
 
 public class NxtControlUnit implements RobotControlUnit
 {
-    private final String TAG = "NxtControlUnit";
-
     private final NxtTalker       mNxtTalker;
     private final PositionTracker mPosTracker;
 
@@ -23,12 +22,10 @@ public class NxtControlUnit implements RobotControlUnit
     private final byte LEFT_WHEEL_MOTOR  = NxtTalker.MOTOR_PORT_C;
     private final byte RIGHT_WHEEL_MOTOR = NxtTalker.MOTOR_PORT_B;
 
-    private final byte MOTOR_SPEED      = 50; // -100 to 100
-    private final byte MOTOR_SPEED_SLOW = 20; // -100 to 100
-    private final byte MOTOR_SPEED_CLAW = 30; // -100 to 100
-
-    private final double STARTING_POINT_POSITION_TOLERANCE = 0.1; // in meters
-    private final double STARTING_POINT_ANGLE_TOLERANCE    = Math.PI / 180.0; // 1 degree
+    private final byte MOTOR_SPEED         = 50; // -100 to 100
+    private final byte MOTOR_SPEED_TURNING = 30; // -100 to 100
+    private final byte MOTOR_SPEED_SLOW    = 20; // -100 to 100
+    private final byte MOTOR_SPEED_CLAW    = 30; // -100 to 100
 
     public static final byte SYNC_MODE_TURNING = NxtTalker.MOTOR_REG_MODE_NONE;
     public static final byte SYNC_MODE_DRIVING = NxtTalker.MOTOR_REG_MODE_NONE;
@@ -42,18 +39,18 @@ public class NxtControlUnit implements RobotControlUnit
     public void turnRight()
     {
         Log.d("ControlUnit", "Turning right");
-        mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED, SYNC_MODE_TURNING);
-        mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), SYNC_MODE_TURNING);
-        refreshMovement(RobotMovement.TURN_RIGHT, MOTOR_SPEED);
+        mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, MOTOR_SPEED_TURNING, SYNC_MODE_TURNING);
+        mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_TURNING), SYNC_MODE_TURNING);
+        refreshMovement(RobotMovement.TURN_RIGHT, MOTOR_SPEED_TURNING);
     }
 
     public void closeClaw()
     {
         try
         {
-            Log.d("ControlUnit", "Closing claw");
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED_CLAW);
-            Thread.sleep(250);
+            Log.i("ControlUnit", "Closing claw");
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED_CLAW));
+            Thread.sleep(1000);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
         }
         catch (InterruptedException e)
@@ -78,12 +75,6 @@ public class NxtControlUnit implements RobotControlUnit
         refreshMovement(RobotMovement.DRIVE_FORWARD, MOTOR_SPEED);
     }
 
-    public boolean hasObjectInClaw()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
     public boolean isMoving()
     {
         if (currentMovement == RobotMovement.STOP)
@@ -95,9 +86,9 @@ public class NxtControlUnit implements RobotControlUnit
     {
         try
         {
-            Log.d("ControlUnit", "Opening claw");
-            mNxtTalker.setMotorSpeed(CLAW_MOTOR, (byte) (-1 * MOTOR_SPEED_CLAW));
-            Thread.sleep(250);
+            Log.i("ControlUnit", "Opening claw");
+            mNxtTalker.setMotorSpeed(CLAW_MOTOR, MOTOR_SPEED_CLAW);
+            Thread.sleep(1000);
             mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
         }
         catch (InterruptedException e)
@@ -109,9 +100,9 @@ public class NxtControlUnit implements RobotControlUnit
     public void turnLeft()
     {
         Log.d("ControlUnit", "Turning left");
-        mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), SYNC_MODE_TURNING);
-        mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED, SYNC_MODE_TURNING);
-        refreshMovement(RobotMovement.TURN_LEFT, MOTOR_SPEED);
+        mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED_TURNING), SYNC_MODE_TURNING);
+        mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, MOTOR_SPEED_TURNING, SYNC_MODE_TURNING);
+        refreshMovement(RobotMovement.TURN_LEFT, MOTOR_SPEED_TURNING);
     }
 
     public void centerObject(FocusObject focusObject)
@@ -146,53 +137,75 @@ public class NxtControlUnit implements RobotControlUnit
         refreshMovement(RobotMovement.TURN_LEFT_SLOWLY, MOTOR_SPEED_SLOW);
     }
 
-    public void returnToStartingPoint()
+    public void facePoint(PointF targetPoint)
     {
-        // turn the robot until it faces the starting point,
-        // which is equal to a robot angle of 180 degrees plus
-        // the angle from starting point to robot
-
         double x = mPosTracker.getX();
         double y = mPosTracker.getY();
+        // (radians from the y-axes clockwise)
         double robotAngle = mPosTracker.getAngle();
 
-        // (radians from the y-axes clockwise, like in PositionTracker)
-        double angleStartingPointToRobot = Math.atan(x / y);
+        double facingVectorX = targetPoint.x - x;
+        double facingVectorY = targetPoint.y - y;
 
-        double targetAngle = Utils.normalizeAngle(angleStartingPointToRobot + Math.PI);
+        double targetAngle = Math.atan(facingVectorX / facingVectorY);
         double radiansToTurn = Utils.normalizeAngle(targetAngle - robotAngle);
 
-        Log.d(TAG, String.format("target angle: %.3f\u00b0, to turn: %.3f\u00b0",
-                                 Math.toDegrees(targetAngle), Math.toDegrees(radiansToTurn)));
+        double degreesPerSecond = PositionTracker.MAX_DEGREES_PER_SECOND * (MOTOR_SPEED / 100.0);
 
-        if (radiansToTurn > Math.PI)
+        if (radiansToTurn >= Math.PI)
         {
-            // turning left is the shorter way
-            while (Utils.normalizeAngle(targetAngle - mPosTracker.getAngle()) >
-                    STARTING_POINT_ANGLE_TOLERANCE / 2.0)
-                turnLeft();
+            // turning left is faster
+            radiansToTurn = 2.0 * Math.PI - radiansToTurn;
+            turnLeft();
         }
         else
         {
-            // turning right is the shorter way
-            while (Utils.normalizeAngle(targetAngle - mPosTracker.getAngle()) <
-                    (2.0 * Math.PI) - (STARTING_POINT_ANGLE_TOLERANCE / 2.0))
-                turnRight();
+            // turning right is faster
+            turnRight();
         }
 
-        // the robot should be facing the starting point now
-        // (within the tolerance), start moving towards it
+        double timeToTurn = radiansToTurn / degreesPerSecond;
 
-        while (
-                mPosTracker.getX() > STARTING_POINT_POSITION_TOLERANCE / 2.0 ||
-                        mPosTracker.getX() < -1 * STARTING_POINT_POSITION_TOLERANCE / 2.0 ||
-                        mPosTracker.getY() > STARTING_POINT_POSITION_TOLERANCE / 2.0 ||
-                        mPosTracker.getY() < -1 * STARTING_POINT_POSITION_TOLERANCE / 2.0
-                )
+        Log.i(
+                "point facing", String.format(
+                        "target angle: %.3f\u00b0, to turn: %.3f\u00b0, time to turn: %.3f",
+                        Math.toDegrees(targetAngle), Math.toDegrees(radiansToTurn), timeToTurn));
+
+        try
         {
-            driveForward();
-            // TODO don't overreach and drive until the end of days!
+            Thread.sleep((long) (timeToTurn * 1000));
         }
+        catch (InterruptedException ex)
+        { }
+        stopMoving();
+    }
+
+    public void driveToPoint(PointF targetPoint)
+    {
+        facePoint(targetPoint);
+
+        double x = mPosTracker.getX();
+        double y = mPosTracker.getY();
+        double distanceX = targetPoint.x - x;
+        double distanceY = targetPoint.y - y;
+        double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        double metersPerSecond = PositionTracker.MAX_METERS_PER_SECOND * (MOTOR_SPEED_TURNING / 100.0);
+        double timeToDrive = distance / metersPerSecond;
+
+        Log.i(
+                "driving to point", String.format(
+                        "distance: %.3f, time to drive: %.3f", distance, timeToDrive)
+        );
+
+        driveForward();
+        try
+        {
+            Thread.sleep((long) (timeToDrive * 1000));
+        }
+        catch (InterruptedException ex)
+        { }
+        stopMoving();
     }
 
     @Override

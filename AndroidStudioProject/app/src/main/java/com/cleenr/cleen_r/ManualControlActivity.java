@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -214,40 +215,48 @@ public class ManualControlActivity extends ActionBarActivity
         @Override
         public void run()
         {
-            while (!mStopSendingTasks)
+            try
             {
-                if (mRobotTask == RobotAction.STOP)
+                while (!mStopSendingTasks)
                 {
-                    Thread.yield();
-                    continue;
-                }
-                switch (mRobotTask)
-                {
-                    case DRIVE_FORWARD:
-                        mRobotControlUnit.driveForward();
-                        break;
-                    case DRIVE_BACKWARD:
-                        mRobotControlUnit.driveBackward();
-                        break;
-                    case TURN_LEFT:
-                        mRobotControlUnit.turnLeft();
-                        break;
-                    case TURN_RIGHT:
-                        mRobotControlUnit.turnRight();
-                        break;
-                    case RETURN_TO_STARTING_POINT:
-                        mRobotControlUnit.returnToStartingPoint();
-                        break;
-                    case OPEN_CLAW:
-                        mRobotControlUnit.openClaw();
-                        break;
-                    case CLOSE_CLAW:
-                        mRobotControlUnit.closeClaw();
-                        break;
-                    default:
-                        break;
+                    if (mRobotTask == RobotAction.STOP)
+                    {
+                        if (mRobotControlUnit.isMoving())
+                            mRobotControlUnit.stopMoving();
+                        Thread.yield();
+                        continue;
+                    }
+                    switch (mRobotTask)
+                    {
+                        case DRIVE_FORWARD:
+                            mRobotControlUnit.driveForward();
+                            break;
+                        case DRIVE_BACKWARD:
+                            mRobotControlUnit.driveBackward();
+                            break;
+                        case TURN_LEFT:
+                            mRobotControlUnit.turnLeft();
+                            break;
+                        case TURN_RIGHT:
+                            mRobotControlUnit.turnRight();
+                            break;
+                        case RETURN_TO_STARTING_POINT:
+                            mRobotControlUnit.driveToPoint(new PointF(0.0f, 0.0f));
+                            break;
+                        case OPEN_CLAW:
+                            mRobotControlUnit.openClaw();
+                            break;
+                        case CLOSE_CLAW:
+                            mRobotControlUnit.closeClaw();
+                            break;
+                        default:
+                            break;
+                    }
+                    Thread.sleep(100);
                 }
             }
+            catch (InterruptedException ex)
+            { }
         }
     }
 

@@ -14,13 +14,7 @@ public class PickingUpObject extends WorkPhase {
     @Override
     public void executeWork(FocusObject focusObject, RobotControlUnit controlUnit, CleenrBrain brain) {
         controlUnit.closeClaw();
-
-        if (!controlUnit.hasObjectInClaw()) {
-            controlUnit.openClaw();
-            mRobotWorker.switchWorkphase(new SearchingObject(mRobotWorker));
-            return;
-        }
-        mRobotWorker.switchWorkphase(new CategorisingObject(mRobotWorker));
+        mRobotWorker.switchWorkphase(new GoingToDestination(mRobotWorker));
     }
 
 

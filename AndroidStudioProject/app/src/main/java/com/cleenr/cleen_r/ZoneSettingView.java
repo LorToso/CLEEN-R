@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -43,8 +44,6 @@ public class ZoneSettingView extends SurfaceView implements SurfaceHolder.Callba
     private Bitmap robotBmp = null;
 
     private SurfaceHolder holder = null;
-
-    private ArrayList<Point> drawnSquares = null;
 
     public ZoneSettingView(Context context) {
         super(context);
@@ -91,8 +90,6 @@ public class ZoneSettingView extends SurfaceView implements SurfaceHolder.Callba
 
         robotBmp = BitmapFactory.decodeResource(getResources(), R.drawable.arrow);
 
-        drawnSquares = new ArrayList<>();
-
         getHolder().addCallback(this);
     }
 
@@ -132,9 +129,9 @@ public class ZoneSettingView extends SurfaceView implements SurfaceHolder.Callba
                 default:
                     return false;
             }
-            Point p = new Point(
-                    (int) ((event.getX() - getWidth() / 2.0f) / SQUARE_SIZE),
-                    (int) ((event.getY() - getHeight() / 2.0f) / SQUARE_SIZE));
+            PointF p = new PointF(
+                    (event.getX() - getWidth() / 2.0f) / SQUARE_SIZE,
+                    (event.getY() - getHeight() / 2.0f) / SQUARE_SIZE);
 
             Category category = new Category(s, c);
 
@@ -218,10 +215,9 @@ public class ZoneSettingView extends SurfaceView implements SurfaceHolder.Callba
         canvas.translate(xCenter, yCenter);
 
         // draw the categories
-        drawnSquares.clear();
         for (Category c : Globals.searchCategories.keySet())
         {
-            Point p = Globals.searchCategories.get(c);
+            PointF p = Globals.searchCategories.get(c);
             float squareStartX = p.x * SQUARE_SIZE - SQUARE_SIZE / 2.0f;
             float squareStartY = p.y * SQUARE_SIZE - SQUARE_SIZE / 2.0f;
             RectF square = new RectF(
@@ -233,8 +229,6 @@ public class ZoneSettingView extends SurfaceView implements SurfaceHolder.Callba
                 canvas.drawRect(square, paint);
             else
                 canvas.drawArc(square, 0.0f, 360.0f, true, paint);
-
-            drawnSquares.add(p);
         }
 
         canvas.restore();

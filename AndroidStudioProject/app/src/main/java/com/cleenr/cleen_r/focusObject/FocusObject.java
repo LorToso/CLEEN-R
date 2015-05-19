@@ -18,8 +18,8 @@ import com.cleenr.cleen_r.objectCategorisation.Shape;
 
 
 public abstract class FocusObject {
-    public static final double sHorizonalCentrationTolerance = 1.05;
-    public static final double sVerticalCentrationTolerance = 1.05;
+    public static final double sHorizonalCentrationTolerance = 1.20;
+    public static final double sVerticalCentrationTolerance = 1.20;
 
     public final static double sColorSimilarityHue = 1.2;
     public final static double sColorSimilaritySaturation = 1.2;
