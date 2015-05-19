@@ -31,4 +31,12 @@ public class Category {
     {
         return shape.ordinal() + 3 * color.ordinal();
     }
+
+    public Shape getShape() {
+        return shape;
+    }
+
+    public Color getColor() {
+        return color;
+    }
 }

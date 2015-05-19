@@ -13,8 +13,13 @@
         android:title="@string/action_disconnect"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_manualControl"
+        android:id="@+id/action_zoneSetting"
         android:orderInCategory="200"
+        android:title="@string/action_setZones"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_manualControl"
+        android:orderInCategory="300"
         android:title="@string/action_manualControl"
         app:showAsAction="never" />
 </menu>

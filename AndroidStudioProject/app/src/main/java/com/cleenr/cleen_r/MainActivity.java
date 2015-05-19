@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -25,7 +23,7 @@ import org.opencv.core.Mat;
 
 public class MainActivity extends Activity implements CvCameraViewListener {
 
-    public static final boolean AUTO_CONNECT = true;
+    public static final boolean AUTO_CONNECT = false;
     private static final String TAG = "MainActivity";
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -75,7 +73,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         mNXTTalker = new NxtTalker();
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.main_activity_surface_view);
-        mOpenCvCameraView.setMaxFrameSize(640, 480);
+        mOpenCvCameraView.setMaxFrameSize(1024, 786);
         mOpenCvCameraView.setCvCameraViewListener(this);
         /*
         mOpenCvCameraView.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +89,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         super.onStart();
         if (AUTO_CONNECT)
             findBrick();
+        startZoneSettingActivity();
     }
 
     @Override
@@ -138,8 +137,17 @@ public class MainActivity extends Activity implements CvCameraViewListener {
             case R.id.action_manualControl:
                 startManualControlActivity();
                 break;
+            case R.id.action_zoneSetting:
+                startZoneSettingActivity();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startZoneSettingActivity() {
+        mOpenCvCameraView.disableView();
+        Intent intent = new Intent(this, ZoneSettingActivity.class);
+        startActivity(intent);
     }
 
     private void findBrick() {

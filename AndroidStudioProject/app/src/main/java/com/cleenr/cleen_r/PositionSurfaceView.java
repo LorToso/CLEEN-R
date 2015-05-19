@@ -154,8 +154,6 @@ public class PositionSurfaceView extends SurfaceView implements SurfaceHolder.Ca
 
     private void update(Canvas canvas)
     {
-        final float scale = 50.0f;
-
         int w = canvas.getWidth();
         int h = canvas.getHeight();
 

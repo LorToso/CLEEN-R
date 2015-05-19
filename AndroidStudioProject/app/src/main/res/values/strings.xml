@@ -2,10 +2,20 @@
 <resources>
 
     <string name="app_name">CLEEN-R</string>
-    <string name="action_connect">connect</string>
-    <string name="action_disconnect">disconnect</string>
+    <string name="action_connect">verbinden</string>
+    <string name="action_disconnect">trennen</string>
+    <string name="action_setZones">setze Zonen</string>
     <string name="action_settings">settings</string>
     <string name="action_manualControl">manual control</string>
     <string name="title_activity_manual_control">ManualControlActivity</string>
+    <string name="title_activity_zone_setting">ZoneSettingActivity</string>
+    <string-array name="colors">
+        <item>rot</item>
+        <item>gelb</item>
+        <item>grün</item>
+        <item>blau</item>
+        <item>lila</item>
+        <item>orange</item>
+    </string-array>
 
 </resources>

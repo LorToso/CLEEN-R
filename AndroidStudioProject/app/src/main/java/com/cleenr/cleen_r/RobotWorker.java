@@ -1,16 +1,12 @@
 package com.cleenr.cleen_r;
 
-import android.graphics.Point;
 import android.util.Log;
 
-import com.cleenr.cleen_r.objectCategorisation.Category;
-import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
 import com.cleenr.cleen_r.robotcontrolunits.NxtControlUnit;
+import com.cleenr.cleen_r.robotcontrolunits.RobotControlUnit;
 import com.cleenr.cleen_r.workphase.Idle;
 import com.cleenr.cleen_r.workphase.SearchingObject;
 import com.cleenr.cleen_r.workphase.WorkPhase;
-
-import java.util.Map;
 
 public class RobotWorker implements Runnable {
 
@@ -20,13 +16,11 @@ public class RobotWorker implements Runnable {
     private final CleenrBrain mBrain;
     private boolean mStopOnNextTurn = false;
     private long workStepTime = 500;
-    private Map<Category, Point> searchCategories = null;
 
     public RobotWorker(CleenrBrain brain) {
         mBrain = brain;
         mWorkPhase = new Idle(this);
         mRobotControlUnit = new NxtControlUnit(brain.mNxtTalker, brain.mPositionTracker);
-        searchCategories = brain.getSearchCategories();
     }
 
     public void switchWorkphase(WorkPhase newWorkPhase) {

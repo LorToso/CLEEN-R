@@ -48,6 +48,10 @@
             android:name=".ManualControlActivity"
             android:label="@string/title_activity_manual_control" >
         </activity>
+        <activity
+            android:name=".ZoneSettingActivity"
+            android:label="@string/title_activity_zone_setting" >
+        </activity>
     </application>
 
 </manifest>

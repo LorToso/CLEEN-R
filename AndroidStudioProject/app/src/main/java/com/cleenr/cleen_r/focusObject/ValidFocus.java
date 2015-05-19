@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.cleenr.cleen_r.CleenrBrain;
 import com.cleenr.cleen_r.CleenrImage;
+import com.cleenr.cleen_r.Globals;
 import com.cleenr.cleen_r.objectCategorisation.Color;
 import com.cleenr.cleen_r.objectCategorisation.Shape;
 
@@ -107,7 +108,7 @@ public class ValidFocus extends FocusObject {
     @Override
     public boolean isSearchedObject(CleenrBrain brain)
     {
-        if (brain.getSearchCategories().containsKey(getCategory()))
+        if (Globals.searchCategories.containsKey(getCategory()))
         {
             Log.d("searched object", "Found searched object!");
             return true;
