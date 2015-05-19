@@ -8,6 +8,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
 
 import com.cleenr.cleen_r.focusObject.FocusObject;
 
@@ -50,7 +51,7 @@ public class CleenrUtils {
     }
 
     public static void drawRect(Mat outputFrame, Rect rect, Scalar color) {
-        Core.rectangle(outputFrame, rect.tl(), rect.br(), color, 5);
+        Imgproc.rectangle(outputFrame, rect.tl(), rect.br(), color, 5);
     }
 
     public static void drawPoint(Mat outputFrame, Point point) {

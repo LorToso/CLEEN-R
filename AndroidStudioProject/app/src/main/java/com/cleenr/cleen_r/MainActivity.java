@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
     @Override
     public void onResume() {
         super.onResume();
-        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_10, this, mLoaderCallback);
+        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
 
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.enableView();
@@ -161,6 +161,7 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         mOpenCvCameraView.disableView();
         Intent intent = new Intent(this, ManualControlActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void startBrickFindingActivity() {
