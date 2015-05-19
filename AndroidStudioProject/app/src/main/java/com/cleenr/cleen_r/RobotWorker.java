@@ -34,6 +34,7 @@ public class RobotWorker implements Runnable {
 
     private void workLoop() {
         waitForFirstFrame();
+        waitForSearchedCategories();
 
         switchWorkphase(new SearchingObject(this));
 
@@ -51,6 +52,12 @@ public class RobotWorker implements Runnable {
         mRobotControlUnit.stopMoving();
         mStopOnNextTurn = false;
         Log.d("RobotWorker", "Stopping now");
+    }
+
+    private void waitForSearchedCategories()
+    {
+        while (Globals.searchCategories.isEmpty())
+            Thread.yield();
     }
 
     private void waitForFirstFrame() {

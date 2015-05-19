@@ -37,4 +37,12 @@ public class ZoneSettingActivity extends Activity {
             }
         });
     }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        setResult(RESULT_OK);
+        finish();
+    }
 }

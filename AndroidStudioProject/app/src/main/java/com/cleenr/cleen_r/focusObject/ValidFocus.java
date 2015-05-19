@@ -97,7 +97,9 @@ public class ValidFocus extends FocusObject {
     }
 
     public String toString() {
-        return "FocusObject at " + getCenter() + ". Width = " + getRect().width + ". Height = " + getRect().height + ". Category: " + getCategory() + ". HSVColor: " + mCoreColorHSV;
+        return String.format("FocusObject at %s. Width = %d . Height = %d. Category: %s. HSVColor: %s",
+                             getCenter().toString(), getRect().width, getRect().height,
+                             getCategory().toString(), mCoreColorHSV.toString());
     }
 
     @Override

@@ -89,7 +89,6 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         super.onStart();
         if (AUTO_CONNECT)
             findBrick();
-        startZoneSettingActivity();
     }
 
     @Override
