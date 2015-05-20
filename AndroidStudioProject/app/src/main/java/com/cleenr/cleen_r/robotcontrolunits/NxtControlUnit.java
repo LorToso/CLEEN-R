@@ -17,6 +17,7 @@ public class NxtControlUnit implements RobotControlUnit
 
     private long          movementStartingTime = System.currentTimeMillis();
     private RobotMovement currentMovement      = RobotMovement.STOP;
+    private byte          currentMotorSpeed    = 0;
 
     private final byte CLAW_MOTOR        = NxtTalker.MOTOR_PORT_A;
     private final byte LEFT_WHEEL_MOTOR  = NxtTalker.MOTOR_PORT_C;
@@ -72,14 +73,12 @@ public class NxtControlUnit implements RobotControlUnit
         Log.d("ControlUnit", "Driving backward");
         mNxtTalker.setMotorSpeed(LEFT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), SYNC_MODE_DRIVING);
         mNxtTalker.setMotorSpeed(RIGHT_WHEEL_MOTOR, (byte) (-1 * MOTOR_SPEED), SYNC_MODE_DRIVING);
-        refreshMovement(RobotMovement.DRIVE_FORWARD, MOTOR_SPEED);
+        refreshMovement(RobotMovement.DRIVE_BACKWARD, MOTOR_SPEED);
     }
 
     public boolean isMoving()
     {
-        if (currentMovement == RobotMovement.STOP)
-            return false;
-        return true;
+        return currentMovement != RobotMovement.STOP;
     }
 
     public void openClaw()
@@ -147,10 +146,12 @@ public class NxtControlUnit implements RobotControlUnit
         double facingVectorX = targetPoint.x - x;
         double facingVectorY = targetPoint.y - y;
 
-        double targetAngle = Math.atan(facingVectorX / facingVectorY);
+        double targetAngle = Utils.normalizeAngle(Math.atan(facingVectorX / facingVectorY));
         double radiansToTurn = Utils.normalizeAngle(targetAngle - robotAngle);
+        if (facingVectorY < 0)
+            radiansToTurn = Utils.normalizeAngle(radiansToTurn + Math.PI);
 
-        double degreesPerSecond = PositionTracker.MAX_DEGREES_PER_SECOND * (MOTOR_SPEED / 100.0);
+        double degreesPerSecond = PositionTracker.MAX_RADIANS_PER_SECOND * (MOTOR_SPEED_TURNING / 100.0);
 
         if (radiansToTurn >= Math.PI)
         {
@@ -173,7 +174,7 @@ public class NxtControlUnit implements RobotControlUnit
 
         try
         {
-            Thread.sleep((long) (timeToTurn * 1000));
+            Thread.sleep((long) (timeToTurn * 1000.0));
         }
         catch (InterruptedException ex)
         { }
@@ -190,7 +191,7 @@ public class NxtControlUnit implements RobotControlUnit
         double distanceY = targetPoint.y - y;
         double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-        double metersPerSecond = PositionTracker.MAX_METERS_PER_SECOND * (MOTOR_SPEED_TURNING / 100.0);
+        double metersPerSecond = PositionTracker.MAX_METERS_PER_SECOND * (MOTOR_SPEED / 100.0);
         double timeToDrive = distance / metersPerSecond;
 
         Log.i(
@@ -201,7 +202,7 @@ public class NxtControlUnit implements RobotControlUnit
         driveForward();
         try
         {
-            Thread.sleep((long) (timeToDrive * 1000));
+            Thread.sleep((long) (timeToDrive * 1000.0));
         }
         catch (InterruptedException ex)
         { }
@@ -213,7 +214,7 @@ public class NxtControlUnit implements RobotControlUnit
     {
         Log.d("ControlUnit", "Stopping");
         mNxtTalker.setMotorSpeed(NxtTalker.MOTOR_PORT_ALL, (byte) 0);
-        refreshMovement(RobotMovement.TURN_RIGHT_SLOWLY, (byte) 0);
+        refreshMovement(RobotMovement.STOP, (byte) 0);
     }
 
     private void refreshMovement(RobotMovement nextMovement, byte motorSpeed)
@@ -226,6 +227,7 @@ public class NxtControlUnit implements RobotControlUnit
             // starting to move, haven't travelled any distance yet
             movementStartingTime = now;
             currentMovement = nextMovement;
+            currentMotorSpeed = motorSpeed;
             return;
         }
 
@@ -234,21 +236,22 @@ public class NxtControlUnit implements RobotControlUnit
         switch (currentMovement)
         {
             case DRIVE_FORWARD:
-                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.FORWARD, motorSpeed, timePassed);
+                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.FORWARD, currentMotorSpeed, timePassed);
                 break;
             case DRIVE_BACKWARD:
-                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.BACKWARD, motorSpeed, timePassed);
+                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.BACKWARD, currentMotorSpeed, timePassed);
                 break;
             case TURN_LEFT:
             case TURN_LEFT_SLOWLY:
-                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.LEFT, motorSpeed, timePassed);
+                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.LEFT, currentMotorSpeed, timePassed);
                 break;
             case TURN_RIGHT:
             case TURN_RIGHT_SLOWLY:
-                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.RIGHT, motorSpeed, timePassed);
+                mPosTracker.addMovement(PositionTracker.MOVEMENT_DIRECTION.RIGHT, currentMotorSpeed, timePassed);
                 break;
         }
         movementStartingTime = now;
         currentMovement = nextMovement;
+        currentMotorSpeed = motorSpeed;
     }
 }
