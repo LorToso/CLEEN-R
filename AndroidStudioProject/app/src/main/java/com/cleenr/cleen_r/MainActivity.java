@@ -23,7 +23,7 @@ import org.opencv.core.Mat;
 
 public class MainActivity extends Activity implements CvCameraViewListener {
 
-    public static final boolean AUTO_CONNECT = true;
+    public static final boolean AUTO_CONNECT = false;
     private static final String TAG = "MainActivity";
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -161,7 +161,6 @@ public class MainActivity extends Activity implements CvCameraViewListener {
         mOpenCvCameraView.disableView();
         Intent intent = new Intent(this, ManualControlActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void startBrickFindingActivity() {
